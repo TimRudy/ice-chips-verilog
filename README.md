@@ -1,7 +1,7 @@
 # ice-chips-verilog
 IceChips is a library of all common discrete logic devices in Verilog
 
-[![Software License][ico-license]](LICENSE.md)
+[![Software License][ico-license]](LICENSE)
 [![Language][ico-language]](Source-7400)
 
 [topdesc]: #desc
@@ -14,7 +14,9 @@ I'm focusing on the 74xx family: devices that were TTL originally (bipolar techn
 > Basic logic such as gates, registers, multiplexers, counters, adders, but also non-retriggerable monostable multivibrators
 
 #### Why
-> I noticed the [74xx][link-wiki7400] chips do not exist in one place as an open-source catalogue in Verilog (or in VHDL to my knowledge). To see them and create a simulation with them, you would need to open up the IDE (ISE) for Xilinx or Altera. You can find free [simulators and digital playgrounds][link-websim], but what to type in? You'll need [IceChips](Source-7400). ...Of course you could just buy a breadboard and the ICs. But that's going by different logic.
+> I noticed the [74xx][link-wiki7400] chips do not exist in one place as an open-source catalogue in Verilog (or in VHDL to my knowledge). To see them and create a simulation with them, you would need to open up the IDE (ISE) for Xilinx or Altera. You can find free [simulators and digital playgrounds][link-websim], but what to type in? You'll need [IceChips](Source-7400).
+
+> ...Of course you could just buy a breadboard and the ICs. But that's going by different logic.
   <!-- [Image] -->
 
 ## What to Expect

@@ -1,5 +1,4 @@
 # ice-chips-verilog
-IceChips is a library of all common discrete logic devices in Verilog
 
 [![Software License][ico-license]](LICENSE)
 [![Language][ico-language]](Source-7400)
@@ -23,7 +22,7 @@ I'm focusing on the 74xx family: devices that were TTL originally (bipolar techn
 
 * Each device validated by test bench
 * Implemented formally by an overall Input/Output/Code template, with industry pin names, consistent Verilog
-* Fully parametrized (so you could pretend that a quad or a hex buffer/line driver is actually 64 bits for your FPGA design; you could turn a triple 3-input NAND gate - the workhorse 7410 - into a heptal 5-input NAND gate just by plugging in the two numbers)
+* Fully parametrized (so you could pretend that a quad or a hex buffer/line driver is actually 64 bits for your FPGA design; you could turn a triple 3-input NAND gate - the workhorse [7410](Source-7400/7410.v) - into a heptal 5-input NAND gate just by plugging in the two numbers)
 
 > Coming soon in 2018: More devices
 
@@ -58,6 +57,8 @@ With GTKWave you can just click on the .vcd file to open.
 ## Acknowledgments
 
 Coming soon.
+
+##
 
 © 2018 Tim Rudy
 

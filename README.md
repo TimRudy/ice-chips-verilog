@@ -13,10 +13,9 @@ I'm focusing on the 74xx family: devices that were TTL originally (bipolar techn
 > Basic logic such as gates, registers, multiplexers, counters, adders, but also non-retriggerable monostable multivibrators
 
 #### Why
-> I noticed the [74xx][link-wiki7400] chips do not exist in one place as an open-source catalogue in Verilog (or in VHDL to my knowledge). To see them and create a simulation with them, you would need to open up the IDE (ISE) for Xilinx or Altera. You can find free [simulators and digital playgrounds][link-websim], but what to type in? You'll need [IceChips](Source-7400).
+> I noticed the [74xx chips][link-wiki7400] do not exist in one place as an open-source catalogue in Verilog (or in VHDL to my knowledge). To see them and create a simulation with them, you would need to open up the IDE (ISE) for Xilinx or Altera. You can find free [simulators and digital playgrounds][link-websim], but what to type in? You'll need [IceChips](Source-7400).
 
-> ...Of course you could just buy a breadboard and the ICs. But that's going by different logic.
-  <!-- [Image] -->
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<img src="Images/TTL.png" title="TTL ICs on a real board" height="25%">|...Of course you could just buy a breadboard and the ICs. But that's going by different logic.|
 
 ## What to Expect
 
@@ -49,16 +48,17 @@ It then requires a second step: Run the Icarus Verilog simulator/runtime to see 
 > vvp 7400-tb.vvp
 ```
 
-If you're interested in looking even closer, the above vvp run stores signal and timing data in the .vcd file, so run GTKWave viewer to see the waveform that is generated: [Installation][link-gtkwavei], [Getting Started][link-gtkwaves].
+If you're interested in looking even closer, the above vvp run stores signal and timing data of all the inputs, outputs, and the connection paths in the .vcd file, so run GTKWave viewer to see it all as a waveform: [Installation][link-gtkwavei], [Getting Started][link-gtkwaves].
 
-With GTKWave you can just click on the .vcd file to open.
-  <!-- [Image] -->
+With GTKWave installed, just click on the .vcd file to open.
+
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<img src="Images/GTK.png" title="Simulation waveform" height="40%">||
 
 ## Acknowledgments
 
 Coming soon.
 
-##
+## <!-- -->
 
 © 2018 Tim Rudy
 

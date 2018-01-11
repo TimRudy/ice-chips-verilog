@@ -15,7 +15,9 @@ I'm focusing on the 74xx family: devices that were TTL originally (bipolar techn
 #### Why
 > I noticed the [74xx chips][link-wiki7400] do not exist in one place as an open-source catalogue in Verilog (or in VHDL to my knowledge). To see them and create a simulation with them, you would need to open up the IDE (ISE) for Xilinx or Altera. You can find free [simulators and digital playgrounds][link-websim], but what to type in? You'll need [IceChips](Source-7400).
 
-|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<img src="Images/TTL.png" title="TTL ICs on a real board" height="25%">|...Of course you could just buy a breadboard and the ICs. But that's going by different logic.|
+...Of course you could just buy a breadboard and the ICs. But that's going by different logic.
+
+<img src="Images/TTL.png" title="TTL ICs on a real board" width="25%" height="25%">
 
 ## What to Expect
 
@@ -52,7 +54,7 @@ If you're interested in looking even closer, the above vvp run stores signal and
 
 With GTKWave installed, just click on the .vcd file to open.
 
-|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<img src="Images/GTK.png" title="Simulation waveform" height="40%">||
+<img src="Images/GTK.png" title="Simulation waveform" width="50%" height="50%">
 
 ## Acknowledgments
 

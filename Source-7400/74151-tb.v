@@ -10,8 +10,8 @@ reg Enable_bar;
 reg [WIDTH_IN-1:0] D;
 
 // DUT outputs
-reg Y;
-reg Y_bar;
+wire Y;
+wire Y_bar;
 
 // DUT
 ttl_74151 #(.WIDTH_IN(WIDTH_IN), .DELAY_RISE(5), .DELAY_FALL(3)) dut(

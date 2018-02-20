@@ -8,7 +8,7 @@ localparam WIDTH_IN = 7;
 reg [WIDTH_IN-1:0] A;
 
 // DUT outputs
-reg Y;
+wire Y;
 
 // DUT
 ttl_7430 #(.WIDTH_IN(WIDTH_IN), .DELAY_RISE(5), .DELAY_FALL(3)) dut(

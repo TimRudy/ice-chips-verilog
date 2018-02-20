@@ -11,7 +11,7 @@ reg [BLOCKS-1:0] Enable_bar;
 reg [BLOCKS*WIDTH_IN-1:0] A;
 
 // DUT outputs
-reg [BLOCKS-1:0] Y;
+wire [BLOCKS-1:0] Y;
 
 // DUT
 ttl_74153 #(.BLOCKS(BLOCKS), .WIDTH_IN(WIDTH_IN), .DELAY_RISE(5), .DELAY_FALL(3)) dut(
@@ -102,7 +102,6 @@ begin
   Enable_bar[2] = 1'b1;
 #10
   tbassert(Y == 3'b010, "Test 12");
-#0
 #0
   // select A: enabled and change to different inputs with null effect on output 0s
   Enable_bar = {BLOCKS{1'b0}};

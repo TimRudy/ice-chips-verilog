@@ -11,7 +11,7 @@ reg Enable_bar;
 reg [BLOCKS*WIDTH_IN-1:0] A;
 
 // DUT outputs
-reg [BLOCKS-1:0] Y;
+wire [BLOCKS-1:0] Y;
 
 // DUT
 ttl_74157 #(.BLOCKS(BLOCKS), .WIDTH_IN(WIDTH_IN), .DELAY_RISE(5), .DELAY_FALL(3)) dut(

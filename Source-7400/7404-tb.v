@@ -8,7 +8,7 @@ localparam BLOCKS = 7;
 reg [BLOCKS-1:0] A;
 
 // DUT outputs
-reg [BLOCKS-1:0] Y;
+wire [BLOCKS-1:0] Y;
 
 // DUT
 ttl_7404 #(.BLOCKS(BLOCKS), .DELAY_RISE(2), .DELAY_FALL(3)) dut(

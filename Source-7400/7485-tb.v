@@ -1,3 +1,5 @@
+// Test: 4-bit magnitude comparator
+
 module test;
 
 `TBASSERT_METHOD(tbassert)

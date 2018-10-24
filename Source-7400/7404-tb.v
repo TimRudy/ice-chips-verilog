@@ -1,3 +1,5 @@
+// Test: Hex inverter
+
 module test;
 
 `TBASSERT_METHOD(tbassert)

@@ -1,3 +1,5 @@
+// Test: Triple 3-input AND gate
+
 module test;
 
 `TBASSERT_METHOD(tbassert)

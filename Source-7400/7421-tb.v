@@ -1,3 +1,5 @@
+// Test: Dual 4-input AND gate
+
 module test;
 
 `TBASSERT_METHOD(tbassert)

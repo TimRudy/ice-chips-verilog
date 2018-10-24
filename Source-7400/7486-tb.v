@@ -1,3 +1,5 @@
+// Test: Quad 2-input XOR gate
+
 module test;
 
 `TBASSERT_METHOD(tbassert)

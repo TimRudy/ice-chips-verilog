@@ -1,3 +1,5 @@
+// Test: Dual 4-input NAND gate
+
 module test;
 
 `TBASSERT_METHOD(tbassert)

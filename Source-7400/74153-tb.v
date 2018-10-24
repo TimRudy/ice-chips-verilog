@@ -1,3 +1,5 @@
+// Test: Dual 4-input multiplexer
+
 module test;
 
 `TBASSERT_METHOD(tbassert)
@@ -6,39 +8,37 @@ localparam BLOCKS = 3;
 localparam WIDTH_IN = 4;
 
 // DUT inputs
-reg [$clog2(WIDTH_IN)-1:0] Select;  // Select is two bits, full range 2'b00 to 2'b11
 reg [BLOCKS-1:0] Enable_bar;
-reg [BLOCKS*WIDTH_IN-1:0] A;
+reg [$clog2(WIDTH_IN)-1:0] Select;  // Select is two bits, full range 2'b00 to 2'b11
+reg [WIDTH_IN*BLOCKS-1:0] A;
 
 // DUT outputs
 wire [BLOCKS-1:0] Y;
 
 // DUT
 ttl_74153 #(.BLOCKS(BLOCKS), .WIDTH_IN(WIDTH_IN), .DELAY_RISE(5), .DELAY_FALL(3)) dut(
-  .Select(Select),
   .Enable_bar(Enable_bar),
+  .Select(Select),
   .A_2D(A),
   .Y(Y)
 );
 
 initial
 begin
-  reg [BLOCKS-1:0] AInputs;
-  reg [BLOCKS-1:0] BInputs;
-  reg [BLOCKS-1:0] CInputs;
-  reg [BLOCKS-1:0] DInputs;
+  reg [WIDTH_IN-1:0] Block1;
+  reg [WIDTH_IN-1:0] Block2;
+  reg [WIDTH_IN-1:0] Block3;
 
   $dumpfile("74153-tb.vcd");
   $dumpvars;
 
   // select A: enabled
-  Select = 2'b00;
   Enable_bar = {BLOCKS{1'b0}};
-  AInputs = 3'b011;
-  BInputs = 3'b111;
-  CInputs = 3'b111;
-  DInputs = 3'b100;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Select = 2'b00;
+  Block1 = 4'b0111;
+  Block2 = 4'b0011;
+  Block3 = 4'b1110;
+  A = {Block3, Block2, Block1};
 #6
   tbassert(Y == 3'b011, "Test 1");
 #0
@@ -54,8 +54,8 @@ begin
   tbassert(Y == 3'b001, "Test 3");
 #0
   // select B: disabled
-  Select = 2'b01;
   Enable_bar = {BLOCKS{1'b1}};
+  Select = 2'b01;
 #10
   tbassert(Y == 3'b000, "Test 4");
 #0
@@ -81,9 +81,10 @@ begin
   tbassert(Y == 3'b100, "Test 8");
 #0
   // while select D enabled: change to different inputs
-  AInputs = 3'b111;
-  DInputs = 3'b001;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 4'b1111;
+  Block2 = 4'b0111;
+  Block3 = 4'b0111;
+  A = {Block3, Block2, Block1};
 #10
   tbassert(Y == 3'b001, "Test 9");
 #0
@@ -98,36 +99,42 @@ begin
   tbassert(Y == 3'b110, "Test 11");
 #0
   // select A: disabled in first and third BLOCKs
-  Select = 2'b00;
   Enable_bar[2] = 1'b1;
+  Select = 2'b00;
 #10
   tbassert(Y == 3'b010, "Test 12");
 #0
   // select A: enabled and change to different inputs with null effect on output 0s
   Enable_bar = {BLOCKS{1'b0}};
-  AInputs = 3'b000;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 4'b1110;
+  Block2 = 4'b0110;
+  Block3 = 4'b0110;
+  A = {Block3, Block2, Block1};
 #10
   tbassert(Y == 3'b000, "Test 13");
 #0
   // select B: enabled with null change to output 0s
   Select = 2'b01;
-  AInputs = 3'b010;
-  BInputs = 3'b000;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 4'b1100;
+  Block2 = 4'b0101;
+  Block3 = 4'b0100;
+  A = {Block3, Block2, Block1};
 #10
   tbassert(Y == 3'b000, "Test 14");
 #0
   // select B: all output bits transition from previous, direct from inputs
-  BInputs = 3'b111;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 4'b1110;
+  Block2 = 4'b0111;
+  Block3 = 4'b0110;
+  A = {Block3, Block2, Block1};
 #6
   tbassert(Y == 3'b111, "Test 15");
 #0
   // all output bits transition from previous, direct from select D
-  BInputs = 3'b110;
-  DInputs = 3'b001;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 4'b1100;
+  Block2 = 4'b0111;
+  Block3 = 4'b0110;
+  A = {Block3, Block2, Block1};
 #6
   tbassert(Y == 3'b110, "Test 16");
 #0
@@ -136,8 +143,10 @@ begin
   tbassert(Y == 3'b001, "Test 16");
 #0
   // select D: all output bits transition from previous, on disable
-  DInputs = {BLOCKS{1'b1}};
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 4'b1100;
+  Block2 = 4'b1111;
+  Block3 = 4'b1110;
+  A = {Block3, Block2, Block1};
 #6
   tbassert(Y == 3'b111, "Test 17");
 #0
@@ -152,9 +161,10 @@ begin
   tbassert(Y == 3'b111, "Test 18");
 #10
   Select = 2'b01;
-  BInputs = {BLOCKS{1'b1}};
-  DInputs = {BLOCKS{1'b0}};
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 4'b0010;
+  Block2 = 4'b0011;
+  Block3 = 4'b0010;
+  A = {Block3, Block2, Block1};
 #10
   tbassert(Y == 3'b111, "Test 18");
 #0
@@ -165,13 +175,17 @@ begin
   tbassert(Y == 3'b110, "Test 19");
 #10
   Select = 2'b00;
-  AInputs = {BLOCKS{1'b1}};
-  BInputs = {BLOCKS{1'b0}};
-  CInputs = {BLOCKS{1'b0}};
-  DInputs = {BLOCKS{1'b0}};
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 4'b0011;
+  Block2 = 4'b0001;
+  Block3 = 4'b0001;
+  A = {Block3, Block2, Block1};
 #10
   tbassert(Y == 3'b110, "Test 19");
+#0
+  // while enabled in second and third BLOCKs: change back to select B from select A
+  Select = 2'b01;
+#10
+  tbassert(Y == 3'b000, "Test 20");
 #10
   $finish;
 end

@@ -2,8 +2,8 @@
 
 module ttl_74157 #(parameter BLOCKS = 4, WIDTH_IN = 2, WIDTH_SELECT = $clog2(WIDTH_IN), DELAY_RISE = 0, DELAY_FALL = 0)
 (
-  input [WIDTH_SELECT-1:0] Select,
   input Enable_bar,
+  input [WIDTH_SELECT-1:0] Select,
   input [BLOCKS*WIDTH_IN-1:0] A_2D,
   output [BLOCKS-1:0] Y
 );

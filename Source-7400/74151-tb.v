@@ -1,3 +1,5 @@
+// Test: 8-input multiplexer
+
 module test;
 
 `TBASSERT_METHOD(tbassert)
@@ -5,8 +7,8 @@ module test;
 localparam WIDTH_IN = 5;
 
 // DUT inputs
-reg [$clog2(WIDTH_IN)-1:0] Select;  // Select is three bits but only valid in range 3'b000 to 3'b100
 reg Enable_bar;
+reg [$clog2(WIDTH_IN)-1:0] Select;  // Select is three bits but only valid in range 3'b000 to 3'b100
 reg [WIDTH_IN-1:0] D;
 
 // DUT outputs
@@ -15,8 +17,8 @@ wire Y_bar;
 
 // DUT
 ttl_74151 #(.WIDTH_IN(WIDTH_IN), .DELAY_RISE(5), .DELAY_FALL(3)) dut(
-  .Select(Select),
   .Enable_bar(Enable_bar),
+  .Select(Select),
   .D(D),
   .Y(Y),
   .Y_bar(Y_bar)
@@ -28,8 +30,8 @@ begin
   $dumpvars;
 
   // select 000: enabled
-  Select = 3'b000;
   Enable_bar = 1'b0;
+  Select = 3'b000;
   D = 5'b01011;
 #6
   tbassert(Y == 1'b1, "Test 1");

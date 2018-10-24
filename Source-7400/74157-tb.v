@@ -1,3 +1,5 @@
+// Test: Quad 2-input multiplexer
+
 module test;
 
 `TBASSERT_METHOD(tbassert)
@@ -6,8 +8,8 @@ localparam BLOCKS = 3;
 localparam WIDTH_IN = 2;
 
 // DUT inputs
-reg [$clog2(WIDTH_IN)-1:0] Select;  // Select is one bit
 reg Enable_bar;
+reg [$clog2(WIDTH_IN)-1:0] Select;  // Select is one bit
 reg [BLOCKS*WIDTH_IN-1:0] A;
 
 // DUT outputs
@@ -15,8 +17,8 @@ wire [BLOCKS-1:0] Y;
 
 // DUT
 ttl_74157 #(.BLOCKS(BLOCKS), .WIDTH_IN(WIDTH_IN), .DELAY_RISE(5), .DELAY_FALL(3)) dut(
-  .Select(Select),
   .Enable_bar(Enable_bar),
+  .Select(Select),
   .A_2D(A),
   .Y(Y)
 );
@@ -33,8 +35,8 @@ begin
   $dumpvars;
 
   // select A: enabled
-  Select = SELECT_A;
   Enable_bar = 1'b0;
+  Select = SELECT_A;
   AInputs = 3'b011;
   BInputs = 3'b111;
   A = {BInputs, AInputs};
@@ -139,8 +141,8 @@ begin
   tbassert(Y == 3'b111, "Test 15");
 #0
   // timing: while enabled, clear/set inputs, then must wait for outputs to transition
-  Select = 1'bx;
   Enable_bar = 1'b0;
+  Select = 1'bx;
   AInputs = {BLOCKS{1'bx}};
   BInputs = {BLOCKS{1'bx}};
   A = {BInputs, AInputs};
@@ -156,8 +158,8 @@ begin
 #0
   // timing: while enabled, clear/set inputs, then must wait for outputs to transition,
   // off the select input only
-  Select = 1'bx;
   Enable_bar = 1'b0;
+  Select = 1'bx;
   AInputs = {BLOCKS{1'bx}};
   BInputs = {BLOCKS{1'bx}};
   A = {BInputs, AInputs};
@@ -173,8 +175,8 @@ begin
   tbassert(Y == 3'b011, "Test 17");
 #0
   // timing: same, other select
-  Select = 1'bx;
   Enable_bar = 1'b0;
+  Select = 1'bx;
   AInputs = {BLOCKS{1'bx}};
   BInputs = {BLOCKS{1'bx}};
   A = {BInputs, AInputs};

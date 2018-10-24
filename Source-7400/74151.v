@@ -2,8 +2,8 @@
 
 module ttl_74151 #(parameter WIDTH_IN = 8, WIDTH_SELECT = $clog2(WIDTH_IN), DELAY_RISE = 0, DELAY_FALL = 0)
 (
-  input [WIDTH_SELECT-1:0] Select,
   input Enable_bar,
+  input [WIDTH_SELECT-1:0] Select,
   input [WIDTH_IN-1:0] D,
   output Y,
   output Y_bar

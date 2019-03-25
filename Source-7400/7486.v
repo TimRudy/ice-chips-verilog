@@ -17,7 +17,7 @@ begin
   // - follows the precedent of 3-input XOR gate 741G386
   // - conforms to chaining of XOR to create arbitrary wider input, e.g. "(A XOR B) XOR C"
   computed = {BLOCKS{1'b0}};
-  for (i = 0; i < WIDTH_IN; i = i + 1)
+  for (i = 0; i < WIDTH_IN; i++)
     computed = computed ^ A[i];
 end
 //------------------------------------------------//

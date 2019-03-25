@@ -17,7 +17,7 @@ integer i;
 
 always @(*)
 begin
-  for (i = 0; i < WIDTH_OUT; i = i + 1)
+  for (i = 0; i < WIDTH_OUT; i++)
   begin
     if (Enable1C && !Enable1G_bar && i == A)
       computed[BLOCK0][i] = 1'b0;

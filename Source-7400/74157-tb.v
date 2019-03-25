@@ -6,10 +6,11 @@ module test;
 
 localparam BLOCKS = 3;
 localparam WIDTH_IN = 2;
+localparam WIDTH_SELECT = $clog2(WIDTH_IN);  // do not pass this to the module because it is dependent value
 
 // DUT inputs
 reg Enable_bar;
-reg [$clog2(WIDTH_IN)-1:0] Select;  // Select is one bit
+reg [WIDTH_SELECT-1:0] Select;  // Select is one bit
 reg [BLOCKS*WIDTH_IN-1:0] A;
 
 // DUT outputs

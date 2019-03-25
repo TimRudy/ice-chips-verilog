@@ -40,7 +40,7 @@ begin
 
   // repeat tests: three different valid cascading inputs
 
-  for (i = 1; i <= 3; i += 1)
+  for (i = 1; i <= 3; i++)
   begin
     case (i)
       1:
@@ -65,7 +65,7 @@ begin
 
     // the following set of tests is affected by the cascading inputs:
     // since A and B are equal, the output result is equality only if "Equal_in"
-    // is set; otherwise it follows input "ALess_in" or "AGreater_in"
+    // is set; otherwise the output result tracks input "ALess_in" or "AGreater_in"
 
     // A and B zeroes -> equal
     A = {WIDTH_IN{1'b0}};

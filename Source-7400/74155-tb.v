@@ -7,7 +7,7 @@ module test;
 
 localparam BLOCKS_DIFFERENT = 2;
 localparam WIDTH_OUT = 8;
-localparam WIDTH_IN = $clog2(WIDTH_OUT);
+localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because it is dependent value
 
 // DUT inputs
 reg Enable1C;
@@ -158,7 +158,7 @@ begin
 
   // repeat tests: while enabled: change to select Addr n-1 from select Addr n
 
-  for (i = 6; i >= 0; i -= 1)
+  for (i = 6; i >= 0; i--)
   begin
     A = i;
 
@@ -206,7 +206,7 @@ begin
 
   Enable1C = 1'b0;
 
-  for (i = 6; i >= 0; i -= 1)
+  for (i = 6; i >= 0; i--)
   begin
     A = i;
 

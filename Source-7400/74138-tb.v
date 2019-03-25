@@ -6,7 +6,7 @@ module test;
 `TBASSERT_2_METHOD(tbassert2)
 
 localparam WIDTH_OUT = 8;
-localparam WIDTH_IN = $clog2(WIDTH_OUT);
+localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because it is dependent value
 
 // DUT inputs
 reg Enable1_bar;
@@ -95,7 +95,7 @@ begin
 
   // repeat tests: while enabled: change to select Addr n-1 from select Addr n
 
-  for (i = 6; i >= 0; i -= 1)
+  for (i = 6; i >= 0; i--)
   begin
     A = i;
 

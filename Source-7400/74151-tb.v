@@ -5,10 +5,11 @@ module test;
 `TBASSERT_METHOD(tbassert)
 
 localparam WIDTH_IN = 5;
+localparam WIDTH_SELECT = $clog2(WIDTH_IN);  // do not pass this to the module because it is dependent value
 
 // DUT inputs
 reg Enable_bar;
-reg [$clog2(WIDTH_IN)-1:0] Select;  // Select is three bits but only valid in range 3'b000 to 3'b100
+reg [WIDTH_SELECT-1:0] Select;  // Select is three bits but only valid in range 3'b000 to 3'b100
 reg [WIDTH_IN-1:0] D;
 
 // DUT outputs

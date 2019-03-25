@@ -6,7 +6,7 @@ module test;
 
 localparam BLOCKS = 3;
 localparam WIDTH_OUT = 2;
-localparam WIDTH_IN = $clog2(WIDTH_OUT);
+localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because it is dependent value
 
 // DUT inputs
 reg [BLOCKS-1:0] Enable_bar;

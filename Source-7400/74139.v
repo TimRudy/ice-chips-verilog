@@ -16,9 +16,9 @@ integer j;
 
 always @(*)
 begin
-  for (i = 0; i < BLOCKS; i = i + 1)
+  for (i = 0; i < BLOCKS; i++)
   begin
-    for (j = 0; j < WIDTH_OUT; j = j + 1)
+    for (j = 0; j < WIDTH_OUT; j++)
     begin
       if (!Enable_bar[i] && j == A[i])
         computed[i][j] = 1'b0;

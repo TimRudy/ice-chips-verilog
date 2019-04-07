@@ -10,3 +10,5 @@
 `define TBASSERT_2_METHOD(TB_NAME) reg [512:0] tbassert2LastPassed = "", f; task TB_NAME(input condition, input [512:0] s, input integer major, input [512:0] minor); $sformat(f, "%0s %0d-%0s", s, major, minor); if (condition === 1'bx) $display("-Failed === x value: %-s", f); else if (condition == 0) $display("-Failed: %-s", f); else if (f != tbassert2LastPassed) begin $display("Passed: %-s", f); tbassert2LastPassed = f; end endtask
 
 `define CASE_TBASSERT_2_METHOD(TB_NAME, TBASSERT_2_TB_NAME) task TB_NAME(input caseCondition, input condition, input [512:0] s, input integer major, input [512:0] minor); if (caseCondition) TBASSERT_2_TB_NAME(condition, s, major, minor); endtask
+
+`define TBCLK_WAIT_TICK_METHOD(TB_NAME) task TB_NAME; repeat (1) @(posedge Clk); endtask

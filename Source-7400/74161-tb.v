@@ -309,7 +309,7 @@ begin
   tbassert(Q == 3'b000, "Test 14");
   tbassert(RCO == 1'b0, "Test 14");
 #0
-  // transient (unclocked) load input, with null effect on output 0s
+  // transient (unclocked) load input with null effect on output 0s
   wait_tick();
 #15
   Load_bar = 1'b0;
@@ -326,7 +326,7 @@ begin
   tbassert(Q == 3'b000, "Test 15");
   tbassert(RCO == 1'b0, "Test 15");
 #0
-  // transient (unclocked) count mode input, with null effect on output 0s
+  // transient (unclocked) count mode input with null effect on output 0s
   wait_tick();
 #20
   ENT = 1'b1;
@@ -358,7 +358,7 @@ begin
   tbassert(Q == 3'b111, "Test 17");
   tbassert(RCO == 1'b0, "Test 17");
 #0
-  // transient (unclocked) load input, with null effect on output
+  // transient (unclocked) load input with null effect on output
   wait_tick();
 #25
   Load_bar = 1'b0;
@@ -375,7 +375,7 @@ begin
   tbassert(Q == 3'b111, "Test 18");
   tbassert(RCO == 1'b0, "Test 18");
 #0
-  // transient (unclocked) count mode input, with null effect on output
+  // transient (unclocked) count mode input with null effect on output
   wait_tick();
 #15
   ENT = 1'b1;
@@ -495,7 +495,7 @@ begin
   tbassert(Q == 3'b100, "Test 32");
   tbassert(RCO == 1'b0, "Test 32");
 #20
-  // transient (unclocked) different control inputs during count, with null effect on output
+  // transient (unclocked) different control inputs during count with null effect on output
   // and on next increment -> 5
   ENP = 1'b0;
 #50

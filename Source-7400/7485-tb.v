@@ -64,8 +64,8 @@ begin
     endcase
 
     // the following set of tests is affected by the cascading inputs:
-    // since A and B are equal, the output result is equality only if "Equal_in"
-    // is set; otherwise the output result tracks input "ALess_in" or "AGreater_in"
+    // since A and B are equal, the output result is equality only if input Equal_in
+    // is set; otherwise the output result tracks input ALess_in or input AGreater_in
 
     // A and B zeroes -> equal
     A = {WIDTH_IN{1'b0}};
@@ -332,6 +332,7 @@ begin
 #10
     A = 5'b01010;
     B = 5'b00001;
+
     case (i)
       1:
       begin
@@ -366,7 +367,7 @@ begin
   // end repeat tests
 #0
 
-  // cascading input "Equal_in" set, A and B equal: other cascading inputs
+  // cascading input Equal_in set, A and B equal: other cascading inputs
   // become irrelevant (both set) -> output result is equality
   A = 5'b01010;
   B = 5'b01010;
@@ -411,8 +412,8 @@ begin
   tbassert(AGreater_out == 1'b0, "Test 31");
 #0
   // abnormal inputs used in parallel expansion configuration:
-  // cascading inputs "ALess_in", "Equal_in", "AGreater_in" all clear
-  // at the same time, A and B equal -> "Equal_out" 0, other outputs 1
+  // cascading inputs ALess_in, Equal_in, AGreater_in all clear
+  // at the same time, A and B equal -> output Equal_out 0, other outputs 1
   A = 5'b11110;
   B = 5'b11110;
   ALess_in = 1'b0;
@@ -423,7 +424,7 @@ begin
   tbassert(Equal_out == 1'b0, "Test 32");
   tbassert(AGreater_out == 1'b1, "Test 32");
 #0
-  // same, transition from A and B not equal -> "Equal_out" 0, other outputs 1
+  // same, transition from A and B not equal -> output Equal_out 0, other outputs 1
   A = 5'b01010;
   B = 5'b01111;
   // ALess_in = 1'b0;
@@ -442,7 +443,7 @@ begin
   tbassert(AGreater_out == 1'b1, "Test 33");
 #0
   // abnormal inputs used in parallel expansion configuration:
-  // cascading inputs "ALess_in", "AGreater_in" both set, "Equal_in" clear,
+  // cascading inputs ALess_in, AGreater_in both set, input Equal_in clear,
   // A and B equal -> all outputs 0
   ALess_in = 1'b1;
   Equal_in = 1'b0;

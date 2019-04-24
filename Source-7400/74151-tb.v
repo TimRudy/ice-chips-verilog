@@ -38,7 +38,7 @@ begin
   tbassert(Y == 1'b1, "Test 1");
   tbassert(Y_bar == 1'b0, "Test 1");
 #0
-  // select 000: disabled
+  // select 000: disabled -> output 0
   Enable_bar = 1'b1;
 #6
   tbassert(Y == 1'b0, "Test 2");
@@ -173,6 +173,26 @@ begin
 #10
   tbassert(Y == 1'b1, "Test 22");
   tbassert(Y_bar == 1'b0, "Test 22");
+#0
+
+  // the following set of tests show the implementer is responsible for valid range of input
+  // when the WIDTH_IN parameter is set for this device
+
+  // select invalid (101), with input ones -> output is not driven
+  Enable_bar = 1'b0;
+  Select = 3'b101;
+  D = 5'b11111;
+#10
+  tbassert(Y === 1'bx, "Test 23");
+  tbassert(Y_bar === 1'bx, "Test 23");
+#0
+  // select invalid (111), with input zeroes -> output is not driven
+  Enable_bar = 1'b0;
+  Select = 3'b111;
+  D = 5'b00000;
+#10
+  tbassert(Y === 1'bx, "Test 24");
+  tbassert(Y_bar === 1'bx, "Test 24");
 #10
   $finish;
 end

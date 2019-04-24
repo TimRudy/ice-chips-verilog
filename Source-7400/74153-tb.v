@@ -43,7 +43,7 @@ begin
 #6
   tbassert(Y == 3'b011, "Test 1");
 #0
-  // select A: disabled in first BLOCK
+  // select A: disabled in first BLOCK -> output is 0s where disabled
   Enable_bar[0] = 1'b1;
 #6
   tbassert(Y == 3'b010, "Test 2");

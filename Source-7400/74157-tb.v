@@ -44,7 +44,7 @@ begin
 #6
   tbassert(Y == 3'b011, "Test 1");
 #0
-  // select A: disabled
+  // select A: disabled -> output 0s
   Enable_bar = 1'b1;
 #6
   tbassert(Y == 3'b000, "Test 2");

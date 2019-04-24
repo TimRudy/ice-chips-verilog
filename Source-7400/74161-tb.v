@@ -75,7 +75,7 @@ begin
   tbassert(Q == 3'b000, "Test 1");
   tbassert(RCO == 1'b0, "Test 1");
 #140
-  // steady state, enough time for clock pulse
+  // steady state, enough time for clock pulse -> no change to outputs after load signal ends
   Load_bar = 1'b1;
 #175
   tbassert(Q == 3'b000, "Test 2");
@@ -147,7 +147,7 @@ begin
     tbassert2(Q == D_next, "Test", i, "4");
     tbassert2(RCO == 1'b0, "Test", i, "4");
 #0
-    // steady state, enough time for clock pulse
+    // steady state, enough time for clock pulse -> no change to outputs after load signal ends
     Load_bar = 1'b1;
 #105
     tbassert2(Q == D_next, "Test", i, "4");
@@ -332,7 +332,7 @@ begin
   ENT = 1'b1;
   ENP = 1'b1;
 #15
-  ENT = 1'b0;
+  ENP = 1'b0;
 #15
   tbassert(Q == 3'b000, "Test 16");
   tbassert(RCO == 1'b0, "Test 16");
@@ -344,13 +344,13 @@ begin
   tbassert(RCO == 1'b0, "Test 16");
 #20
   // change to different control inputs with null effect on output 1s and 0
+  ENT = 1'b0;
   parallel_load_and_tick(3'b111);
 #50
-  ENT = 1'b0;
-  ENP = 1'b1;
-#175
   tbassert(Q == 3'b111, "Test 17");
   tbassert(RCO == 1'b0, "Test 17");
+#175
+  ENP = 1'b1;
 #50
   tbassert(Q == 3'b111, "Test 17");
   tbassert(RCO == 1'b0, "Test 17");
@@ -456,10 +456,10 @@ begin
 #0
   // after 100ns: resume count and next increment -> 2
   ENP = 1'b1;
-#90
+#85
   tbassert(Q == 3'b001, "Test 28");
   tbassert(RCO == 1'b0, "Test 28");
-#10
+#15
   tbassert(Q == 3'b010, "Test 28");
   tbassert(RCO == 1'b0, "Test 28");
 #100

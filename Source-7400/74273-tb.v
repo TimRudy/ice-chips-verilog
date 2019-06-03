@@ -79,10 +79,10 @@ begin
 #125
   tbassert(Q == 3'b111, "Test 4");
 #0
-  // the clear input takes on a value
+  // hold state, the clear input takes on a value
   Clear_bar = 1'b1;
 #50
-  tbassert(Q == 3'b111, "Test 5");
+  tbassert(Q == 3'b111, "Test 4");
 #0
   // load 101, set up the data
   D = 3'b101;
@@ -171,7 +171,7 @@ begin
 #0
   D = 3'b000;
 #15
-  // the clock input takes on a value, first 1 then 0
+  // hold state, the clock input takes on a value, first 1 then 0
   Clk = 1'b1;
 #15
   tbassert(Q == 3'b000, "Test 12");

@@ -7,7 +7,8 @@ module test;
 
 localparam BLOCKS_DIFFERENT = 2;
 localparam WIDTH_OUT = 8;
-localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because it is dependent value
+localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because
+                                          // it is dependent value
 
 // DUT inputs
 reg Enable1C;
@@ -20,7 +21,8 @@ reg [WIDTH_IN-1:0] A;
 wire [WIDTH_OUT*BLOCKS_DIFFERENT-1:0] Y;
 
 // DUT
-ttl_74155 #(.BLOCKS_DIFFERENT(BLOCKS_DIFFERENT), .WIDTH_OUT(WIDTH_OUT), .DELAY_RISE(5), .DELAY_FALL(3)) dut(
+ttl_74155 #(.BLOCKS_DIFFERENT(BLOCKS_DIFFERENT), .WIDTH_OUT(WIDTH_OUT),
+            .DELAY_RISE(5), .DELAY_FALL(3)) dut(
   .Enable1C(Enable1C),
   .Enable1G_bar(Enable1G_bar),
   .Enable2C_bar(Enable2C_bar),
@@ -121,7 +123,8 @@ begin
   tbassert(Block1 == 8'b11111111, "Test 9");
   tbassert(Block2 == 8'b11111111, "Test 9");
 #0
-  // while disabled in both BLOCKs: all enable inputs transition from previous with null change to output 1s
+  // while disabled in both BLOCKs: all enable inputs transition from previous with null change to
+  // output 1s
   Enable1C = 1'b1;
   Enable1G_bar = 1'b1;
   Enable2C_bar = 1'b0;

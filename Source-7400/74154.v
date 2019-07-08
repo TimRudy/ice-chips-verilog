@@ -1,6 +1,7 @@
 // 4-line to 16-line decoder/demultiplexer (inverted outputs)
 
-module ttl_74154 #(parameter WIDTH_OUT = 16, WIDTH_IN = $clog2(WIDTH_OUT), DELAY_RISE = 0, DELAY_FALL = 0)
+module ttl_74154 #(parameter WIDTH_OUT = 16, WIDTH_IN = $clog2(WIDTH_OUT),
+                   DELAY_RISE = 0, DELAY_FALL = 0)
 (
   input Enable1_bar,
   input Enable2_bar,

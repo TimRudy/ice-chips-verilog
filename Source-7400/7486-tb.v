@@ -29,9 +29,11 @@ begin
   $dumpvars;
 
   // Note: For WIDTH_IN > 2, this is the "parity checker" interpretation of multi-input XOR
-  // - this is the behaviour in Verilog for xor(a, b, ...), and follows the precedent of 3-input XOR gate 741G386
+  // - this is the behaviour in Verilog for xor(a, b, ...), and follows the precedent of
+  //   3-input XOR gate 741G386
   // - conforms to chaining of XOR to create arbitrary wider input, e.g. "(A XOR B) XOR C"
-  // - the alternative behaviour is a "1 and only 1" or "one-hot checker" instead of a parity checker
+  // - the alternative behaviour is a "1 and only 1" or "one-hot checker" instead of a
+  //   parity checker
 
   // all zeroes -> 0
   AInputs = {BLOCKS{1'b0}};

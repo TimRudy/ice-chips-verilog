@@ -1,6 +1,7 @@
 // 3-line to 8-line decoder/demultiplexer (inverted outputs)
 
-module ttl_74138 #(parameter WIDTH_OUT = 8, WIDTH_IN = $clog2(WIDTH_OUT), DELAY_RISE = 0, DELAY_FALL = 0)
+module ttl_74138 #(parameter WIDTH_OUT = 8, WIDTH_IN = $clog2(WIDTH_OUT),
+                   DELAY_RISE = 0, DELAY_FALL = 0)
 (
   input Enable1_bar,
   input Enable2_bar,

@@ -1,6 +1,7 @@
 // Quad 2-input multiplexer (inverted outputs)
 
-module ttl_74158 #(parameter BLOCKS = 4, WIDTH_IN = 2, WIDTH_SELECT = $clog2(WIDTH_IN), DELAY_RISE = 0, DELAY_FALL = 0)
+module ttl_74158 #(parameter BLOCKS = 4, WIDTH_IN = 2, WIDTH_SELECT = $clog2(WIDTH_IN),
+                   DELAY_RISE = 0, DELAY_FALL = 0)
 (
   input Enable_bar,
   input [WIDTH_SELECT-1:0] Select,

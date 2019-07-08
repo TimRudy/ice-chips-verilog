@@ -1,6 +1,7 @@
 // Dual 2-line to 4-line decoder/demultiplexer (inverted outputs)
 
-module ttl_74139 #(parameter BLOCKS = 2, WIDTH_OUT = 4, WIDTH_IN = $clog2(WIDTH_OUT), DELAY_RISE = 0, DELAY_FALL = 0)
+module ttl_74139 #(parameter BLOCKS = 2, WIDTH_OUT = 4, WIDTH_IN = $clog2(WIDTH_OUT),
+                   DELAY_RISE = 0, DELAY_FALL = 0)
 (
   input [BLOCKS-1:0] Enable_bar,
   input [WIDTH_IN*BLOCKS-1:0] A_2D,

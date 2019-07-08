@@ -6,7 +6,8 @@ module test;
 `TBASSERT_2_METHOD(tbassert2)
 
 localparam WIDTH_OUT = 16;
-localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because it is dependent value
+localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because
+                                          // it is dependent value
 
 // DUT inputs
 reg Enable1_bar;

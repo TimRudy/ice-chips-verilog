@@ -5,8 +5,10 @@ module test;
 `TBASSERT_METHOD(tbassert)
 `TBASSERT_2_METHOD(tbassert2)
 
-localparam WIDTH_OUT = 10;                // do not pass this to the module because it is not variable
-localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because it is dependent value
+localparam WIDTH_OUT = 10;                // do not pass this to the module because
+                                          // it is not variable
+localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because
+                                          // it is dependent value
 
 // DUT inputs
 reg [WIDTH_IN-1:0] A;  // A is 4 bits

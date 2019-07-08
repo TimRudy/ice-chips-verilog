@@ -519,7 +519,7 @@ begin
   // the following set of tests are for: accepted behaviour outside normal usage
 
   // repeat tests: load values above BCD 9 -> outputs go back on track to within the
-  // BCD decade count range at the next clock
+  // BCD decade count range at the next clock edge
 
   for (i = 10; i <= 15; i++)
   begin

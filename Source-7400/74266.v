@@ -13,7 +13,8 @@ integer i;
 
 always @(*)
 begin
-  // Note: For WIDTH_IN > 2, this is the "parity checker" interpretation of multi-input XOR (or XNOR)
+  // Note: For WIDTH_IN > 2, this is the "parity checker" interpretation of multi-input XOR
+  //       (or XNOR)
   // - follows the precedent of 3-input XOR gate 741G386
   // - conforms to chaining of XNOR to create arbitrary wider input, e.g. "(A XNOR B) XNOR C"
   computed = {BLOCKS{1'b0}};

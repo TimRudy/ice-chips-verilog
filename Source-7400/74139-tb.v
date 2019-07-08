@@ -6,7 +6,8 @@ module test;
 
 localparam BLOCKS = 3;
 localparam WIDTH_OUT = 2;
-localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because it is dependent value
+localparam WIDTH_IN = $clog2(WIDTH_OUT);  // do not pass this to the module because
+                                          // it is dependent value
 
 // DUT inputs
 reg [BLOCKS-1:0] Enable_bar;
@@ -161,7 +162,8 @@ begin
   tbassert(YOutputs == 2'b10, "Test 12");
   tbassert(ZOutputs == 2'b01, "Test 12");
 #0
-  // same selects but disabled in second BLOCK, enabled in first BLOCK -> output is 11 instead of 10
+  // same selects but disabled in second BLOCK, enabled in first BLOCK -> output is 11
+  // instead of 10
   Enable_bar[0] = 1'b0;
   Enable_bar[1] = 1'b1;
 #6

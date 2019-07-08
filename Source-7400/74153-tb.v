@@ -6,7 +6,8 @@ module test;
 
 localparam BLOCKS = 3;
 localparam WIDTH_IN = 4;
-localparam WIDTH_SELECT = $clog2(WIDTH_IN);  // do not pass this to the module because it is dependent value
+localparam WIDTH_SELECT = $clog2(WIDTH_IN);  // do not pass this to the module because
+                                             // it is dependent value
 
 // DUT inputs
 reg [BLOCKS-1:0] Enable_bar;

@@ -1,6 +1,7 @@
 // 8-input multiplexer
 
-module ttl_74151 #(parameter WIDTH_IN = 8, WIDTH_SELECT = $clog2(WIDTH_IN), DELAY_RISE = 0, DELAY_FALL = 0)
+module ttl_74151 #(parameter WIDTH_IN = 8, WIDTH_SELECT = $clog2(WIDTH_IN),
+                   DELAY_RISE = 0, DELAY_FALL = 0)
 (
   input Enable_bar,
   input [WIDTH_SELECT-1:0] Select,

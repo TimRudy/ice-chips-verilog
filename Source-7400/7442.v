@@ -1,6 +1,7 @@
 // BCD to decimal one-of-ten decoder
 
-module ttl_7442 #(parameter WIDTH_OUT = 10, WIDTH_IN = $clog2(WIDTH_OUT), DELAY_RISE = 0, DELAY_FALL = 0)
+module ttl_7442 #(parameter WIDTH_OUT = 10, WIDTH_IN = $clog2(WIDTH_OUT),
+                  DELAY_RISE = 0, DELAY_FALL = 0)
 (
   input [WIDTH_IN-1:0] A,
   output [WIDTH_OUT-1:0] Y

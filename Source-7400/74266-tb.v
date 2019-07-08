@@ -28,10 +28,13 @@ begin
   $dumpfile("74266-tb.vcd");
   $dumpvars;
 
-  // Note: For WIDTH_IN > 2, this is the "parity checker" interpretation of multi-input XOR (or XNOR)
-  // - this is the behaviour in Verilog for xnor(a, b, ...), and follows the precedent of 3-input XOR gate 741G386
+  // Note: For WIDTH_IN > 2, this is the "parity checker" interpretation of multi-input XOR
+  //       (or XNOR)
+  // - this is the behaviour in Verilog for xnor(a, b, ...), and follows the precedent of
+  //   3-input XOR gate 741G386
   // - conforms to chaining of XNOR to create arbitrary wider input, e.g. "(A XNOR B) XNOR C"
-  // - the alternative behaviour is a "1 and only 1" or "one-hot checker" instead of a parity checker
+  // - the alternative behaviour is a "1 and only 1" or "one-hot checker" instead of a
+  //   parity checker
 
   // all zeroes -> 1
   AInputs = {BLOCKS{1'b0}};

@@ -16,7 +16,7 @@ integer i;
 
 always @(*)
 begin
-  for (i = 0; i < BLOCKS; i++)
+  for (i = 0; i < BLOCKS; i=i+1)
   begin
     if (!Enable_bar[i])
       computed[i] = A[i][Select];

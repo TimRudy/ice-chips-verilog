@@ -13,7 +13,7 @@ integer i;
 
 always @(*)
 begin
-  for (i = 0; i < WIDTH_OUT; i++)
+  for (i = 0; i < WIDTH_OUT; i=i+1)
   begin
     if (i == A)
       computed[i] = 1'b0;

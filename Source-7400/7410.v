@@ -14,7 +14,7 @@ integer i;
 always @(*)
 begin
   computed = {BLOCKS{1'b1}};
-  for (i = 0; i < WIDTH_IN; i++)
+  for (i = 0; i < WIDTH_IN; i=i+1)
     computed = computed & A[i];
   computed = ~computed;
 end

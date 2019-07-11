@@ -107,7 +107,7 @@ begin
 
   D_next = 4'b1001;  // initial value to start the loop
 
-  for (i = 1; i <= 6; i++)
+  for (i = 1; i <= 6; i=i+1)
   begin
     Q_expected = D_next;
     D_next = (Q_expected + 1) ^ 5;  // use a random value for next input
@@ -479,7 +479,7 @@ begin
   // repeat tests: load values above BCD 9 -> outputs go back on track to within the
   // BCD decade count range at the next clock edge
 
-  for (i = 10; i <= 15; i++)
+  for (i = 10; i <= 15; i=i+1)
   begin
     parallel_load_and_tick(i);
 #20
@@ -500,7 +500,7 @@ begin
   ENT = 1'b1;
   ENP = 1'b0;
 
-  for (i = 10; i <= 15; i++)
+  for (i = 10; i <= 15; i=i+1)
   begin
     parallel_load_and_tick(i);
 #20

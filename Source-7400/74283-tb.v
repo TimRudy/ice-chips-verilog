@@ -52,7 +52,7 @@ begin
 
   // repeat tests: "C_in" is clear then set
 
-  for (i = 1; i <= 2; i++)
+  for (i = 1; i <= 2; i=i+1)
   begin
     case (i)
       1:

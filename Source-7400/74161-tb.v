@@ -98,7 +98,7 @@ begin
 
   D_next = 3'b111;  // initial value to start the loop
 
-  for (i = 1; i <= 6; i++)
+  for (i = 1; i <= 6; i=i+1)
   begin
     Q_expected = D_next;
     D_next = (Q_expected + 2) ^ 5;  // use a random value for next input

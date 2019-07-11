@@ -33,7 +33,7 @@ begin
   BInputs = AInputs;
   A = {BInputs, AInputs};
 #6
-  for (i = 0; i < BLOCKS; i++)
+  for (i = 0; i < BLOCKS; i=i+1)
     tbassert(Y[i] == 1'b1, "Test 1");
 #0
   // all zeroes -> 0
@@ -41,7 +41,7 @@ begin
   BInputs = AInputs;
   A = {BInputs, AInputs};
 #6
-  for (i = 0; i < BLOCKS; i++)
+  for (i = 0; i < BLOCKS; i=i+1)
     tbassert(Y[i] == 1'b0, "Test 2");
 #0
   // only a single bit causes -> 1

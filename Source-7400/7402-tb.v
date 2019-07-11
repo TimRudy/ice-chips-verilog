@@ -33,7 +33,7 @@ begin
   BInputs = {BLOCKS{1'b1}};
   A = {BInputs, AInputs};
 #4
-  for (i = 0; i < BLOCKS; i++)
+  for (i = 0; i < BLOCKS; i=i+1)
     tbassert(Y[i] == 1'b0, "Test 1");
 #0
   // all zeroes -> 1, enough time for output to rise
@@ -41,7 +41,7 @@ begin
   BInputs = {BLOCKS{1'b0}};
   A = {BInputs, AInputs};
 #6
-  for (i = 0; i < BLOCKS; i++)
+  for (i = 0; i < BLOCKS; i=i+1)
     tbassert(Y[i] == 1'b1, "Test 2");
 #0
   // only a single bit causes -> 0

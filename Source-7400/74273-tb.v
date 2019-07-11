@@ -185,7 +185,7 @@ begin
 
   D_next = 3'b000;  // initial value to start the loop
 
-  for (i = 1; i <= 3; i++)
+  for (i = 1; i <= 3; i=i+1)
   begin
     Q_expected = D_next;
 

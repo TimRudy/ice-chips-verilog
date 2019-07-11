@@ -26,10 +26,10 @@ begin
   $dumpvars;
 
   // all zeroes -> 0
-  for (i = 0; i < BLOCKS; i++)
+  for (i = 0; i < BLOCKS; i=i+1)
     A[i] = 1'b0;
 #5
-  for (i = 0; i < BLOCKS; i++)
+  for (i = 0; i < BLOCKS; i=i+1)
     tbassert(Y[i] == 1'b0, "Test 1");
 #0
   // single bit change to one causes -> 1, others unchanged
@@ -50,10 +50,10 @@ begin
   tbassert(Y[6] == 1'b1, "Test 3");
 #0
   // all ones -> 1
-  for (i = 0; i < BLOCKS; i++)
+  for (i = 0; i < BLOCKS; i=i+1)
     A[i] = 1'b1;
 #5
-  for (i = 0; i < BLOCKS; i++)
+  for (i = 0; i < BLOCKS; i=i+1)
     tbassert(Y[i] == 1'b1, "Test 4");
 #0
   // single bit change to zero causes -> 0, others unchanged

@@ -16,7 +16,7 @@ integer i;
 
 always @(*)
 begin
-  for (i = 0; i < WIDTH_OUT; i++)
+  for (i = 0; i < WIDTH_OUT; i=i+1)
   begin
     if (!Enable1_bar && !Enable2_bar && Enable3 && i == A)
       computed[i] = 1'b1;

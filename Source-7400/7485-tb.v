@@ -40,7 +40,7 @@ begin
 
   // repeat tests: three different valid cascading inputs
 
-  for (i = 1; i <= 3; i++)
+  for (i = 1; i <= 3; i=i+1)
   begin
     case (i)
       1:

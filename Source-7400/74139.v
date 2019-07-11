@@ -17,7 +17,7 @@ integer j;
 
 always @(*)
 begin
-  for (i = 0; i < BLOCKS; i++)
+  for (i = 0; i < BLOCKS; i=i+1)
   begin
     for (j = 0; j < WIDTH_OUT; j++)
     begin

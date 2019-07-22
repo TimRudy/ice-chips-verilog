@@ -6,6 +6,9 @@
 [topdesc]: #desc
 I'm focusing on the 74xx family: devices that were TTL originally (bipolar technologies such as LS, AS), that are now implemented as CMOS (HC, HCT, LV or many other technology variations)
 
+#### Index
+> [Devices by type and name](device-index.md)
+
 #### Who
 > Hobbyist who wants to program an FPGA, or do general digital circuit simulation, and wants to do it from already-proven building blocks
 

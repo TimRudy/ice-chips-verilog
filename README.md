@@ -45,7 +45,7 @@ The test benches can be run using the open-source simulator Icarus Verilog: [Ins
 
 With it installed on your system you can run a command like the following that specifies the required input files and one output file (.vvp):
 ```
-> iverilog -g2012 -o 7400-tb.vvp tbhelper.v 7400-tb.v 7400.v
+> iverilog -g2012 -o 7400-tb.vvp ../includes/helper.v ../includes/tbhelper.v 7400-tb.v 7400.v
 ```
 
 It then requires a second step: Run the Icarus Verilog simulator/runtime to see the tests run, with results logged to the console:

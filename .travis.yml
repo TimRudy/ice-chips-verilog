@@ -1,6 +1,5 @@
 language: node_js
 node_js: "stable"
 before_install: cd scripts
-
-apt_packages:
-  - iverilog
+install:
+  - sudo apt-get install iverilog

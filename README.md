@@ -1,7 +1,7 @@
 # ice-chips-verilog
 
 [![Software License][ico-license]](LICENSE)
-[![Language][ico-language]](Source-7400)
+[![Language][ico-language]](source-7400)
 
 [topdesc]: #desc
 I'm focusing on the 74xx family: devices that were TTL originally (bipolar technologies such as LS, AS), that are now implemented as CMOS (HC, HCT, LV or many other technology variations)
@@ -16,17 +16,17 @@ I'm focusing on the 74xx family: devices that were TTL originally (bipolar techn
 > Basic logic such as gates, registers, multiplexers, counters, adders, but also non-retriggerable monostable multivibrators
 
 #### Why
-> I noticed the [74xx chips][link-wiki7400] do not exist in one place as an open-source catalogue in Verilog (or in VHDL to my knowledge). To see them and create a simulation with them, you would need to open up Xilinx Vivado or ISE or the Intel/Altera Quartus IDE. You can find free [simulators and digital playgrounds][link-websim], but what to type into them? You'll need [IceChips](Source-7400).
+> I noticed the [74xx chips][link-wiki7400] do not exist in one place as an open-source catalogue in Verilog (or in VHDL to my knowledge). To see them and create a simulation with them, you would need to open up Xilinx Vivado or ISE or the Intel/Altera Quartus IDE. You can find free [simulators and digital playgrounds][link-websim], but what to type into them? You'll need [IceChips](source-7400).
 
 ...Of course you could just buy a breadboard and the ICs. But that's going by different logic.
 
-<img src="Images/TTL.png" title="TTL ICs on a real board" width="25%" height="25%">
+<img src="images/TTL.png" title="TTL ICs on a real board" width="25%" height="25%">
 
 ## What to Expect
 
 * Each device validated by test bench
 * Implemented formally: A single Input/Output/Code template; industry pin names; consistent Verilog
-* Fully parametrized (so you could pretend that a quad or a hex buffer/line driver is actually 64 bits for your FPGA design; you could turn a triple 3-input NAND gate - the workhorse [7410](Source-7400/7410.v) - into a heptal 5-input NAND gate just by plugging in the two numbers)
+* Fully parametrized (so you could pretend that a quad or a hex buffer/line driver is actually 64 bits for your FPGA design; you could turn a triple 3-input NAND gate - the workhorse [7410](source-7400/7410.v) - into a heptal 5-input NAND gate just by plugging in the two numbers)
 
 > Coming soon in 2019: As you see, the sequential devices are being worked on (counters etc.), with tri-state capability being worked on as we speak.
 
@@ -57,7 +57,7 @@ If you're interested in looking even closer, the above vvp run stores signal and
 
 With GTKWave installed, just click on the .vcd file to open.
 
-<img src="Images/GTK.png" title="Simulation waveform" width="50%" height="50%">
+<img src="images/GTK.png" title="Simulation waveform" width="50%" height="50%">
 
 ## Acknowledgments
 

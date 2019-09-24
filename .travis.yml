@@ -5,4 +5,5 @@ env:
     - NODE_ENV=development
 before_install: cd scripts
 install:
+  - npm install
   - sudo apt-get install iverilog

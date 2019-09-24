@@ -1,5 +1,8 @@
 language: node_js
 node_js: "stable"
+env:
+  global:
+    - NODE_ENV=development
 before_install: cd scripts
 install:
   - sudo apt-get install iverilog

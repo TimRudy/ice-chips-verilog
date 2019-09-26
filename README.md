@@ -1,7 +1,6 @@
 # ice-chips-verilog
 
-[![Software License][ico-license]](LICENSE)
-[![Language][ico-language]](source-7400)
+[![Build Status][ico-travisci]][link-travisci]
 
 [topdesc]: #desc
 I'm focusing on the 74xx family: devices that were TTL originally (bipolar technologies such as LS, AS), that are now implemented as CMOS (HC, HCT, LV or many other technology variations)
@@ -69,7 +68,9 @@ Coming soon.
 
 [ico-license]: https://img.shields.io/badge/license-GPL--3.0%2B-blue.svg
 [ico-language]: https://img.shields.io/badge/Verilog-100%25-orange.svg
+[ico-travisci]: images/passed.svg
 
+[link-travisci]: https://travis-ci.org/TimRudy/ice-chips-verilog
 [link-wiki7400]: https://en.wikipedia.org/wiki/List_of_7400_series_integrated_circuits
 [link-websim]: https://www.google.com/search?q=free+web+verilog+editor+simulator
 [link-coinmining]: http://whattomine.com

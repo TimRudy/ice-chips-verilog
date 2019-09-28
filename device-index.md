@@ -13,6 +13,7 @@
 ## Gates - 3 or More Inputs
 [7410](source-7400/7410.v) Triple 3-input NAND gate<br>
 [7411](source-7400/7411.v) Triple 3-input AND gate<br>
+[7420](source-7400/7420.v) Dual 4-input NAND gate<br>
 [7421](source-7400/7421.v) Dual 4-input AND gate<br>
 [7427](source-7400/7427.v) Triple 3-input NOR gate<br>
 [7430](source-7400/7430.v) 8-input NAND gate<br>

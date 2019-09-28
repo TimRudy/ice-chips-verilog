@@ -80,7 +80,8 @@
     "walk-sync": "^2.0.2"
   },
   "scripts": {
-    "test": "npm-run-all -p exec-verilog",
-    "exec-verilog": "node validate/exec-verilog.js .."
+    "test": "npm-run-all -p exec-verilog check-index",
+    "exec-verilog": "node validate/exec-verilog.js ..",
+    "check-index": "node validate/check-index-contents.js .."
   }
 }

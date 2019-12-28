@@ -8,14 +8,10 @@ module ttl_7430 #(parameter WIDTH_IN = 8, DELAY_RISE = 0, DELAY_FALL = 0)
 
 //------------------------------------------------//
 reg computed;
-integer i;
 
 always @(*)
 begin
-  computed = 1'b1;
-  for (i = 0; i < WIDTH_IN; i++)
-    computed = computed & A[i];
-  computed = ~computed;
+  computed = ~(&A);
 end
 //------------------------------------------------//
 

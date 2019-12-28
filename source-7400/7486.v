@@ -7,7 +7,7 @@ module ttl_7486 #(parameter BLOCKS = 4, WIDTH_IN = 2, DELAY_RISE = 0, DELAY_FALL
 );
 
 //------------------------------------------------//
-wire [BLOCKS-1:0] A [0:WIDTH_IN-1];
+wire [WIDTH_IN-1:0] A [0:BLOCKS-1];
 reg [BLOCKS-1:0] computed;
 integer i;
 
@@ -16,9 +16,8 @@ begin
   // Note: For WIDTH_IN > 2, this is the "parity checker" interpretation of multi-input XOR
   // - follows the precedent of 3-input XOR gate 741G386
   // - conforms to chaining of XOR to create arbitrary wider input, e.g. "(A XOR B) XOR C"
-  computed = {BLOCKS{1'b0}};
-  for (i = 0; i < WIDTH_IN; i++)
-    computed = computed ^ A[i];
+  for (i = 0; i < BLOCKS; i++)
+    computed[i] = ^A[i];
 end
 //------------------------------------------------//
 

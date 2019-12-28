@@ -12,7 +12,7 @@ localparam WIDTH_SELECT = $clog2(WIDTH_IN);  // do not pass this to the module b
 // DUT inputs
 reg [BLOCKS-1:0] Enable_bar;
 reg [WIDTH_SELECT-1:0] Select;  // Select is two bits, full range 2'b00 to 2'b11
-reg [WIDTH_IN*BLOCKS-1:0] A;
+reg [BLOCKS*WIDTH_IN-1:0] A;
 
 // DUT outputs
 wire [BLOCKS-1:0] Y_bar;

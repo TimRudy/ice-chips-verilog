@@ -10,7 +10,9 @@ module ttl_7404 #(parameter BLOCKS = 6, DELAY_RISE = 0, DELAY_FALL = 0)
 reg [BLOCKS-1:0] computed;
 
 always @(*)
+begin
   computed = ~A;
+end
 //------------------------------------------------//
 
 assign #(DELAY_RISE, DELAY_FALL) Y = computed;

@@ -7,7 +7,7 @@ module ttl_74266 #(parameter BLOCKS = 4, WIDTH_IN = 2, DELAY_RISE = 0, DELAY_FAL
 );
 
 //------------------------------------------------//
-wire [BLOCKS-1:0] A [0:WIDTH_IN-1];
+wire [WIDTH_IN-1:0] A [0:BLOCKS-1];
 reg [BLOCKS-1:0] computed;
 integer i;
 
@@ -17,10 +17,8 @@ begin
   //       (or XNOR)
   // - follows the precedent of 3-input XOR gate 741G386
   // - conforms to chaining of XNOR to create arbitrary wider input, e.g. "(A XNOR B) XNOR C"
-  computed = {BLOCKS{1'b0}};
-  for (i = 0; i < WIDTH_IN; i++)
-    computed = computed ^ A[i];
-  computed = ~computed;
+  for (i = 0; i < BLOCKS; i++)
+    computed[i] = ~(^A[i]);
 end
 //------------------------------------------------//
 

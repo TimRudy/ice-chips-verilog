@@ -8,12 +8,12 @@ module ttl_74155 #(parameter BLOCKS_DIFFERENT = 2, BLOCK0 = 0, BLOCK1 = 1,
   input Enable2C_bar,
   input Enable2G_bar,
   input [WIDTH_IN-1:0] A,
-  output [WIDTH_OUT*BLOCKS_DIFFERENT-1:0] Y_2D
+  output [BLOCKS_DIFFERENT*WIDTH_OUT-1:0] Y_2D
 );
 
 //------------------------------------------------//
 reg [WIDTH_OUT-1:0] computed [0:BLOCKS_DIFFERENT-1];
-wire [WIDTH_OUT*BLOCKS_DIFFERENT-1:0] computed_2D;
+wire [BLOCKS_DIFFERENT*WIDTH_OUT-1:0] computed_2D;
 integer i;
 
 always @(*)
@@ -33,7 +33,7 @@ begin
 end
 //------------------------------------------------//
 
-`ASSIGN_PACK(WIDTH_OUT, BLOCKS_DIFFERENT, computed, computed_2D)
+`ASSIGN_PACK(BLOCKS_DIFFERENT, WIDTH_OUT, computed, computed_2D)
 assign #(DELAY_RISE, DELAY_FALL) Y_2D = computed_2D;
 
 endmodule

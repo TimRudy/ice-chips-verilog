@@ -7,16 +7,14 @@ module ttl_7420 #(parameter BLOCKS = 2, WIDTH_IN = 4, DELAY_RISE = 0, DELAY_FALL
 );
 
 //------------------------------------------------//
-wire [BLOCKS-1:0] A [0:WIDTH_IN-1];
+wire [WIDTH_IN-1:0] A [0:BLOCKS-1];
 reg [BLOCKS-1:0] computed;
 integer i;
 
 always @(*)
 begin
-  computed = {BLOCKS{1'b1}};
-  for (i = 0; i < WIDTH_IN; i++)
-    computed = computed & A[i];
-  computed = ~computed;
+  for (i = 0; i < BLOCKS; i++)
+    computed[i] = ~(&A[i]);
 end
 //------------------------------------------------//
 

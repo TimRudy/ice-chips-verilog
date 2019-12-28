@@ -5,7 +5,7 @@ module ttl_74352 #(parameter BLOCKS = 2, WIDTH_IN = 4, WIDTH_SELECT = $clog2(WID
 (
   input [BLOCKS-1:0] Enable_bar,
   input [WIDTH_SELECT-1:0] Select,
-  input [WIDTH_IN*BLOCKS-1:0] A_2D,
+  input [BLOCKS*WIDTH_IN-1:0] A_2D,
   output [BLOCKS-1:0] Y_bar
 );
 
@@ -26,7 +26,7 @@ begin
 end
 //------------------------------------------------//
 
-`ASSIGN_UNPACK(WIDTH_IN, BLOCKS, A, A_2D)
+`ASSIGN_UNPACK(BLOCKS, WIDTH_IN, A, A_2D)
 assign #(DELAY_RISE, DELAY_FALL) Y_bar = ~computed;
 
 endmodule

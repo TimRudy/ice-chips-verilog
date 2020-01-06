@@ -10,19 +10,23 @@ module ttl_74158 #(parameter BLOCKS = 4, WIDTH_IN = 2, WIDTH_SELECT = $clog2(WID
 );
 
 //------------------------------------------------//
-wire [BLOCKS-1:0] A [0:WIDTH_IN-1];
+wire [WIDTH_IN-1:0] A [0:BLOCKS-1];
 reg [BLOCKS-1:0] computed;
+integer i;
 
 always @(*)
 begin
-  if (!Enable_bar)
-    computed = A[Select];
-  else
-    computed = {BLOCKS{1'b0}};
+  for (i = 0; i < BLOCKS; i++)
+  begin
+    if (!Enable_bar)
+      computed[i] = A[i][Select];
+    else
+      computed[i] = 1'b0;
+  end
 end
 //------------------------------------------------//
 
-`ASSIGN_UNPACK(BLOCKS, WIDTH_IN, A, A_2D)
+`ASSIGN_UNPACK_ARRAY(BLOCKS, WIDTH_IN, A, A_2D)
 assign #(DELAY_RISE, DELAY_FALL) Y_bar = ~computed;
 
 endmodule

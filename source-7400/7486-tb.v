@@ -21,9 +21,11 @@ ttl_7486 #(.BLOCKS(BLOCKS), .WIDTH_IN(WIDTH_IN), .DELAY_RISE(5), .DELAY_FALL(3))
 
 initial
 begin
-  reg [BLOCKS-1:0] AInputs;
-  reg [BLOCKS-1:0] BInputs;
-  reg [BLOCKS-1:0] CInputs;
+  reg [WIDTH_IN-1:0] Block1;
+  reg [WIDTH_IN-1:0] Block2;
+  reg [WIDTH_IN-1:0] Block3;
+  reg [WIDTH_IN-1:0] Block4;
+  reg [WIDTH_IN-1:0] Block5;
 
   $dumpfile("7486-tb.vcd");
   $dumpvars;
@@ -36,103 +38,129 @@ begin
   //   parity checker
 
   // all zeroes -> 0
-  AInputs = {BLOCKS{1'b0}};
-  BInputs = AInputs;
-  CInputs = AInputs;
-  A = {CInputs, BInputs, AInputs};
+  Block1 = {WIDTH_IN{1'b0}};
+  Block2 = {WIDTH_IN{1'b0}};
+  Block3 = {WIDTH_IN{1'b0}};
+  Block4 = {WIDTH_IN{1'b0}};
+  Block5 = {WIDTH_IN{1'b0}};
+  A = {Block5, Block4, Block3, Block2, Block1};
 #5
   tbassert(Y == 5'b00000, "Test 1");
 #0
   // single one causes -> 1
-  AInputs = 5'b01000;
-  BInputs = 5'b00000;
-  CInputs = 5'b00000;
-  A = {CInputs, BInputs, AInputs};
+  // Block1 = {WIDTH_IN{1'b0}};
+  // Block2 = {WIDTH_IN{1'b0}};
+  // Block3 = {WIDTH_IN{1'b0}};
+  Block4 = 3'b001;
+  // Block5 = {WIDTH_IN{1'b0}};
+  A = {Block5, Block4, Block3, Block2, Block1};
 #10
   tbassert(Y == 5'b01000, "Test 2");
 #0
   // same on another input
-  AInputs = 5'b00000;
-  BInputs = 5'b00000;
-  CInputs = 5'b01000;
-  A = {CInputs, BInputs, AInputs};
+  // Block1 = {WIDTH_IN{1'b0}};
+  // Block2 = {WIDTH_IN{1'b0}};
+  // Block3 = {WIDTH_IN{1'b0}};
+  Block4 = 3'b100;
+  // Block5 = {WIDTH_IN{1'b0}};
+  A = {Block5, Block4, Block3, Block2, Block1};
 #10
   tbassert(Y == 5'b01000, "Test 3");
 #0
   // pair of ones causes -> 0
-  AInputs = 5'b00010;
-  BInputs = 5'b00010;
-  CInputs = 5'b00000;
-  A = {CInputs, BInputs, AInputs};
+  Block1 = {WIDTH_IN{1'b0}};
+  Block2 = 3'b011;
+  Block3 = {WIDTH_IN{1'b0}};
+  Block4 = {WIDTH_IN{1'b0}};
+  Block5 = {WIDTH_IN{1'b0}};
+  A = {Block5, Block4, Block3, Block2, Block1};
 #10
   tbassert(Y == 5'b00000, "Test 4");
 #0
-  // same on another input
-  AInputs = 5'b00000;
-  BInputs = 5'b00010;
-  CInputs = 5'b00010;
-  A = {CInputs, BInputs, AInputs};
+  // same on other inputs
+  // Block1 = {WIDTH_IN{1'b0}};
+  Block2 = 3'b110;
+  // Block3 = {WIDTH_IN{1'b0}};
+  // Block4 = {WIDTH_IN{1'b0}};
+  // Block5 = {WIDTH_IN{1'b0}};
+  A = {Block5, Block4, Block3, Block2, Block1};
 #10
   tbassert(Y == 5'b00000, "Test 5");
 #0
   // pairs of ones in combination of inputs -> 0
-  AInputs = 5'b10100;
-  BInputs = 5'b11000;
-  CInputs = 5'b01100;
-  A = {CInputs, BInputs, AInputs};
+  Block1 = 3'b000;
+  Block2 = 3'b000;
+  Block3 = 3'b101;
+  Block4 = 3'b110;
+  Block5 = 3'b011;
+  A = {Block5, Block4, Block3, Block2, Block1};
 #10
   tbassert(Y == 5'b00000, "Test 6");
 #0
   // three ones causes -> 1
-  AInputs = 5'b00100;
-  BInputs = 5'b00100;
-  CInputs = 5'b00100;
-  A = {CInputs, BInputs, AInputs};
+  Block1 = 3'b000;
+  Block2 = 3'b000;
+  Block3 = 3'b111;
+  Block4 = 3'b000;
+  Block5 = 3'b000;
+  A = {Block5, Block4, Block3, Block2, Block1};
 #10
   tbassert(Y == 5'b00100, "Test 7");
 #0
   // all input bits transition from previous
-  AInputs = 5'b11011;
-  BInputs = 5'b11011;
-  CInputs = 5'b11011;
-  A = {CInputs, BInputs, AInputs};
+  Block1 = 3'b111;
+  Block2 = 3'b111;
+  Block3 = 3'b000;
+  Block4 = 3'b111;
+  Block5 = 3'b111;
+  A = {Block5, Block4, Block3, Block2, Block1};
 #6
   tbassert(Y == 5'b11011, "Test 8");
 #0
   // single zero causes -> 0
-  AInputs = 5'b11111;
-  BInputs = 5'b11111;
-  CInputs = 5'b10111;
-  A = {CInputs, BInputs, AInputs};
+  Block1 = 3'b111;
+  Block2 = 3'b111;
+  Block3 = 3'b111;
+  Block4 = 3'b011;
+  Block5 = 3'b111;
+  A = {Block5, Block4, Block3, Block2, Block1};
 #10
   tbassert(Y == 5'b10111, "Test 9");
 #0
   // same on another input
-  AInputs = 5'b11111;
-  BInputs = 5'b10111;
-  CInputs = 5'b11111;
-  A = {CInputs, BInputs, AInputs};
+  Block1 = 3'b111;
+  Block2 = 3'b111;
+  Block3 = 3'b111;
+  Block4 = 3'b101;
+  Block5 = 3'b111;
+  A = {Block5, Block4, Block3, Block2, Block1};
 #10
   tbassert(Y == 5'b10111, "Test 10");
 #0
   // pairs of zeroes in combination of inputs -> 1
-  AInputs = 5'b11001;
-  BInputs = 5'b10011;
-  CInputs = 5'b10101;
-  A = {CInputs, BInputs, AInputs};
+  Block1 = 3'b111;
+  Block2 = 3'b010;
+  Block3 = 3'b100;
+  Block4 = 3'b001;
+  Block5 = 3'b111;
+  A = {Block5, Block4, Block3, Block2, Block1};
 #10
   tbassert(Y == 5'b11111, "Test 11");
 #0
   // timing: clear inputs, then must wait for outputs to transition
-  AInputs = {BLOCKS{1'bx}};
-  BInputs = AInputs;
-  CInputs = AInputs;
-  A = {CInputs, BInputs, AInputs};
+  Block1 = {WIDTH_IN{1'bx}};
+  Block2 = {WIDTH_IN{1'bx}};
+  Block3 = {WIDTH_IN{1'bx}};
+  Block4 = {WIDTH_IN{1'bx}};
+  Block5 = {WIDTH_IN{1'bx}};
+  A = {Block5, Block4, Block3, Block2, Block1};
 #10
-  AInputs = 5'b10101;
-  BInputs = 5'b11001;
-  CInputs = 5'b00101;
-  A = {CInputs, BInputs, AInputs};
+  Block1 = 3'b111;
+  Block2 = 3'b000;
+  Block3 = 3'b101;
+  Block4 = 3'b010;
+  Block5 = 3'b011;
+  A = {Block5, Block4, Block3, Block2, Block1};
 #2
   tbassert(Y === 5'bxxxxx, "Test 12");
 #4

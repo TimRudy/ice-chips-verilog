@@ -21,91 +21,65 @@ ttl_7420 #(.BLOCKS(BLOCKS), .WIDTH_IN(WIDTH_IN), .DELAY_RISE(5), .DELAY_FALL(3))
 
 initial
 begin
-  reg [BLOCKS-1:0] AInputs;
-  reg [BLOCKS-1:0] BInputs;
-  reg [BLOCKS-1:0] CInputs;
-  reg [BLOCKS-1:0] DInputs;
-  integer i;
+  reg [WIDTH_IN-1:0] Block1;
 
   $dumpfile("7420-tb.vcd");
   $dumpvars;
 
   // only a quadruplet of all ones -> 0
-  AInputs = 1'b1;
-  BInputs = AInputs;
-  CInputs = AInputs;
-  DInputs = AInputs;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = {WIDTH_IN{1'b1}};
+  A = {Block1};
 #10
   tbassert(Y == 1'b0, "Test 1");
 #0
   // all zeroes -> 1
-  AInputs = 1'b0;
-  BInputs = AInputs;
-  CInputs = AInputs;
-  DInputs = AInputs;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = {WIDTH_IN{1'b0}};
+  A = {Block1};
 #10
   tbassert(Y == 1'b1, "Test 2");
 #0
   // only a single bit causes -> 1
-  AInputs = 1'b0;
-  BInputs = 1'b1;
-  CInputs = 1'b1;
-  DInputs = 1'b1;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 6'b1110;
+  A = {Block1};
 #10
   tbassert(Y == 1'b1, "Test 3");
 #0
   // same on next input
-  AInputs = 1'b1;
-  BInputs = 1'b0;
-  CInputs = 1'b1;
-  DInputs = 1'b1;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 6'b1101;
+  A = {Block1};
 #10
   tbassert(Y == 1'b1, "Test 4");
 #0
   // same on next input
-  AInputs = 1'b1;
-  BInputs = 1'b1;
-  CInputs = 1'b0;
-  DInputs = 1'b1;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 6'b1011;
+  A = {Block1};
 #10
   tbassert(Y == 1'b1, "Test 5");
 #0
   // same on last input
-  AInputs = 1'b1;
-  BInputs = 1'b1;
-  CInputs = 1'b1;
-  DInputs = 1'b0;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 6'b0111;
+  A = {Block1};
 #10
   tbassert(Y == 1'b1, "Test 6");
 #0
   // mixed bits causes -> 1
-  AInputs = 1'b1;
-  BInputs = 1'b0;
-  CInputs = 1'b1;
-  DInputs = 1'b0;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 6'b0101;
+  A = {Block1};
 #6
   tbassert(Y == 1'b1, "Test 7");
 #0
   // same on other inputs, all input bits transition from previous
-  AInputs = 1'b0;
-  BInputs = 1'b1;
-  CInputs = 1'b0;
-  DInputs = 1'b1;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1 = 6'b1010;
+  A = {Block1};
 #6
   tbassert(Y == 1'b1, "Test 8");
 #0
   // input transition to all ones causes output transition -> 0
-  AInputs = 1'b1;
-  CInputs = 1'b1;
-  A = {DInputs, CInputs, BInputs, AInputs};
+  Block1[0] = 1'b1;
+  // Block1[1] = 1'b1;
+  Block1[2] = 1'b1;
+  // Block1[3] = 1'b1;
+  A = {Block1};
 #6
   tbassert(Y == 1'b0, "Test 9");
 #10

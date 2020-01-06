@@ -7,19 +7,18 @@ module ttl_7411 #(parameter BLOCKS = 3, WIDTH_IN = 3, DELAY_RISE = 0, DELAY_FALL
 );
 
 //------------------------------------------------//
-wire [BLOCKS-1:0] A [0:WIDTH_IN-1];
+wire [WIDTH_IN-1:0] A [0:BLOCKS-1];
 reg [BLOCKS-1:0] computed;
 integer i;
 
 always @(*)
 begin
-  computed = {BLOCKS{1'b1}};
-  for (i = 0; i < WIDTH_IN; i++)
-    computed = computed & A[i];
+  for (i = 0; i < BLOCKS; i++)
+    computed[i] = &A[i];
 end
 //------------------------------------------------//
 
-`ASSIGN_UNPACK(BLOCKS, WIDTH_IN, A, A_2D)
+`ASSIGN_UNPACK_ARRAY(BLOCKS, WIDTH_IN, A, A_2D)
 assign #(DELAY_RISE, DELAY_FALL) Y = computed;
 
 endmodule

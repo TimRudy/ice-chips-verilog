@@ -12,7 +12,7 @@ reg [WIDTH_OUT-1:0] computed;
 always @(*)
 begin
   casez (A_bar)
-    9'b0????????: computed = 4'b1001;
+    9'b0????????: computed = 4'b1001;  // highest priority (inverted)
     9'b10???????: computed = 4'b1000;
     9'b110??????: computed = 4'b0111;
     9'b1110?????: computed = 4'b0110;
@@ -22,6 +22,7 @@ begin
     9'b11111110?: computed = 4'b0010;
     9'b111111110: computed = 4'b0001;
     9'b111111111: computed = 4'b0000;
+    default:      computed = 4'b0000;
   endcase
 end
 //------------------------------------------------//

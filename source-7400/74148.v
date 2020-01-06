@@ -26,8 +26,7 @@ begin
     // lowest priority (inverted)
     Y_computed = 3'b000;
   end
-
-  if (!EI_bar)
+  else
   begin
     // normally opposite of EI (inverted)
     EO_computed = 0;
@@ -53,6 +52,7 @@ begin
         // lowest priority (inverted)
         Y_computed = 3'b000;
       end
+      default: Y_computed = 3'b000;
     endcase
   end
 end

@@ -13,7 +13,7 @@ module ttl_74161 #(parameter WIDTH = 4, DELAY_RISE = 0, DELAY_FALL = 0)
 );
 
 //------------------------------------------------//
-reg RCO_current;
+wire RCO_current;
 reg [WIDTH-1:0] Q_current;
 wire [WIDTH-1:0] Q_next;
 
@@ -39,7 +39,7 @@ begin
   end
 end
 
-// outputs
+// output
 assign RCO_current = ENT && (&Q_current);
 
 //------------------------------------------------//

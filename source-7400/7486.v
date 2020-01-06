@@ -21,7 +21,7 @@ begin
 end
 //------------------------------------------------//
 
-`ASSIGN_UNPACK(BLOCKS, WIDTH_IN, A, A_2D)
+`ASSIGN_UNPACK_ARRAY(BLOCKS, WIDTH_IN, A, A_2D)
 assign #(DELAY_RISE, DELAY_FALL) Y = computed;
 
 endmodule

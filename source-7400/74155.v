@@ -13,7 +13,6 @@ module ttl_74155 #(parameter BLOCKS_DIFFERENT = 2, BLOCK0 = 0, BLOCK1 = 1,
 
 //------------------------------------------------//
 reg [WIDTH_OUT-1:0] computed [0:BLOCKS_DIFFERENT-1];
-wire [BLOCKS_DIFFERENT*WIDTH_OUT-1:0] computed_2D;
 integer i;
 
 always @(*)
@@ -33,7 +32,6 @@ begin
 end
 //------------------------------------------------//
 
-`ASSIGN_PACK(BLOCKS_DIFFERENT, WIDTH_OUT, computed, computed_2D)
-assign #(DELAY_RISE, DELAY_FALL) Y_2D = computed_2D;
+assign #(DELAY_RISE, DELAY_FALL) Y_2D = `PACK_ARRAY(BLOCKS_DIFFERENT, WIDTH_OUT, computed)
 
 endmodule

@@ -64,7 +64,7 @@ Coming soon.
 
 ## <!-- -->
 
-© 2018-2019 Tim Rudy
+© 2018-2020 Tim Rudy
 
 [ico-license]: https://img.shields.io/badge/license-GPL--3.0%2B-blue.svg
 [ico-language]: https://img.shields.io/badge/Verilog-100%25-orange.svg

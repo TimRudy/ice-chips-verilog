@@ -2,6 +2,7 @@
 
 .gitattributes  text
 .gitignore      text
+.editorconfig   text
 
 .gitattributes  export-ignore
 .gitignore      export-ignore

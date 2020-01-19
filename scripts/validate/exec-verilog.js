@@ -35,7 +35,7 @@ class VerilogTestBenchHelper {
 				} else {
 					const testBenchFilePath = subMatches[1] + '-tb.v';
 					const deviceNumber = subMatches[2];
-					const vvpFileName = subMatches[2] + '.vvp';
+					const vvpFileName = subMatches[2] + '-tb.vvp';
 
 					// validate there is a test bench file beside the device file (siblings)
 					if (!fs.existsSync(testBenchFilePath)) {
@@ -68,8 +68,8 @@ class VerilogTestBenchHelper {
 	execDeviceTests(testBenchFilePath, deviceFilePath, includesDirectoryPath, vvpFileName) {
 		const iverilogCommand = 'iverilog -g2012' +
 								' -o' + vvpFileName +
-								' ' + includesDirectoryPath + 'helper.v' +
-								' ' + includesDirectoryPath + 'tbhelper.v' +
+								' \"' + includesDirectoryPath + 'helper.v' + '\"' +
+								' \"' + includesDirectoryPath + 'tbhelper.v' + '\"' +
 								' \"' + testBenchFilePath + '\"' +
 								' \"' + deviceFilePath + '\"';
 		const vvpCommand = 'vvp ' + vvpFileName;
@@ -79,10 +79,11 @@ class VerilogTestBenchHelper {
 
 	analyzeTestsPassed(results, deviceNumber) {
 		const resultsSplitRegExp = new RegExp('[^' + osEOLStandard + ']+', 'g');
-		const resultLinePassedRegExp = new RegExp('Passed: (Test.*?(([0-9]+)-)?([0-9]+))');
+		const resultLinePassedRegExp = new RegExp('Passed: (Test.*? (([0-9]+)-)?([0-9]+))[ ]*$', 'm');
 		const resultLineExtraVcdReport = 'vcd opened for output';
 
 		let testLineNumber = 0;
+		let testLineOuterCount = 0;
 		let testLineInnerCount = 0;
 		let resultLines, subMatches;
 
@@ -101,24 +102,38 @@ class VerilogTestBenchHelper {
 				if (!subMatches || subMatches.length < 3) {
 					this.reportUnexpectedLineError(deviceNumber, resultLineIndex, resultLine);
 				} else {
+					testLineNumber++;
+
 					if (!subMatches[3]) {
-						testLineNumber++;
+						testLineOuterCount++;
 						testLineInnerCount = 0;
 
-						if (Number(subMatches[4]) !== testLineNumber) {
+						if (Number(subMatches[4]) !== testLineOuterCount) {
 							this.reportTestNumberSequenceError(deviceNumber,
 																resultLineIndex,
 																subMatches[1]);
 						}
 					} else {
-						if (!testLineInnerCount || Number(subMatches[4]) === testLineNumber + 1) {
-							testLineNumber++;
+						if (!testLineInnerCount || Number(subMatches[4]) === testLineOuterCount + 1) {
+							testLineOuterCount++;
+
+							// validate that if inner test index number is starting over, it did not end
+							// at only '1' for previous outer index
+							if (testLineInnerCount === 1) {
+								// report the offending previous line, not current line
+								subMatches = resultLinePassedRegExp.exec(resultLines[resultLineIndex - 1]);
+
+								this.reportTestGroupNumberError(deviceNumber,
+																resultLineIndex - 1,
+																subMatches[1]);
+							}
+
 							testLineInnerCount = 1;
 						} else {
 							testLineInnerCount++;
 						}
 
-						if (Number(subMatches[4]) !== testLineNumber ||
+						if (Number(subMatches[4]) !== testLineOuterCount ||
 								Number(subMatches[3]) !== testLineInnerCount) {
 							this.reportTestNumberSequenceError(deviceNumber,
 																resultLineIndex,
@@ -134,6 +149,11 @@ class VerilogTestBenchHelper {
 
 	reportTestNumberSequenceError(deviceNumber, outputLineNumber, outputLine) {
 		this.reportError('Test number sequence incorrect: ',
+							deviceNumber, outputLineNumber, outputLine);
+	}
+
+	reportTestGroupNumberError(deviceNumber, outputLineNumber, outputLine) {
+		this.reportError('Group consists of only one test (or minor/major index numbers are swapped): ',
 							deviceNumber, outputLineNumber, outputLine);
 	}
 

@@ -52,14 +52,14 @@ begin
   tbassert(Block1 == 8'b11111110, "Test 1");
   tbassert(Block2 == 8'b11111110, "Test 1");
 #0
-  // select Addr 0: disabled in first BLOCK -> output is 1s where disabled
+  // select Addr 0: disabled in first block -> output is 1s where disabled
   Enable1C = 1'b0;
 #6
   {Block2, Block1} = Y;
   tbassert(Block1 == 8'b11111111, "Test 2");
   tbassert(Block2 == 8'b11111110, "Test 2");
 #0
-  // select Addr 0: disabled in second BLOCK, enabled in first BLOCK
+  // select Addr 0: disabled in second block, enabled in first block
   Enable1C = 1'b1;
   Enable2C_bar = 1'b1;
 #6
@@ -67,7 +67,7 @@ begin
   tbassert(Block1 == 8'b11111110, "Test 3");
   tbassert(Block2 == 8'b11111111, "Test 3");
 #0
-  // select Addr 0: disabled by the other enable input in second BLOCK, enabled in first BLOCK
+  // select Addr 0: disabled by the other enable input in second block, enabled in first block
   Enable2C_bar = 1'b0;
   Enable2G_bar = 1'b1;
 #6
@@ -86,7 +86,7 @@ begin
   tbassert(Block1 == 8'b11111111, "Test 5");
   tbassert(Block2 == 8'b11111111, "Test 5");
 #0
-  // select Addr 1: enabled in second BLOCK -> second output is 0 where enabled
+  // select Addr 1: enabled in second block -> second output is 0 where enabled
   Enable2C_bar = 1'b0;
   Enable2G_bar = 1'b0;
 #10
@@ -94,14 +94,14 @@ begin
   tbassert(Block1 == 8'b11111111, "Test 6");
   tbassert(Block2 == 8'b11111101, "Test 6");
 #0
-  // select Addr 1: enabled in second BLOCK, disabled by only one enable input in first BLOCK
+  // select Addr 1: enabled in second block, disabled by only one enable input in first block
   Enable1G_bar = 1'b0;
 #10
   {Block2, Block1} = Y;
   tbassert(Block1 == 8'b11111111, "Test 7");
   tbassert(Block2 == 8'b11111101, "Test 7");
 #0
-  // select Addr 1: enabled in second BLOCK, disabled by the other enable input in first BLOCK
+  // select Addr 1: enabled in second block, disabled by the other enable input in first block
   Enable1C = 1'b1;
   Enable1G_bar = 1'b1;
 #10
@@ -109,7 +109,7 @@ begin
   tbassert(Block1 == 8'b11111111, "Test 8");
   tbassert(Block2 == 8'b11111101, "Test 8");
 #0
-  // select Addr 1: from enabled to disabled in both BLOCKs -> output 1s
+  // select Addr 1: from enabled to disabled in both blocks -> output 1s
   Enable1G_bar = 1'b0;
 #10
   {Block2, Block1} = Y;
@@ -123,7 +123,7 @@ begin
   tbassert(Block1 == 8'b11111111, "Test 9");
   tbassert(Block2 == 8'b11111111, "Test 9");
 #0
-  // while disabled in both BLOCKs: all enable inputs transition from previous with null change to
+  // while disabled in both blocks: all enable inputs transition from previous with null change to
   // output 1s
   Enable1C = 1'b1;
   Enable1G_bar = 1'b1;
@@ -143,7 +143,7 @@ begin
   tbassert(Block1 == 8'b11111111, "Test 10");
   tbassert(Block2 == 8'b11111111, "Test 10");
 #0
-  // select Addr 1: from disabled to enabled in both BLOCKs -> second output is 0
+  // select Addr 1: from disabled to enabled in both blocks -> second output is 0
   Enable1C = 1'b1;
   Enable2C_bar = 1'b0;
 #10
@@ -205,7 +205,7 @@ begin
   // end repeat tests
 #0
 
-  // repeat tests: while enabled only in second BLOCK: change to select Addr n-1 from select Addr n
+  // repeat tests: while enabled only in second block: change to select Addr n-1 from select Addr n
 
   Enable1C = 1'b0;
 

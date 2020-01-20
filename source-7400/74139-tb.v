@@ -47,7 +47,7 @@ begin
   tbassert(YOutputs == 2'b10, "Test 1");
   tbassert(ZOutputs == 2'b10, "Test 1");
 #0
-  // select A: disabled in first BLOCK -> output is 11 instead of 10
+  // select A: disabled in first block -> output is 11 instead of 10
   Enable_bar[0] = 1'b1;
 #6
   {ZOutputs, YOutputs, XOutputs} = Y;
@@ -55,7 +55,7 @@ begin
   tbassert(YOutputs == 2'b10, "Test 2");
   tbassert(ZOutputs == 2'b10, "Test 2");
 #0
-  // select A: disabled in second BLOCK, enabled in first BLOCK
+  // select A: disabled in second block, enabled in first block
   Enable_bar[0] = 1'b0;
   Enable_bar[1] = 1'b1;
 #6
@@ -76,7 +76,7 @@ begin
   tbassert(YOutputs == 2'b11, "Test 4");
   tbassert(ZOutputs == 2'b11, "Test 4");
 #0
-  // select B: enabled in second and third BLOCKs -> second output is 0 where enabled
+  // select B: enabled in second and third blocks -> second output is 0 where enabled
   Enable_bar[1] = 1'b0;
   Enable_bar[2] = 1'b0;
 #10
@@ -85,7 +85,7 @@ begin
   tbassert(YOutputs == 2'b01, "Test 5");
   tbassert(ZOutputs == 2'b01, "Test 5");
 #0
-  // select A: enabled in second and third BLOCKs -> first output is 0 where enabled
+  // select A: enabled in second and third blocks -> first output is 0 where enabled
   A = {BLOCKS{1'b0}};
 #10
   {ZOutputs, YOutputs, XOutputs} = Y;
@@ -93,7 +93,7 @@ begin
   tbassert(YOutputs == 2'b10, "Test 6");
   tbassert(ZOutputs == 2'b10, "Test 6");
 #0
-  // select A: enabled in first and third BLOCKs
+  // select A: enabled in first and third blocks
   Enable_bar[0] = 1'b0;
   Enable_bar[1] = 1'b1;
   Enable_bar[2] = 1'b0;
@@ -154,7 +154,7 @@ begin
   tbassert(YOutputs == 2'b10, "Test 11");
   tbassert(ZOutputs == 2'b01, "Test 11");
 #0
-  // same selects but disabled in first BLOCK -> output is 11 instead of 01
+  // same selects but disabled in first block -> output is 11 instead of 01
   Enable_bar[0] = 1'b1;
 #6
   {ZOutputs, YOutputs, XOutputs} = Y;
@@ -162,7 +162,7 @@ begin
   tbassert(YOutputs == 2'b10, "Test 12");
   tbassert(ZOutputs == 2'b01, "Test 12");
 #0
-  // same selects but disabled in second BLOCK, enabled in first BLOCK -> output is 11
+  // same selects but disabled in second block, enabled in first block -> output is 11
   // instead of 10
   Enable_bar[0] = 1'b0;
   Enable_bar[1] = 1'b1;

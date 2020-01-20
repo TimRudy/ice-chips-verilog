@@ -44,12 +44,12 @@ begin
 #6
   tbassert(Y == 3'b011, "Test 1");
 #0
-  // select A: disabled in first BLOCK -> output is 0s where disabled
+  // select A: disabled in first block -> output is 0s where disabled
   Enable_bar[0] = 1'b1;
 #6
   tbassert(Y == 3'b010, "Test 2");
 #0
-  // select A: disabled in second BLOCK, enabled in first BLOCK
+  // select A: disabled in second block, enabled in first block
   Enable_bar[0] = 1'b0;
   Enable_bar[1] = 1'b1;
 #6
@@ -61,18 +61,18 @@ begin
 #10
   tbassert(Y == 3'b000, "Test 4");
 #0
-  // select B: enabled in second and third BLOCKs
+  // select B: enabled in second and third blocks
   Enable_bar[1] = 1'b0;
   Enable_bar[2] = 1'b0;
 #10
   tbassert(Y == 3'b110, "Test 5");
 #0
-  // select A: enabled in second and third BLOCKs
+  // select A: enabled in second and third blocks
   Select = 2'b00;
 #10
   tbassert(Y == 3'b010, "Test 6");
 #0
-  // select D: enabled in second and third BLOCKs
+  // select D: enabled in second and third blocks
   Select = 2'b11;
 #10
   tbassert(Y == 3'b100, "Test 7");
@@ -95,12 +95,12 @@ begin
 #10
   tbassert(Y == 3'b111, "Test 10");
 #0
-  // select C: disabled in first BLOCK
+  // select C: disabled in first block
   Enable_bar[0] = 1'b1;
 #6
   tbassert(Y == 3'b110, "Test 11");
 #0
-  // select A: disabled in first and third BLOCKs
+  // select A: disabled in first and third blocks
   Enable_bar[2] = 1'b1;
   Select = 2'b00;
 #10
@@ -170,7 +170,7 @@ begin
 #10
   tbassert(Y == 3'b111, "Test 18");
 #0
-  // while enabled in second and third BLOCKs: change to select A from select B and
+  // while enabled in second and third blocks: change to select A from select B and
   // change to different inputs with null effect on output 1s
   Enable_bar = 3'b001;
 #6
@@ -184,7 +184,7 @@ begin
 #10
   tbassert(Y == 3'b110, "Test 19");
 #0
-  // while enabled in second and third BLOCKs: change back to select B from select A
+  // while enabled in second and third blocks: change back to select B from select A
   Select = 2'b01;
 #10
   tbassert(Y == 3'b000, "Test 20");

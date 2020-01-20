@@ -177,13 +177,13 @@ begin
   tbassert(Q == 4'b1101, "Test 6");
   tbassert(RCO == 1'b0, "Test 6");
 #2
-  // asynchronous clear from 1101 -> outputs 0, not enough time for clock pulse
+  // asynchronous clear from 1101, not enough time for clock pulse -> outputs 0
   tbassert(Q == 4'b0000, "Test 6");
   tbassert(RCO == 1'b0, "Test 6");
 #150
   Clear_bar = 1'b1;
 #150
-  // asynchronous clear from 0110 with input ENT set -> outputs 0, enough time for clock pulse
+  // asynchronous clear from 0110 with input ENT set, enough time for clock pulse -> outputs 0
   ENT = 1'b1;
   parallel_load_and_tick(4'b0110);
 #50
@@ -197,7 +197,7 @@ begin
 #15
   Clear_bar = 1'b1;
 #15
-  // asynchronous clear from 1001 with input ENT set -> outputs 0, enough time for clock pulse
+  // asynchronous clear from 1001 with input ENT set, enough time for clock pulse -> outputs 0
   ENT = 1'b1;
   parallel_load_and_tick(4'b1001);
 #50
@@ -211,7 +211,7 @@ begin
 #20
   Clear_bar = 1'b1;
 #15
-  // asynchronous clear from 1001 with input ENT set -> outputs 0, not enough time for clock pulse
+  // asynchronous clear from 1001 with input ENT set, not enough time for clock pulse -> outputs 0
   ENT = 1'b1;
   parallel_load_and_tick(4'b1001);
 #20
@@ -250,7 +250,7 @@ begin
   tbassert(Q === 4'bxxxx, "Test 11");
   tbassert(RCO === 1'bx, "Test 11");
 #2
-  // asynchronous clear from initial state -> outputs 0, no clock edge nearby
+  // asynchronous clear from initial state, no clock edge nearby -> outputs 0
   tbassert(Q == 4'b0000, "Test 11");
   tbassert(RCO == 1'b0, "Test 11");
 #75
@@ -274,7 +274,7 @@ begin
   tbassert(Q === 4'bxxxx, "Test 12");
   tbassert(RCO === 1'bx, "Test 12");
 #2
-  // asynchronous clear from initial state -> outputs 0, near or at clock edge
+  // asynchronous clear from initial state, near or at clock edge -> outputs 0
   tbassert(Q == 4'b0000, "Test 12");
   tbassert(RCO == 1'b0, "Test 12");
 #75

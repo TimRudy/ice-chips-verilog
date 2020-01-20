@@ -12,18 +12,18 @@ module ttl_7474 #(parameter BLOCKS = 2, DELAY_RISE = 0, DELAY_FALL = 0)
 
 //------------------------------------------------//
 reg [BLOCKS-1:0] Q_current;
-genvar i;
 
 generate
+  genvar i;
   for (i = 0; i < BLOCKS; i = i + 1)
-  begin
-    always @(posedge Clk[i] or negedge Preset_bar[i] or negedge Clear_bar[i])
+  begin: gen_blocks
+    always @(posedge Clk[i] or negedge Clear_bar[i] or negedge Preset_bar[i])
     begin
-      if (!Preset_bar[i])
-        Q_current[i] <= 1'b1;
-      else if (!Clear_bar[i])
+      if (!Clear_bar[i])
         Q_current[i] <= 1'b0;
-      else if (Clk[i])
+      else if (!Preset_bar[i])
+        Q_current[i] <= 1'b1;
+      else
         Q_current[i] <= D[i];
     end
   end

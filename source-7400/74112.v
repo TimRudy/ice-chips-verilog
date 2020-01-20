@@ -13,31 +13,25 @@ module ttl_74112 #(parameter BLOCKS = 2, DELAY_RISE = 0, DELAY_FALL = 0)
 
 //------------------------------------------------//
 reg [BLOCKS-1:0] Q_current;
-wire [BLOCKS-1:0] Q_next;
-genvar i;
-
-assign Q_next = Q_current;
 
 generate
+  genvar i;
   for (i = 0; i < BLOCKS; i = i + 1)
-  begin
-    always @(negedge Clk[i] or negedge Preset_bar[i] or negedge Clear_bar[i])
+  begin: gen_blocks
+    always @(negedge Clk[i] or negedge Clear_bar[i] or negedge Preset_bar[i])
     begin
-      if (!Preset_bar[i] || !Clear_bar[i])
-      begin
-        if (!Preset_bar[i])
-          Q_current[i] <= 1'b1;
-        else
-          Q_current[i] <= 1'b0;
-      end
-      else if (!Clk[i])
+      if (!Clear_bar[i])
+        Q_current[i] <= 1'b0;
+      else if (!Preset_bar[i])
+        Q_current[i] <= 1'b1;
+      else
       begin
         if (J[i] && !K[i] || !J[i] && K[i])
           Q_current[i] <= J[i];
         else if (J[i] && K[i])
-          Q_current[i] <= !Q_next[i];
+          Q_current[i] <= !Q_current[i];
         else
-          Q_current[i] <= Q_next[i];
+          Q_current[i] <= Q_current[i];
       end
     end
   end

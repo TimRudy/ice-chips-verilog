@@ -259,8 +259,8 @@ begin
   J = 3'b011;
   K = 3'b101;
 #15
-  // load second and third blocks, toggle first block, apply clock edge in first and
-  // second blocks -> output 111
+  // load second and third blocks, toggle first block, apply clock edge in
+  // first and second blocks -> output 111
   Clk = 3'b100;
 #7
   tbassert(Q == 3'b111, "Test 21");
@@ -272,8 +272,8 @@ begin
   tbassert(Q == 3'b111, "Test 22");
   tbassert(Q_bar == 3'b000, "Test 22");
 #0
-  // load second and third blocks, toggle first block, apply clock edge in first and
-  // second blocks -> output 110
+  // load second and third blocks, toggle first block, apply clock edge in
+  // first and second blocks -> output 110
   // J = 3'b011;
   // K = 3'b101;
 #15
@@ -354,13 +354,13 @@ begin
 
   // the following set of tests are for: clear
 
-  // clear from 101, not enough time for output to fall/rise
+  // asynchronous clear from 101, not enough time for output to fall/rise
   Clear_bar = 3'b000;
 #2
   tbassert(Q == 3'b101, "Test 31");
   tbassert(Q_bar == 3'b010, "Test 31");
 #5
-  // clear from 101 -> output 0s
+  // asynchronous clear from 101 -> output 0s
   tbassert(Q == 3'b000, "Test 31");
   tbassert(Q_bar == 3'b111, "Test 31");
 #150
@@ -385,18 +385,20 @@ begin
   J = 3'b111;
   K = 3'b111;
 #15
-  // clear from 011 in contention with toggle (at clock edge in second and third blocks)
+  // asynchronous clear from 011 in contention with toggle (at clock edge in
+  // second and third blocks)
   Clear_bar = 3'b000;
   Clk = 3'b001;
 #2
   tbassert(Q == 3'b011, "Test 33");
   tbassert(Q_bar == 3'b100, "Test 33");
 #5
-  // clear from 011 in contention with toggle -> output 0s
+  // asynchronous clear from 011 in contention with toggle -> output 0s
   tbassert(Q == 3'b000, "Test 33");
   tbassert(Q_bar == 3'b111, "Test 33");
 #10
-  // clear from 011, apply clock edge in first block separately with null effect on output
+  // asynchronous clear from 011, apply clock edge in first block separately with null effect on
+  // output
   Clk[0] = 1'b0;
 #7
   tbassert(Q == 3'b000, "Test 33");
@@ -466,7 +468,7 @@ begin
   J = 3'b110;
   K = 3'b101;
 #40
-  // clear from 011 in contention with load and toggle (at clock edge in
+  // asynchronous clear from 011 in contention with load and toggle (at clock edge in
   // second and third blocks)
   Clear_bar = 3'b000;
   Clk = 3'b001;
@@ -474,11 +476,12 @@ begin
   tbassert(Q == 3'b011, "Test 36");
   tbassert(Q_bar == 3'b100, "Test 36");
 #5
-  // clear from 011 in contention with load and toggle -> output 0s
+  // asynchronous clear from 011 in contention with load and toggle -> output 0s
   tbassert(Q == 3'b000, "Test 36");
   tbassert(Q_bar == 3'b111, "Test 36");
 #10
-  // clear from 011, apply clock edge in first block separately with null effect on output
+  // asynchronous clear from 011, apply clock edge in first block separately with null effect on
+  // output
   Clk[0] = 1'b0;
 #7
   tbassert(Q == 3'b000, "Test 37");
@@ -523,7 +526,7 @@ begin
   tbassert(Q == 3'b111, "Test 39");
   tbassert(Q_bar == 3'b000, "Test 39");
 #150
-  // hold state -> remains preset after preset signal ends
+  // hold state -> remains set after preset signal ends
   Preset_bar = 3'b111;
 #120
   tbassert(Q == 3'b111, "Test 40");
@@ -544,7 +547,8 @@ begin
   J = 3'b111;
   K = 3'b111;
 #15
-  // preset from 011 in contention with toggle (at clock edge in second and third blocks)
+  // preset from 011 in contention with toggle (at clock edge in
+  // second and third blocks)
   Preset_bar = 3'b000;
   Clk = 3'b001;
 #2
@@ -555,13 +559,13 @@ begin
   tbassert(Q == 3'b111, "Test 41");
   tbassert(Q_bar == 3'b000, "Test 41");
 #10
-  // preset from 011, apply clock edge in first block separately with null effect on output
+  // preset, apply clock edge in first block separately with null effect on output
   Clk[0] = 1'b0;
 #7
   tbassert(Q == 3'b111, "Test 41");
   tbassert(Q_bar == 3'b000, "Test 41");
 #150
-  // hold state, second block -> remains preset after preset signal ends
+  // hold state, second block -> remains set after preset signal ends
   Preset_bar[1] = 1'b1;
 #20
   tbassert(Q == 3'b111, "Test 42");
@@ -599,7 +603,7 @@ begin
   tbassert(Q_bar == 3'b110, "Test 43");
 #0
   // set up different data input values
-  J = 3'b110;
+  J = 3'b010;
   K = 3'b011;
 #15
   // preset third block separately -> output 101
@@ -623,7 +627,7 @@ begin
 #0
   // set up different data input values, load and toggle
   J = 3'b110;
-  K = 3'b101;
+  K = 3'b011;
 #40
   // preset from 010 in contention with load and toggle (at clock edge in
   // second and third blocks)
@@ -643,7 +647,7 @@ begin
   tbassert(Q == 3'b111, "Test 45");
   tbassert(Q_bar == 3'b000, "Test 45");
 #70
-  // hold state, second block -> remains preset after preset signal ends
+  // hold state, second block -> remains set after preset signal ends
   Preset_bar[1] = 1'b1;
 #20
   tbassert(Q == 3'b111, "Test 46");
@@ -667,8 +671,111 @@ begin
   tbassert(Q == 3'b111, "Test 46");
   tbassert(Q_bar == 3'b000, "Test 46");
 #0
-  Clk[1] = 1'b1;
-#50
+  Clk = 3'b111;
+#15
+
+  // the following set of tests are for: preset and clear in combination
+
+  // after preset in contention with asynchronous clear, extra preset does not spuriously occur
+  Preset_bar = 3'b000;
+#25
+  // clear first and third blocks with clock high -> output 010
+  Clear_bar = 3'b010;
+#7
+  tbassert(Q == 3'b010, "Test 47");
+  tbassert(Q_bar == 3'b101, "Test 47");
+#15
+  Clear_bar = 3'b111;
+#25
+  // preset signal ends with null effect on output
+  Preset_bar = 3'b111;
+#15
+  tbassert(Q == 3'b010, "Test 47");
+  tbassert(Q_bar == 3'b101, "Test 47");
+#0
+  J = 3'b010;
+  K = 3'b101;
+#15
+  // apply clock pulses with null effect on output
+  Clk = 3'b001;
+#15
+  Clk = 3'b111;
+#15
+  Clk = 3'b010;
+#15
+  Clk = 3'b111;
+#15
+  Clk = 3'b000;
+#15
+  tbassert(Q == 3'b010, "Test 47");
+  tbassert(Q_bar == 3'b101, "Test 47");
+#0
+  // clear with clock low -> output 0s
+  Clear_bar = 3'b000;
+#10
+  tbassert(Q == 3'b000, "Test 48");
+  tbassert(Q_bar == 3'b111, "Test 48");
+#20
+  Clear_bar = 3'b111;
+#10
+  Clk = 3'b111;
+#20
+  // clear with clock transition to low -> output 0s
+  Clear_bar = 3'b000;
+#10
+  Clk = 3'b000;
+#20
+  Clear_bar = 3'b111;
+#15
+  Clk = 3'b111;
+#7
+  tbassert(Q == 3'b000, "Test 49");
+  tbassert(Q_bar == 3'b111, "Test 49");
+#0
+  // set up different data input values
+  J = 3'b011;
+  K = 3'b101;
+#15
+  // after preset then asynchronous clear, extra preset does not spuriously occur
+  Preset_bar = 3'b000;
+#25
+  Preset_bar = 3'b111;
+#7
+  Clk = 3'b000;
+#7
+  // clear first and third blocks with clock low -> output 010
+  Clear_bar = 3'b010;
+#7
+  tbassert(Q == 3'b010, "Test 50");
+  tbassert(Q_bar == 3'b101, "Test 50");
+#15
+  Clear_bar = 3'b111;
+#25
+  Clk = 3'b111;
+#15
+  // apply clock edge -> output 011
+  Clk = 3'b000;
+#7
+  tbassert(Q == 3'b011, "Test 51");
+  tbassert(Q_bar == 3'b100, "Test 51");
+#15
+  Clk = 3'b111;
+#0
+  J = 3'b011;
+  K = 3'b100;
+#15
+  // apply clock pulses with null effect on output
+  Clk = 3'b001;
+#15
+  Clk = 3'b111;
+#15
+  Clk = 3'b000;
+#15
+  Clk = 3'b111;
+#15
+  tbassert(Q == 3'b011, "Test 51");
+  tbassert(Q_bar == 3'b100, "Test 51");
+#0
 
   // the following set of tests are for: hold state and applying clock edge in
   // each block separately
@@ -681,8 +788,8 @@ begin
 #15
   Clk = 3'b111;
 #15
-  tbassert(Q == 3'b101, "Test 47");
-  tbassert(Q_bar == 3'b010, "Test 47");
+  tbassert(Q == 3'b101, "Test 52");
+  tbassert(Q_bar == 3'b010, "Test 52");
 #0
   // hold state (clocked) with null effect on output 101
   J = 3'b000;
@@ -692,8 +799,8 @@ begin
 #25
   Clk = 3'b111;
 #15
-  tbassert(Q == 3'b101, "Test 47");
-  tbassert(Q_bar == 3'b010, "Test 47");
+  tbassert(Q == 3'b101, "Test 52");
+  tbassert(Q_bar == 3'b010, "Test 52");
 #0
   // load same value appearing at the output with null effect on output 101
   J = 3'b101;
@@ -702,14 +809,14 @@ begin
   // apply clock edge in third block separately
   Clk = 3'b011;
 #20
-  tbassert(Q == 3'b101, "Test 48");
-  tbassert(Q_bar == 3'b010, "Test 48");
+  tbassert(Q == 3'b101, "Test 53");
+  tbassert(Q_bar == 3'b010, "Test 53");
 #0
   // apply clock edge in first and second blocks separately
   Clk = 3'b000;
 #20
-  tbassert(Q == 3'b101, "Test 48");
-  tbassert(Q_bar == 3'b010, "Test 48");
+  tbassert(Q == 3'b101, "Test 53");
+  tbassert(Q_bar == 3'b010, "Test 53");
 #0
   Clk = 3'b111;
 #15
@@ -719,8 +826,8 @@ begin
   J = 3'b011;
   K = 3'b101;
 #75
-  tbassert(Q == 3'b101, "Test 49");
-  tbassert(Q_bar == 3'b010, "Test 49");
+  tbassert(Q == 3'b101, "Test 54");
+  tbassert(Q_bar == 3'b010, "Test 54");
 #0
   Clk = 3'b111;
 #25
@@ -728,8 +835,8 @@ begin
   J = 3'bzz0;
   K = 3'bz01;
 #50
-  tbassert(Q == 3'b101, "Test 49");
-  tbassert(Q_bar == 3'b010, "Test 49");
+  tbassert(Q == 3'b101, "Test 54");
+  tbassert(Q_bar == 3'b010, "Test 54");
 #0
   // load new value in first block separately
   J = 3'bz10;
@@ -739,8 +846,8 @@ begin
 #15
   Clk = 3'b111;
 #15
-  tbassert(Q == 3'b100, "Test 50");
-  tbassert(Q_bar == 3'b011, "Test 50");
+  tbassert(Q == 3'b100, "Test 55");
+  tbassert(Q_bar == 3'b011, "Test 55");
 #0
   // load same value appearing at the output with null effect on output
   J = 3'b100;
@@ -749,14 +856,14 @@ begin
   // apply clock edge in first block separately
   Clk = 3'b110;
 #20
-  tbassert(Q == 3'b100, "Test 51");
-  tbassert(Q_bar == 3'b011, "Test 51");
+  tbassert(Q == 3'b100, "Test 56");
+  tbassert(Q_bar == 3'b011, "Test 56");
 #0
   // apply clock edge in second and third blocks, end clock pulse in first block
   Clk = 3'b001;
 #40
-  tbassert(Q == 3'b100, "Test 52");
-  tbassert(Q_bar == 3'b011, "Test 52");
+  tbassert(Q == 3'b100, "Test 57");
+  tbassert(Q_bar == 3'b011, "Test 57");
 #0
   Clk = 3'b111;
 #15
@@ -768,8 +875,8 @@ begin
 #15
   Clk = 3'b111;
 #15
-  tbassert(Q == 3'b100, "Test 53");
-  tbassert(Q_bar == 3'b011, "Test 53");
+  tbassert(Q == 3'b100, "Test 58");
+  tbassert(Q_bar == 3'b011, "Test 58");
 #0
   // toggle value in first block separately
   // J = 3'b011;
@@ -779,8 +886,8 @@ begin
 #15
   Clk = 3'b111;
 #15
-  tbassert(Q == 3'b101, "Test 54");
-  tbassert(Q_bar == 3'b010, "Test 54");
+  tbassert(Q == 3'b101, "Test 59");
+  tbassert(Q_bar == 3'b010, "Test 59");
 #50
   $finish;
 end

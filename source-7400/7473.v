@@ -12,28 +12,23 @@ module ttl_7473 #(parameter BLOCKS = 2, DELAY_RISE = 0, DELAY_FALL = 0)
 
 //------------------------------------------------//
 reg [BLOCKS-1:0] Q_current;
-wire [BLOCKS-1:0] Q_next;
-genvar i;
-
-assign Q_next = Q_current;
 
 generate
+  genvar i;
   for (i = 0; i < BLOCKS; i = i + 1)
-  begin
+  begin: gen_blocks
     always @(negedge Clk[i] or negedge Clear_bar[i])
     begin
       if (!Clear_bar[i])
-      begin
         Q_current[i] <= 1'b0;
-      end
-      else if (!Clk[i])
+      else
       begin
         if (J[i] && !K[i] || !J[i] && K[i])
           Q_current[i] <= J[i];
         else if (J[i] && K[i])
-          Q_current[i] <= !Q_next[i];
+          Q_current[i] <= !Q_current[i];
         else
-          Q_current[i] <= Q_next[i];
+          Q_current[i] <= Q_current[i];
       end
     end
   end

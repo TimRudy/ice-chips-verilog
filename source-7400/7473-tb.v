@@ -256,8 +256,8 @@ begin
   J = 3'b011;
   K = 3'b101;
 #15
-  // load second and third blocks, toggle first block, apply clock edge in first and
-  // second blocks -> output 111
+  // load second and third blocks, toggle first block, apply clock edge in
+  // first and second blocks -> output 111
   Clk = 3'b100;
 #7
   tbassert(Q == 3'b111, "Test 21");
@@ -269,8 +269,8 @@ begin
   tbassert(Q == 3'b111, "Test 22");
   tbassert(Q_bar == 3'b000, "Test 22");
 #0
-  // load second and third blocks, toggle first block, apply clock edge in first and
-  // second blocks -> output 110
+  // load second and third blocks, toggle first block, apply clock edge in
+  // first and second blocks -> output 110
   // J = 3'b011;
   // K = 3'b101;
 #15
@@ -351,13 +351,13 @@ begin
 
   // the following set of tests are for: clear
 
-  // clear from 101, not enough time for output to fall/rise
+  // asynchronous clear from 101, not enough time for output to fall/rise
   Clear_bar = 3'b000;
 #2
   tbassert(Q == 3'b101, "Test 31");
   tbassert(Q_bar == 3'b010, "Test 31");
 #5
-  // clear from 101 -> output 0s
+  // asynchronous clear from 101 -> output 0s
   tbassert(Q == 3'b000, "Test 31");
   tbassert(Q_bar == 3'b111, "Test 31");
 #150
@@ -382,18 +382,20 @@ begin
   J = 3'b111;
   K = 3'b111;
 #15
-  // clear from 011 in contention with toggle (at clock edge in second and third blocks)
+  // asynchronous clear from 011 in contention with toggle (at clock edge in
+  // second and third blocks)
   Clear_bar = 3'b000;
   Clk = 3'b001;
 #2
   tbassert(Q == 3'b011, "Test 33");
   tbassert(Q_bar == 3'b100, "Test 33");
 #5
-  // clear from 011 in contention with toggle -> output 0s
+  // asynchronous clear from 011 in contention with toggle -> output 0s
   tbassert(Q == 3'b000, "Test 33");
   tbassert(Q_bar == 3'b111, "Test 33");
 #10
-  // clear from 011, apply clock edge in first block separately with null effect on output
+  // asynchronous clear from 011, apply clock edge in first block separately with null effect on
+  // output
   Clk[0] = 1'b0;
 #7
   tbassert(Q == 3'b000, "Test 33");
@@ -463,7 +465,7 @@ begin
   J = 3'b110;
   K = 3'b101;
 #40
-  // clear from 011 in contention with load and toggle (at clock edge in
+  // asynchronous clear from 011 in contention with load and toggle (at clock edge in
   // second and third blocks)
   Clear_bar = 3'b000;
   Clk = 3'b001;
@@ -471,11 +473,12 @@ begin
   tbassert(Q == 3'b011, "Test 36");
   tbassert(Q_bar == 3'b100, "Test 36");
 #5
-  // clear from 011 in contention with load and toggle -> output 0s
+  // asynchronous clear from 011 in contention with load and toggle -> output 0s
   tbassert(Q == 3'b000, "Test 36");
   tbassert(Q_bar == 3'b111, "Test 36");
 #10
-  // clear from 011, apply clock edge in first block separately with null effect on output
+  // asynchronous clear from 011, apply clock edge in first block separately with null effect on
+  // output
   Clk[0] = 1'b0;
 #7
   tbassert(Q == 3'b000, "Test 37");

@@ -4,8 +4,8 @@
 
 [topdesc]: #desc
 
-### Differences This Branch &rarr; master
-> [Compare](https://github.com/TimRudy/ice-chips-verilog/compare/master...TimRudy:NonFPGACycleAccurateModels)
+### Differences master &larr; This Branch
+> [Compare](https://github.com/TimRudy/ice-chips-verilog/compare/NonFPGACycleAccurateModels...TimRudy:master)
 
 [ico-travisci]: images/passed.svg
 

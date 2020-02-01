@@ -1,5 +1,8 @@
 // Test: Dual J-K flip-flop with set and clear; negative-edge-triggered
 
+// Note: Preset_bar is synchronous, not asynchronous as specified in datasheet for this device,
+//       in order to meet requirements for FPGA circuit design (see IceChips Technical Notes)
+
 module test;
 
 `TBASSERT_METHOD(tbassert)
@@ -516,11 +519,21 @@ begin
 
   // the following set of tests are for: preset
 
-  // preset from 000, not enough time for output to rise/fall
+  //-------- begin workaround: preset is not actually asynchronous, have to use a clock --------//
+  // preset from 000, wait for clock edge
   Preset_bar = 3'b000;
+#15
+  tbassert(Q == 3'b000, "Test 39");
+  tbassert(Q_bar == 3'b111, "Test 39");
+#0
+  // preset from 000, not enough time for output to rise/fall
+  Clk = 3'b000;
 #2
   tbassert(Q == 3'b000, "Test 39");
   tbassert(Q_bar == 3'b111, "Test 39");
+#13
+  Clk = 3'b111;
+  //-------- end workaround --------------------------------------------------------------------//
 #5
   // preset from 000 -> output 1s
   tbassert(Q == 3'b111, "Test 39");
@@ -547,20 +560,37 @@ begin
   J = 3'b111;
   K = 3'b111;
 #15
-  // preset from 011 in contention with toggle (at clock edge in
+  //-------- begin workaround: preset is not actually asynchronous, have to use a clock --------//
+  //--------                   and have to use setup and hold times                     --------//
+  // cannot preset from 011 in contention with toggle (after clock edge in
   // second and third blocks)
-  Preset_bar = 3'b000;
   Clk = 3'b001;
 #2
   tbassert(Q == 3'b011, "Test 41");
   tbassert(Q_bar == 3'b100, "Test 41");
 #5
-  // preset from 011 in contention with toggle -> output 1s
-  tbassert(Q == 3'b111, "Test 41");
-  tbassert(Q_bar == 3'b000, "Test 41");
+  // cannot preset from 011 in contention with toggle (after clock edge in
+  // second and third blocks) -> output in second block is 0
+  tbassert(Q == 3'b101, "Test 41");
+  tbassert(Q_bar == 3'b010, "Test 41");
+#0
+  Preset_bar = 3'b000;
+#10
+  tbassert(Q == 3'b101, "Test 41");
+  tbassert(Q_bar == 3'b010, "Test 41");
 #10
   // preset, apply clock edge in first block separately with null effect on output
   Clk[0] = 1'b0;
+#10
+  tbassert(Q == 3'b101, "Test 41");
+  tbassert(Q_bar == 3'b010, "Test 41");
+#5
+  // preset, end clock pulse in second block
+  Clk[1] = 1'b1;
+#15
+  // preset, apply clock edge in second block separately -> output in second block is 1
+  Clk[1] = 1'b0;
+  //-------- end workaround --------------------------------------------------------------------//
 #7
   tbassert(Q == 3'b111, "Test 41");
   tbassert(Q_bar == 3'b000, "Test 41");
@@ -606,8 +636,14 @@ begin
   J = 3'b010;
   K = 3'b011;
 #15
+  //-------- begin workaround: preset is not actually asynchronous, have to use a clock --------//
   // preset third block separately -> output 101
   Preset_bar[2] = 1'b0;
+#10
+  Clk[2] = 1'b0;
+#15
+  Clk[2] = 1'b1;
+  //-------- end workaround --------------------------------------------------------------------//
 #20
   tbassert(Q == 3'b101, "Test 43");
   tbassert(Q_bar == 3'b010, "Test 43");
@@ -629,20 +665,37 @@ begin
   J = 3'b110;
   K = 3'b011;
 #40
-  // preset from 010 in contention with load and toggle (at clock edge in
+  //-------- begin workaround: preset is not actually asynchronous, have to use a clock --------//
+  //--------                   and have to use setup and hold times                     --------//
+  // cannot preset from 010 in contention with load and toggle (after clock edge in
   // second and third blocks)
-  Preset_bar = 3'b000;
   Clk = 3'b001;
 #2
   tbassert(Q == 3'b010, "Test 44");
   tbassert(Q_bar == 3'b101, "Test 44");
 #5
-  // preset from 010 in contention with load and toggle -> output 1s
-  tbassert(Q == 3'b111, "Test 44");
-  tbassert(Q_bar == 3'b000, "Test 44");
+  // cannot preset from 010 in contention with load and toggle (after clock edge in
+  // second and third blocks) -> output in second block is 0
+  tbassert(Q == 3'b100, "Test 44");
+  tbassert(Q_bar == 3'b011, "Test 44");
+#0
+  Preset_bar = 3'b000;
 #10
-  // preset from 010, apply clock edge in first block separately with null effect on output
+  tbassert(Q == 3'b100, "Test 44");
+  tbassert(Q_bar == 3'b011, "Test 44");
+#10
+  // preset, apply clock edge in first block separately -> output in first block is 1
   Clk[0] = 1'b0;
+#10
+  tbassert(Q == 3'b101, "Test 44");
+  tbassert(Q_bar == 3'b010, "Test 44");
+#5
+  // preset, end clock pulse in second block
+  Clk[1] = 1'b1;
+#15
+  // preset, apply clock edge in second block separately -> output in second block is 1
+  Clk[1] = 1'b0;
+  //-------- end workaround --------------------------------------------------------------------//
 #7
   tbassert(Q == 3'b111, "Test 45");
   tbassert(Q_bar == 3'b000, "Test 45");

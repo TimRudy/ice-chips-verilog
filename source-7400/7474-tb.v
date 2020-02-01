@@ -1,5 +1,8 @@
 // Test: Dual D flip-flop with set and clear; positive-edge-triggered
 
+// Note: Preset_bar is synchronous, not asynchronous as specified in datasheet for this device,
+//       in order to meet requirements for FPGA circuit design (see IceChips Technical Notes)
+
 module test;
 
 `TBASSERT_METHOD(tbassert)
@@ -363,11 +366,23 @@ begin
   Clear_bar = 3'bxxx;
   Clk = 3'bxxx;
 #15
-  // preset from initial state, not enough time for output to rise/fall
+  //-------- begin workaround: preset is not actually asynchronous, have to use a clock --------//
+  // preset from initial state, with clock
+  Preset_bar = 3'b111;
+  Clk = 3'b111;
+#15
+  // preset from initial state, wait for clock edge
   Preset_bar = 3'b000;
+  Clk = 3'b000;
+#15
+  // preset from initial state, not enough time for output to rise/fall
+  Clk = 3'b111;
 #2
   tbassert(Q === 3'bxxx, "Test 17");
   tbassert(Q_bar === 3'bxxx, "Test 17");
+#15
+  Clk = 3'bxxx;
+  //-------- end workaround --------------------------------------------------------------------//
 #5
   // preset from initial state -> output 1s
   tbassert(Q == 3'b111, "Test 17");
@@ -429,16 +444,19 @@ begin
   // set up different data input value
   D = 3'b010;
 #15
-  // preset third block separately -> output 100
+  //-------- begin workaround: preset is not actually asynchronous, have to use a clock --------//
+  //--------                   and have to use setup and hold times                     --------//
+  // preset third block separately, wait for clock edge
   Preset_bar[2] = 1'b0;
+#15
+  // preset third block separately -> output 100
+  Clk[2] = 1'b1;
 #20
   tbassert(Q == 3'b100, "Test 19");
   tbassert(Q_bar == 3'b011, "Test 19");
 #0
-  // preset first and second blocks separately in contention with load (at clock edge in
+  // cannot preset first and second blocks in contention with load (after clock edge in
   // first and second blocks)
-  Preset_bar[0] = 1'b0;
-  Preset_bar[1] = 1'b0;
   // D = 3'b010;
   Clk[0] = 1'b1;
   Clk[1] = 1'b1;
@@ -446,12 +464,26 @@ begin
   tbassert(Q == 3'b100, "Test 20");
   tbassert(Q_bar == 3'b011, "Test 20");
 #5
-  // preset first and second blocks separately in contention with load (at clock edge in
-  // first and second blocks) -> output 1s
-  tbassert(Q == 3'b111, "Test 20");
-  tbassert(Q_bar == 3'b000, "Test 20");
+  // cannot preset first and second blocks in contention with load (after clock edge in
+  // first and second blocks) -> output in first block is 0
+  tbassert(Q == 3'b110, "Test 20");
+  tbassert(Q_bar == 3'b001, "Test 20");
+#0
+  Preset_bar[0] = 1'b0;
+  Preset_bar[1] = 1'b0;
 #15
+  Clk = 3'b000;
+#7
   Preset_bar = 3'b111;
+#15
+  tbassert(Q == 3'b110, "Test 20");
+  tbassert(Q_bar == 3'b001, "Test 20");
+#0
+  // load new value
+  D = 3'b111;
+#15
+  Clk = 3'b111;
+  //-------- end workaround --------------------------------------------------------------------//
 #25
   Clk = 3'b000;
 #15

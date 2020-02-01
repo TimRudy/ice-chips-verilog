@@ -8,4 +8,5 @@
 .gitignore     export-ignore
 .travis.yml    export-ignore
 
+.gitattributes linguist-generated=true
 README.md      linguist-generated=true

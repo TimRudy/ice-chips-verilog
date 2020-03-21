@@ -63,7 +63,7 @@ begin
       end
     endcase
 
-    // the following set of tests is affected by the cascading inputs:
+    // the following set of tests show the result is affected by the cascading inputs:
     // since A and B are equal, the output result is equality only if input Equal_in
     // is set; otherwise the output result tracks input ALess_in or input AGreater_in
 
@@ -186,7 +186,7 @@ begin
     tbassert2R(AGreater_out == AGreater_in, "Test", "12", i);
 #0
 
-    // the following set of tests is unaffected by the cascading inputs
+    // the following set of tests show the result is unaffected by the cascading inputs
     // (except for some set-ups of equality in the main inputs A and B)
 
     // single low bit set -> greater than

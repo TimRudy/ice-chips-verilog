@@ -228,7 +228,7 @@ begin
   // 1. floating inputs behind any leading zero do not affect the output
 
   // 2. inputs that may affect the output must be tied to high or low logic voltage level
-  //    (e.g. pull-up resistor), so floating input at leading bit position is not tested
+  //    (e.g. pull-up resistor); therefore floating input at leading bit position is not tested
   //    and should not be simulated
 
   EI_bar = 1'b0;

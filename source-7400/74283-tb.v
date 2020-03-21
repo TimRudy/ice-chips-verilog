@@ -257,7 +257,8 @@ begin
   tbassert(C_out == 1'b1, "Test 14");
 #0
 
-  // change between input bits that are set to ones with null effect on outputs
+  // the following set of tests show transitions between input bits that are set to ones
+  // with null effect on outputs
 
   // 3 + 5 + Carry 0 -> 8
   A = 5'b00011;

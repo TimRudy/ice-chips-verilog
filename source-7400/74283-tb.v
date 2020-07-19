@@ -33,7 +33,7 @@ begin
   $dumpfile("74283-tb.vcd");
   $dumpvars;
 
-  // all zeroes -> 0s
+  // all zeroes + Carry 0 -> Sum all 0s + Carry 0
   A = {WIDTH{1'b0}};
   B = {WIDTH{1'b0}};
   C_in = 1'b0;
@@ -41,7 +41,7 @@ begin
   tbassert(Sum == 5'b00000, "Test 1");
   tbassert(C_out == 1'b0, "Test 1");
 #0
-  // all ones (31 + 31 + 1) -> Sum all 1s (31) + Carry 1 (1<<5 == 32)
+  // all ones (31 + 31) + Carry 1 -> Sum all 1s (31) + Carry 1 (1<<5 == 32)
   A = {WIDTH{1'b1}};
   B = {WIDTH{1'b1}};
   C_in = 1'b1;
@@ -66,8 +66,9 @@ begin
     endcase
 
     // the following set of tests show the Carry output unaffected by the Carry input
+    // (Carry output is clear)
 
-    // 1 + 1 -> 2 + Carry
+    // 1 + 1 -> 2 + Carry input
     A = 5'b00001;
     B = 5'b00001;
 #10
@@ -75,7 +76,7 @@ begin
     case_tbassert2R(C_in == 1'b1, Sum == 5'b00011, "Test", "1", i);
     tbassert2R(C_out == 1'b0, "Test", "1", i);
 #0
-    // 1 + 2 -> 3 + Carry
+    // 1 + 2 -> 3 + Carry input
     // A = 5'b00001;
     B = 5'b00010;
 #10
@@ -94,7 +95,7 @@ begin
 
     // the following set of tests show the Carry output affected by the Carry input
 
-    // zeroes on either side and all ones (0 + 31) -> Sum all 1s (31) + Carry
+    // zeroes on either side and all ones (0 + 31) -> Sum all 1s (31) + Carry input
     A = 5'b00000;
     B = 5'b11111;
 #10
@@ -112,7 +113,7 @@ begin
     case_tbassert2R(C_in == 1'b0, C_out == 1'b0, "Test", "5", i);
     case_tbassert2R(C_in == 1'b1, C_out == 1'b1, "Test", "5", i);
 #0
-    // 16 + 15 -> 31 + Carry
+    // 16 + 15 -> 31 + Carry input
     A = 5'b10000;
     B = 5'b01111;
 #10
@@ -121,7 +122,7 @@ begin
     case_tbassert2R(C_in == 1'b0, C_out == 1'b0, "Test", "6", i);
     case_tbassert2R(C_in == 1'b1, C_out == 1'b1, "Test", "6", i);
 #0
-    // all input bits transition from previous (15 + 16) -> 31 + Carry
+    // all input bits transition from previous (15 + 16) -> 31 + Carry input
     A = 5'b01111;
     B = 5'b10000;
     C_in = ~C_in;
@@ -135,8 +136,9 @@ begin
 #10
 
     // the following set of tests show the Carry output unaffected by the Carry input
+    // (Carry output is set)
 
-    // 16 + 16 -> 32 + Carry
+    // 16 + 16 -> 32 + Carry input
     A = 5'b10000;
     B = 5'b10000;
 #10
@@ -144,32 +146,36 @@ begin
     case_tbassert2R(C_in == 1'b1, Sum == 5'b00001, "Test", "8", i);
     tbassert2R(C_out == 1'b1, "Test", "8", i);
 #0
-    // 16 + 17 -> 33 + Carry
+    // 16 + 18 -> 34 + Carry input
+    // A = 5'b10000;
+    B = 5'b10010;
+#10
+    case_tbassert2R(C_in == 1'b0, Sum == 5'b00010, "Test", "9", i);
+    case_tbassert2R(C_in == 1'b1, Sum == 5'b00011, "Test", "9", i);
+    tbassert2R(C_out == 1'b1, "Test", "9", i);
+#0
+    // 16 + 17 -> 33 + Carry input
     // A = 5'b10000;
     B = 5'b10001;
 #10
-    case_tbassert2R(C_in == 1'b0, Sum == 5'b00001, "Test", "9", i);
-    case_tbassert2R(C_in == 1'b1, Sum == 5'b00010, "Test", "9", i);
-    tbassert2R(C_out == 1'b1, "Test", "9", i);
+    case_tbassert2R(C_in == 1'b0, Sum == 5'b00001, "Test", "10", i);
+    case_tbassert2R(C_in == 1'b1, Sum == 5'b00010, "Test", "10", i);
+    tbassert2R(C_out == 1'b1, "Test", "10", i);
 #0
-    // all input bits transition from previous (15 + 14) -> 29 + Carry
+
+    // the following set of tests show the Carry output unaffected by the Carry input
+    // (Carry output is clear)
+
+    // all input bits transition from previous (15 + 14) -> 29 + Carry input
     A = 5'b01111;
     B = 5'b01110;
     C_in = ~C_in;
 #10
-    case_tbassert2R(C_in == 1'b0, Sum == 5'b11101, "Test", "10", i);
-    case_tbassert2R(C_in == 1'b1, Sum == 5'b11110, "Test", "10", i);
-    tbassert2R(C_out == 1'b0, "Test", "10", i);
+    case_tbassert2R(C_in == 1'b0, Sum == 5'b11101, "Test", "11", i);
+    case_tbassert2R(C_in == 1'b1, Sum == 5'b11110, "Test", "11", i);
+    tbassert2R(C_out == 1'b0, "Test", "11", i);
 #0
     C_in = ~C_in;
-#10
-    // 16 + 18 -> 34 + Carry
-    A = 5'b10000;
-    B = 5'b10010;
-#10
-    case_tbassert2R(C_in == 1'b0, Sum == 5'b00010, "Test", "11", i);
-    case_tbassert2R(C_in == 1'b1, Sum == 5'b00011, "Test", "11", i);
-    tbassert2R(C_out == 1'b1, "Test", "11", i);
 
   end
 

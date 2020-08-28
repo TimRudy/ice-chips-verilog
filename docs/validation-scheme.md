@@ -153,16 +153,16 @@ There are some implicit aspects, some real-world assumptions that require commen
 
 ## <!-- -->
 
-[struct-detail]: #struct-detail
+<a name="struct-detail"></a>
 ### Notes and details about generated code structure
 
 For the "DELAY" parameters seen in the example, just a quick note that these are declared on the left-hand side only, and they are present in the output assignments, because the primary purpose of the LHS, the module, is to run simulations and tests. The parameters affect the time domain, the response time of a simulated circuit element, so they're useful and can be very important to model a real-world circuit. (Think of a clocked, synchronous digital circuit, in which settling time to each stable state must account for switching delay and propagation delay.)
 
 On the other hand, the primary purpose of the RHS is synthesis of a real circuit - logic gates and components. Synthesis, as opposed to simulation, targets a real circuit output and there is no artificial parametrization provided for delays.
 
+<a name="test-bench-desc"></a>
 ### What is a good test bench?
 
-[test-bench-desc]: #test-bench-desc
 The policy and guidelines that I take a stab at use an engineering or pragmatic technology point of view to manage this library.
 
 The verification of behaviour of a device is not going to be mathematical (Formal Verification); it is more in the spirit of what a commercial or legal contract provides, stating the detailed description of the device, its functions and transformations, and stating that it conforms to the same, as a sign-off of quality from the provider.

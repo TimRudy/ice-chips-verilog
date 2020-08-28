@@ -40,8 +40,6 @@ As to what is happening for a typical pair of files, let's take a look.
 Compare the 7485.v file (left) to the Verilog code inside 7485_Comparator.ice (right):
 
 <img src="/images/7485_compare.png" title="Compare Verilog content" width="100%">
-<br />
-<br />
 
 Here's the context of these two pieces of code, for a quick recap:
 

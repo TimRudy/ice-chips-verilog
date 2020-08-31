@@ -19,7 +19,7 @@ class FsHelper {
 				targetDirectory = defaultDirectory + targetDirectory;
 			}
 
-			// put in canonical form of a directory (acts as a prefix)
+			// put in canonical form of a directory (it will act as a prefix)
 			if (!(targetDirectory.endsWith('/') || targetDirectory.endsWith('\\'))) {
 				targetDirectory = targetDirectory + '/';
 			}

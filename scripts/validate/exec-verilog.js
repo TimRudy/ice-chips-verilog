@@ -1,6 +1,7 @@
 // exec-verilog.js
 //
-// - validate every IC device '*.v' by running it through its test bench '*-tb.v'
+// - validate every IC device '*.v' by running it through its test bench '*-tb.v', and
+//   enforce that there is a test bench for every device
 //
 // - argument (optional): top level directory of the project
 //
@@ -42,7 +43,7 @@ class VerilogTestBenchHelper {
 						throw 'No test bench file: ' + testBenchFilePath;
 					}
 
-					// collect the logged output from executing iverilog and vvp externally
+					// collect the logged output from executing command line iverilog and vvp
 					deviceTestOutput = this.execDeviceTests(testBenchFilePath,
 															deviceFilePath,
 															includesDirectoryPath,

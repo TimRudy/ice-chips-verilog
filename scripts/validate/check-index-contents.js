@@ -74,8 +74,8 @@ class IndexFileDeviceFilesHelper {
 			}
 		}
 
-		console.log('Passed');
-		return 'Passed';
+		console.log('Passed: Index contents');
+		return 'Passed: Index contents';
 	}
 }
 
@@ -98,6 +98,7 @@ deviceFilePathList = walkSync(fsHelper.getBasePathFromDirectoryPath(baseDirector
 	],
 	ignore: [
 		'**/*-tb.v',
+		'docs/**',
 		'images/**',
 		'includes/**',
 		'scripts/**'

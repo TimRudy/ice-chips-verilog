@@ -1,15 +1,64 @@
 ## The Validation Contract
 
-[top-intro]: #desc
-Validation means running the code here on the GitHub site through the program "iverilog" to test it; and that's only done once, if and when the code changes.
+Test benches are provided to give complete confidence in the published code. This note, however, will explain how the test bench stamp of approval translates into an overall site guarantee. It's a discussion of the site infrastructure for providing structured code, code that is validated reliably and completely.
 
-The .ice file that you download and use in Icestudio, however, is indirectly tested; its working code is shared in common with the .v file, but some parts of the code are not in common, as you see in the file comparison below.
+A main question is how the .ice component file that you download and use in Icestudio is tested (with a guarantee), when it is the .v file source code published here that is explicitly run through a test. You would say the .ice file is tested indirectly. So is there a role for human error in all this? Hint: Read on, Macduff.
+
+<details>
+<summary>Outline</summary>
+<br />
+
+&ensp;&ensp;[Problem Statement](#problem-statement)
+
+&ensp;&ensp;[Requirements](#requirements) · problem goes away if 3 requirements are met
+
+&ensp;&ensp;[Solution](#solution) · an Automation script
+
+&ensp;&ensp;[Verilog Structure](#verilog-structure) · examining the .v and .ice code -> statement of no essential differences between them
+
+&ensp;&ensp;[Proof is in the Outputting](#proof-is-in-the-outputting)
+
+&ensp;&ensp;&ensp;&ensp;[File content and structure](#file-content-and-structure) · how the two files are the same and the abstractions they are based on
+
+&ensp;&ensp;&ensp;&ensp;[Code-generation script](#code-generation-script) · what the Automation script does exactly
+
+&ensp;&ensp;[The Contract](#the-contract)
+
+&ensp;&ensp;&ensp;&ensp;[Preamble](#preamble) · Automation is actually one unit of work, with two artifacts (files) as output
+
+&ensp;&ensp;&ensp;&ensp;[Statement](#statement) · Validation applies equally to all published file versions
+
+&ensp;&ensp;&ensp;&ensp;[Coda](#coda) · list of 4 assumptions and questions, with affirmative answers
+
+&ensp;&ensp;[Appendices](#appendices)
+
+&ensp;&ensp;&ensp;&ensp;[Notes and details about generated code structure](#notes-and-details-about-generated-code-structure)
+
+&ensp;&ensp;&ensp;&ensp;[What is a good test bench?](#what-is-a-good-test-bench) · goal, policy & guidelines
+
+</details>
+
+### Problem Statement
+
+Validation means running the code here on the GitHub site through the program "iverilog" to test it; this happens once, if and when the code changes.
+
+The validation step runs the Device Under Test (DUT), the 74xx.v file, with its test bench the 74xx-tb.v file.
+
+The .ice file (component within the Icestudio collection) is seen on the right-hand side in this example comparison. Note its working code is shared in common with the .v file - which if there's one thing I'd like you to take away from this today, is the thing to remember; and then other parts of the code are not in common - which is a problem statement.
+
+**7485.v file (left) compared to the Verilog code in 7485_Comparator.ice (right):**
+
+<img src="/images/7485_compare.png" title="Compare Verilog content" width="100%">
+<br />
+<br />
 
 I can guarantee you the .ice component is signed off, verified and validated.
 
-How? Well, the validation step runs the Device Under Test (DUT), the 74xx.v file, with its test bench the 74xx-tb.v file. So for the .ice component, validation relies on three specifics:
+How?
 
 ### Requirements
+
+Well, from the .ice file point of view, validation relies on three specifics:
 
 1. It relies on the fact that between the .v file and the .ice file, the Verilog working code is an identical copy.
 
@@ -19,31 +68,31 @@ How? Well, the validation step runs the Device Under Test (DUT), the 74xx.v file
 
     This second criterion is deeply important since we are talking about validation. It addresses some questions:
 
-    - Could you be seeing a good old copy-pasting job if you open and compare the files to check them?
+    - Are you looking at a good copy-pasting job if you open and compare the files to check them?
 
     - Worse - Could the code in a file be tweaked? Could code that **was at one time** identical be, temporarily, not identical awaiting the next proper release?! ..."There was a slight issue and we are working on it."
 
     No. There won't be errors and shoddy handling. It's not going to happen.
 
-3. It relies on the same kind of guarantee that no error can be introduced in the extra, non-shared code, which is a mapping layer between the .v and .ice file pair.
+3. It relies on the same kind of guarantee that no error can be introduced in the extra, non-shared code (i.e. header and footer), which is a mapping layer between the .v and .ice file pair.
 
-    Same comment as above.
+    Same comment: No. There won't be any errors.
 
 ### Solution
 
-A site-level or "infrastructure" guarantee takes care of the two files sharing their code, and this is the Automation feature of IceChips. It generates and concatenates Verilog, including the "write-once" portion supplied by human input, and publishes the files. You'll be hearing more about it.
+A site-level or "infrastructure" guarantee takes care of the two files sharing their code, and this is the Automation feature of IceChips. It generates and concatenates Verilog, including the "write-once" portion supplied by human input, and publishes the files. All three requirements are met by the code-generation script.
 
-As to what is happening for a typical pair of files, let's take a look.
+The diff of the 7485 files represents a typical pair of files. The next section goes through details and explanation, with reference to Verilog. (You know or you're learning Verilog, right?) If you don't have time, skip ahead. In the following section, Proof, we'll come back to code-generation and tie it to the Validation Contract for this project.
 
 ### Verilog Structure
 
-Compare the 7485.v file (left) to the Verilog code inside 7485_Comparator.ice (right):
+Here is a run-down of the relationship of the two sides; how the Verilog you see comprises four sections; and how the high-level structure of four sections is always the same, in fact, for any IceChips device.
 
-<img src="/images/7485_compare.png" title="Compare Verilog content" width="100%">
+<details>
+<summary>Side-by-side</summary>
+<br />
 
-Here's the context of these two pieces of code, for a quick recap:
-
-#### Side-by-side
+The context of the two pieces of code, for a quick recap:
 
 - **The left-hand side** is a **module**. That's the basic unit of packaging up Verilog, and the basic unit of hierarchy in a Verilog design or circuit schematic (also referred to as a component or device). A module can be composed of nested modules; a module can have parameters (see top line) that allow for reuse of the same code in a different use case, such as instantiating it with a different number of bits.
 
@@ -61,43 +110,58 @@ Here's the context of these two pieces of code, for a quick recap:
 
     This is Verilog without the module wrapper; all redundancy is removed for user convenience; but Icestudio wraps this code in a module internally.
 
-    On the right-hand side a central concern is to group related pins of the component into vectors (see the assign lines). "A" and "B" are the vectors; the other variables are single pins/single bits.
+    On the right-hand side, a central concern is to group related pins of the component into vectors (see the assign lines). "A" and "B" are the vectors; the other variables are single pins/single bits.
 
-#### Top-to-bottom
+</details>
+<br />
 
-I was thinking the identical section would stand out the most in this code diff. It's supposed to; but the non-identical sections seem to catch the eye. Anyway, the really important thing is not apparent from looking at only one example... that the high-level structure of the Verilog in IceChips is **always the same** and it's of this form:
+<details>
+<summary>Top-to-bottom</summary>
+<br />
 
-- First, the declaration of the interface (I/O list) - Parameters are included as a prerequisite
+I was thinking the identical section would stand out the most in the code diff. It's supposed to; but the non-identical sections seem to catch the eye. Anyway, the important thing that is not apparent from only looking at one example... is that the high-level structure of the Verilog in IceChips is **always the same** and it's of this form:
 
-- Second, the required variables - These comprise all the computed results; other ones may be present to track intermediates
+- First, the declaration of the interface (I/O list) - Parameters are included as a prerequisite;
 
-- Third, the actual "procedural" Verilog code, the portion that implements the functionality and is written by the developer - Horizontal dividers in the .v file delineate where this code was inserted by human intervention
+- Second, the required variables - These comprise all the computed results; other ones may be present to track intermediates;
 
-- Fourth, assignments - These connect the inside (Verilog program code) to the outside by wiring to the ports of the interface
+- Third, the actual "procedural" Verilog code, the portion that implements the functionality and is written by the developer - Horizontal dividers in the .v file delineate where this code was inserted by human intervention;
 
-The take-away?
+- Fourth, assignments - These connect the inside (Verilog program code) to the outside by wiring to the ports of the interface.
 
-All the highlighted lines - the first and fourth segments, that is - are just plumbing code. They're declarative: the code constitutes variable and wire declarations, then wire connections. All of this deals specifically with the I/Os; the I/Os are pre-determined elements; so, the bottom line is this code is all amenable to auto-generation.
+(As a side note, if one enumerates sub-sections also, to take a more fine-grained view of the above, then the structure of the Verilog is still always the same for every IceChips device. Consistent ordering schemes ensure this. There are 3 sub-sections within the first section; being parameters, inputs, then outputs. There are 2 sub-sections within the second section, being output results variables and other, intermediate variables. There are 2 sub-sections within the fourth section, being always the inputs followed by the outputs. That is 8 total.)
 
-Skip ahead to next section where the topic of auto-generation is tied back to validation, and trust, and integrity.
+</details>
+<br />
 
-#### The essential differences?
+<details>
+<summary>The essential differences</summary>
+<br />
 
-There is a satisfying regularity to the lines that are different, and the segments of code are all "structurally identical" if you know the prescribed purpose of each line.
+The segments of code, side-by-side, are all "structurally identical". One can see how, if one knows the prescribed purpose of each line.
 
-Take a look again at the diff.
+Refer again to the diff.
 
-5 wires on the right-hand side (RHS) put in an appearance - but they replicate the 5 inputs on the LHS. Each of these 5 declaration lines then gets an assign statement at the bottom; 10 lines of extra code on RHS; these recreate the "input" line semantics of the LHS - structurally identical, bringing in the same amount of data, but with the noticeable incorporation of named individual pins that are part of the .ice component.
+5 wires on the right-hand side (RHS) put in an appearance - but they replicate the 5 inputs on the LHS. Each of these 5 declaration lines then gets an assign statement at the bottom; 10 lines of extra code on RHS; these recreate the "input" line semantics of the LHS. It is structurally identical, bringing in the same amount of data, but the noticeable difference in detail on the RHS is incorporating named individual pins that are part of the .ice component.
 
 For the 3 outputs on the LHS, replication like the above is not needed. The 3 assign statements for outputs match up on both sides, just with named pins on the RHS; they're in place of the "output" line variables on the LHS.
 
-In other words, there are no essential differences. (I give some more details [later on this page](#struct-detail) that explain the "DELAY" parameters if you are curious.)
+</details>
+<br />
+
+The take-away from the top-to-bottom view?
+
+All the highlighted lines - the first and fourth segments, that is - are just plumbing code. They're declarative: the code constitutes variable and wire declarations, then wire connections. All of this deals specifically with the I/Os of the device; the I/O list is pre-determined; so the take-away is this code is all amenable to auto-generation.
+
+The take-away from the essential differences?
+
+There are no essential differences. (I give more details [later on this page](#notes-and-details-about-generated-code-structure) that explain the "DELAY" parameters if you are curious.)
 
 ### Proof is in the Outputting
 
 The concluding point is that Automation, which is code-generation, creates these files.
 
-A template or skeleton is created, with the I/O definitions and wiring making up a header and footer, as you see above in the example. Logic code that forms the guts of the file is added.
+A template or skeleton is created. I/O definitions make up a header, and wiring makes up a footer, essentially, as seen in the example 7485. Logic code forms the guts of the file.
 
 #### File content and structure:
 
@@ -105,25 +169,27 @@ A template or skeleton is created, with the I/O definitions and wiring making up
 
 - The non-identical segments are declarative code only, constituting wrappers;
 
-- The wrappers are basically wiring; for example, one wiring function is to collate scalar elements into vectors; on the LHS, vectors are part of the abstraction and are implicit - on the RHS vectors are constructed: the abstract from the concrete;
+- The wrappers are basically wiring; for example, one wiring function is to collate scalar elements into vectors. On the LHS, vectors are part of the abstraction and are implicit - on the RHS, vectors are constructed: the abstract from the concrete;
 
 - Abstractions are used in the logic code; they're what makes the code identical.
 
 #### Code-generation script:
 
-- Starts with metadata which gives the "form-factor" of a device; that is, the names and the ordering of its input and output ports;
+- Starts with metadata which gives the "form-factor" of a device; that is, the names and ordering of its input and output ports;
 
 - Provides the rolling up of pins such as "{... pin12_A1, pin10_A0}" to a vector "A";
 
 - Generates skeleton .v and .ice files;
 
-- Clones the common code block, written by human developer, from .v file to .ice file thus completing the files.
+- Clones the common code block, written by human developer, from .v file to .ice file, thus completing the files.
 
-The Automation code is a "generate" script (that I've not yet published).
+I've not yet published the "generate" script. You'll be hearing more about it, to be mentioned on the Wiki.
 
-Think of the simulated Integrated Circuit like an Integrated Circuit: The header and footer of the file, the code-generated part, is like a DIP package with metal pins - it provides a given form-factor. The logic code put in the file is like the silicon chip, fresh from the fab line, that's dropped in and bonded inside.
+Think of the simulated Integrated Circuit like an Integrated Circuit: The header and footer of the file, the code-generated part, is like the DIP package with the complement of metal pins - it provides a given form-factor. The logic code put in the file is like the silicon chip, fresh from the fab line, that's dropped in and bonded inside.
 
-#### Contract:
+### The Contract
+
+#### Preamble:
 
 The responsibility to physically handle and publish the files is built into IceChips Automation.
 
@@ -131,65 +197,71 @@ The responsibility to physically handle and publish the files is built into IceC
 
 - The creation of those files is, in fact, one logical unit of work - there happen to be two artifacts coming out.
 
-It's a basis for the contract:
+That's the basis for the contract: The Automation handles the .ice file "essential commonality" to its counterpart, and lends repeatability and a closed-ended nature to the process of validation.
+
+#### Statement:
 
 - Every device published in the library is validated by test bench, and the validation applies equally to both .v and .ice versions of the device.
 
 This completes the "steps in the proof" that your .ice device has been validated.
 
-#### What about?
+#### Coda:
 
 There are some implicit aspects, some real-world assumptions that require comment:
 
-1. **Validation step is performed.** Yes, the Verilog is run using ["iverilog"][link-iverilogu], to get a Pass or Fail from each test bench. This is a separate part of Automation. It's tied in with publishing to GitHub using Travis CI. Observe there is a [![Build Status][ico-travisci]][link-travisci] badge near the main title of the README, and you can click on it to see Travis CI's results of the validation run.
+1. **Validation step is performed.** Yes, the Verilog is run using ["iverilog"][link-iverilogu], getting a Pass or Fail from each test bench. This is a separate part of Automation. It's tied in with publishing to GitHub using Travis CI. Observe there is a [![Build Status][ico-travisci]][link-travisci] badge near the main title of the README, and you can click on it to see Travis CI's results of the validation run.
 
     For those interested in the technicals about this, look in the [scripts folder](/scripts/validate "scripts and validate folders"), and see [package.json](/scripts/package.json "package.json") which includes the entry point "npm test".
 
 2. **There is a test bench.** The extremely skeptical and the subversives need to know: the validation step when publishing to GitHub requires a test bench paired with each device file, by automated check, not just by policy; so there will never be a device published without its test bench being completed.
 
-3. **The test bench could be bogus?** This gets a bit personal; but you can refer to the community for community review of test benches, because they are all published. I provide [my perspective on tests below](#test-bench-desc).
+3. **The test bench could be bogus?** This gets a bit personal; but you can refer to the community for community review of test benches, because they are all published. I provide [my perspective on tests below](#what-is-a-good-test-bench).
 
-4. **Automation script exists.** The IceChips "generate" script needs to be published with the library for community review, as a pillar of the claims leading to the validation contract. True. We are working on this. (There was just a little issue: The code is ugly and needs to be cleaned up.)
+4. **Automation script exists.** The IceChips "generate" script needs to be published with the library for community review, as a pillar of the claims leading to the Validation Contract. True. We are working on this. (There was just a little issue: The code is ugly and needs to be cleaned up.)
 
 ## <!-- -->
 
-<a name="struct-detail"></a>
-### Notes and details about generated code structure
+### Appendices
 
-For the "DELAY" parameters seen in the example, just a quick note that these are declared on the left-hand side only, and they are present in the output assignments, because the primary purpose of the LHS, the module, is to run simulations and tests. The parameters affect the time domain, the response time of a simulated circuit element, so they're useful and can be very important to model a real-world circuit. (Think of a clocked, synchronous digital circuit, in which settling time to each stable state must account for switching delay and propagation delay.)
+#### Notes and details about generated code structure
 
-On the other hand, the primary purpose of the RHS is synthesis of a real circuit - logic gates and components. Synthesis, as opposed to simulation, targets a real circuit output and there is no artificial parametrization provided for delays.
+For the "DELAY" parameters seen in the example, just a quick note that these are declared on the left-hand side only, and they are present in the output assignments, because the primary purpose of the LHS, the module, is to run simulations and tests. The parameters affect the time domain, the response time of a simulated circuit element, so they're useful and can be very important to model a real-world, clocked synchronous circuit.
 
-<a name="test-bench-desc"></a>
-### What is a good test bench?
+On the other hand, the primary purpose of the RHS is synthesis of a hardware circuit: logic gates and components. Synthesis, as opposed to simulation, targets these real circuit components and there is no artificial parametrization provided for delays.
 
-The policy and guidelines that I take a stab at use an engineering or pragmatic technology point of view to manage this library.
+#### What is a good test bench?
 
-The verification of behaviour of a device is not going to be mathematical (Formal Verification); it is more in the spirit of what a commercial or legal contract provides, stating the detailed description of the device, its functions and transformations, and stating that it conforms to the same, as a sign-off of quality from the provider.
+An "engineering" or pragmatic technologist's point of view is used in managing this library. I take a stab at policy and guidelines for the tests, below.
 
-The test bench, actually, states and makes explicit all those details of functions and transformations. It can be the contract. And whatever it provides, it is a signifier of quality too.
+Verification of device behaviour is not going to be mathematical (Formal Verification). It is more in the spirit of what a commercial or legal contract provides: stating the detailed description of the device, its functions and transformations, and stating that it conforms to the same, as a sign-off of quality from the provider.
 
-By the way, on a technical note... IceChips testing is a binary, Pass/Fail exercise, because tests are written with a set of macros. These are simply "assert" statements that log a failure message if the stated condition is not met. Take a look at tests in any test bench, for example [7485-tb.v](/source-7400/7485-tb.v "7485 test bench"), and see [tbhelper.v](/includes/tbhelper.v "Assert macros"). With Pass/Fail tests, the test bench is not just doing a demonstration run of the device, with a waveform result that needs to be interpreted.
+The test bench, actually, states and makes explicit all those details of functions and transformations. It stands as a contract. (If there is a gap discovered later, it can be adjudicated in the court of open source and remedied with a pull request.)
 
-#### Policy:
+I would just like to make the point that a test bench, and the effort put into it, is a signifier of quality too.
+
+By the way, on a technical note... IceChips testing is a binary, Pass/Fail exercise, because tests are written with a set of macros. These macros are "assert" statements that log a failure message if the stated condition is not met. Take a look at tests in any test bench, for example [7485-tb.v](/source-7400/7485-tb.v "7485 test bench"), and see [tbhelper.v](/includes/tbhelper.v "Assert macros"). Pass/Fail tests mean the test bench is not just doing a demonstration run of the device, with a waveform result that needs to be interpreted.
+
+##### Policy:
 
 The sequence of tests is intended to be comprehensive. It's intended to cover **the entire scope** of behaviour - which means running through all basic inputs (and examining all outputs); running through all mixtures and crosses of allowed inputs or a realistic sampling thereof (if not **all**, then certainly all that represent "interestingly" different mixtures); and a realistic sampling of the complete ranges of data values; a coverage of all edge-cases that are reasonably deduced from all inputs, outputs, complete ranges of data values, and the stated functionality; and all this with an awareness and an intentionality applied to the semantics of the data and semantics of the operations that the device applies.
 
-So two points, from opposite poles of this endeavour:
+##### Guidelines:
 
-#### Guidelines:
+Two guidelines, from opposite poles:
 
-1. **Good Cop.** In practice, life does not usually give the chance to prove everything with 100% coverage. Get the most value out of limited coverage that "explores the parameter space"; think about the [80%/20% rule][link-pareto]; do not be redundant, do not spend unneeded effort to reach an ideal of 100%. Certainly do not spend run-time looping through 100% of all possibilities if you do not demonstrate what is resulting inside the loops.
+1. **Good Cop.** In practice, life does not usually give the chance to prove everything with 100% coverage. Get the most value out of limited coverage that "explores the parameter space"; to guide whether your effort is adding value, think about the [80%/20% rule][link-pareto]; do not be redundant, do not spend unneeded effort to reach an ideal of 100%. Certainly do not spend run-time looping through 100% of all possibilities if you do not demonstrate what is resulting inside the loops.
 
-2. **Bad Cop.** Applied technology and testing are usually [not good enough][link-swbugs]. Use the advantages of Open Source - time, resources, extra thought? If there's any doubt, apply more diligence; aim for a defect-free product; write tests with excellence; cover the domain - and really, review to check if you covered it. Here on this hardware, the domain is thankfully limited, much narrower than in software.
+2. **Bad Cop.** Applied technology and testing are usually [not good enough][link-swbugs]. Use the advantages of Open Source - time, resources, extra thought? If there's any doubt, apply more diligence; the aim and goal of your work **must** be a defect-free product; cover the domain - and really: review later, to check if you covered it. The domain here on this hardware (compared to most software) is not that huge.
 
-The beauty of test suites (in software or hardware) is that they mean **doing it right**. Functionality that is unassailable, works right the first time, and doesn't break at a later time? Priceless.
+Working on a test suite late at night and it is boring...? Try to think of the long term; try to think of this:
 
-If Intel had put a test suite in place under this policy and guidelines, I'm going to suggest they would have caught their [Pentium floating-point divide bug][link-hwbug] of 1993. Running some number theory calculations covering a nice range, particularly using prime numbers, comparing the answers to reference numbers, would have forestalled cranking out $475 million in silicon paper weights.
+    Functionality that is unassailable, works right the first time, and doesn't break at a later time? Priceless.
+
+If Intel had put a test suite in place under this policy and guidelines, they would have caught their [Pentium floating-point divide bug][link-hwbug] of 1993. Covering a nice range, running some number theory calculations, particularly using prime numbers, and checking the exact results in tables, would have forestalled cranking out $475 million in silicon paper weights.
 
 [ico-travisci]: /images/passed.svg
 
-[link-travisci]: https://travis-ci.org/TimRudy/ice-chips-verilog
+[link-travisci]: https://travis-ci.com/TimRudy/ice-chips-verilog "See the latest build and test report"
 [link-iverilogu]: https://iverilog.fandom.com/wiki/User_Guide
 [link-pareto]: https://en.wikipedia.org/wiki/Pareto_principle
 [link-swbugs]: https://www.techrepublic.com/article/microsoft-fixes-windows-and-internet-explorer-zero-day-flaws-in-latest-patch-tuesday

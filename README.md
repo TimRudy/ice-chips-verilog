@@ -2,6 +2,7 @@
 <img src="images/proj_icon_b.svg" title="IceChips" align="right" vertical-align="top" width="3.484%">
 <img src="images/proj_icon_c.svg" title="IceChips" align="right" vertical-align="top" width="3.453%">
 <br />
+<br />
 
 # ice-chips-verilog
 
@@ -39,26 +40,26 @@ Welcome to virtual breadboarding.
 
 Icestudio provides circuit simulation (for digital circuits) that's arbitrarily scalable. Explore, build and create, but most importantly, get near-instant feedback in testing your real hardware design. Each time you add a new input or a gate, hit "Build" and "Upload". In the parlance of a silicon fab, you've gone through a "spin". But you're actually programming a reusable and fairly inexpensive FPGA.
 
-    CAD-style layout using drag and drop
+    CAD-style layout using drag & drop
         -> Full Verilog model
             -> Validation of design rules & connectivity
                 -> Synthesis of circuit
                     -> Bitstream to FPGA
                         -> Live circuit to test or put in-situ
 
-It's done with entirely open source tools (the IceStorm toolchain); and most of the magic is due to the representation in Hardware Description Language, i.e. Verilog, because HDL is translatable to H:
+It's done with entirely open source tools (the IceStorm toolchain); and most of the magic is due to the representation in Hardware Description Language, i.e. Verilog:
 
-- Once you have a system fully modelled in HDL, you have everything. The HDL is used to generate hardware in any way you require, in a process called [logic synthesis][link-wiki-synth]
+- Once you have a system fully modelled in HDL, you have everything: The HDL is used to generate hardware in any way you require, in a process called [logic synthesis][link-wiki-synth];
 
-- The toolchain can synthesize the circuit onto an expanding selection of FPGAs; see [Icestudio][link-icestudio] for details
+- The toolchain can synthesize the circuit onto an expanding selection of FPGAs; see [Icestudio][link-icestudio] for details;
 
-- What's cool about the Icestudio graphical editing, with internal Verilog, is the hierarchy, encapsulation and layering that it makes easy and explicit; this promotes compositional design; it means scalability and testability
+- Icestudio's graphical editing, with internal Verilog, makes it easy and explicit to work with the hierarchy and layering paradigm provided by Verilog; this promotes compositional design - being intentional about the boundary, the spec and the validation of each of your modules - which in turn means scalability and testability.
 
 ## Tests and Validation
 
 A test bench accompanies every device (74xx-tb.v file with 74xx.v file) and the tests are run automatically. Click on the "tests" badge below the main title at top of page to see the results of the validation run.
 
-Tests are a definitive feature of this library. They must be:
+Tests are a definitive feature of the library. They must be:
 
 1. Comprehensive
 2. Meaningful (each test adding value)
@@ -67,11 +68,9 @@ Tests are a definitive feature of this library. They must be:
 
 The tests are for documentation and transparency and create a kind of audit trail - that's in addition to their role in correctness!
 
-The tests are actively Pass/Fail, because they "assert" and they log a failure message if the stated condition is not met. They are not just doing a demonstration run of the device, with a waveform output. See more details in the Validation Contract and in the project code.
+The tests give a Pass/Fail result, using an "assert", logging a failure message if the stated condition is not met. They are not just doing a demonstration run of the device, with a waveform output. See more details in the Validation Contract and in the project code.
 
-Coverage will continue at the highest standard as the library expands going forward.
-
-You have to "trust but verify" when scaling up a hardware design from lower-layer components.
+You have to "trust but verify" when scaling up a hardware design from lower-layer components. Test coverage will continue at the highest standard as the library expands going forward.
 
 #### Validation Contract
 
@@ -107,7 +106,7 @@ With GTKWave installed, just click on the .vcd file to open.
 
 ## Technical Notes
 
-&ensp;&ensp;[Implementation info, quirks, challenges in the technology, usage notes, and some bibliographic and specialty interest links](docs/technical-notes.md)
+&ensp;&ensp;[Implementation info, challenges in the technology, quirks, usage notes, and some bibliographic links, specialty interest links](docs/technical-notes.md)
 
 ## Other Resources for your Digital Project
 
@@ -135,11 +134,11 @@ Clarification about this design flow versus PCB (Printed Circuit Board) flow:
 <summary>PCB design flow</summary>
 <br />
 
-Simulating and testing your design can put you in a position to populate your components onto a custom PCB (Printed Circuit Board) to be manufactured.
+Are you planning to populate your components onto a custom PCB (Printed Circuit Board)?
 
-You have a head start because you have a digital circuit that you know meets all its specs.
+You have a head start from simulating and testing your design, because now you know you have a digital circuit that meets all its specs.
 
-However, it's a different workflow area that you'll have to get into for a PCB: A different type of visual editing ("schematic capture"); placing, routing and design of layout for manufacture; verification of design rules - this time for geometric/electrical properties - for manufacture.
+However, it's a different workflow area that you'll have to get into to create a PCB: A different type of visual editing ("schematic capture"); placing, routing and design of layout for manufacture; verification of design rules for manufacture - this time for geometric/electrical properties.
 
 Note: Having said that, using 74xx standard parts will set you up well for using PCB software, since the parts are well-known and modelled for geometric/electrical properties.
 
@@ -182,13 +181,15 @@ Marcus Lindholm · SVG graphic design help
 
 ["TTL_74xx_DIL.m4"](https://fossies.org/linux/pcb/lib/TTL_74xx_DIL.m4) Thomas Nau, "diplib" in PCB for Linux distribution · chip and pin info
 
+#### Learning resources:
+
 [www.referencedesigner.com/tutorials](http://www.referencedesigner.com/tutorials/verilog/verilog_01.php) · practical intro to Verilog with examples, tutorials, quizzes
 
-[www.doulos.com/knowhow](https://www.doulos.com/knowhow/verilog_designers_guide/sequential_always_blocks) · practical intro to design and concepts in Verilog
+[www.doulos.com/knowhow](https://www.doulos.com/knowhow/verilog_designers_guide/sequential_always_blocks) · intro to design and concepts in Verilog
 
-[www.verilogpro.com](https://www.verilogpro.com/verilog-generate-configurable-rtl) · practical intro to generate loops and elaboration
+[www.verilogpro.com](https://www.verilogpro.com/verilog-generate-configurable-rtl) · specific intro to generate loops and elaboration
 
-#### And to these supporting pieces of technology:
+#### Supporting open source technology:
 
 [Icestudio][link-icestudio] and Apio built on top of IceStorm, Yosys, Arachne-pnr
 

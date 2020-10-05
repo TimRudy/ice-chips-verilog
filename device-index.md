@@ -43,6 +43,7 @@
 
 ## Comparators, Adders, Arithmetic Logic Units
 [7485](source-7400/7485.v) 4-bit magnitude comparator<br />
+[74181](source-7400/74181.v) 4-bit arithmetic logic unit<br />
 [74283](source-7400/74283.v) 4-bit binary full adder with fast carry<br />
 
 ## Flip-Flops

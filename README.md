@@ -18,7 +18,7 @@ IceChips is built to support the [Icestudio][link-icestudio] and [FPGAwars][link
 
 ## Getting Started
 
-The easiest way to use these devices is [download the collection](/releases/latest) and open it in the Icestudio design environment.
+The easiest way to use these devices is [download the collection](../../releases/latest) and open it in the Icestudio design environment.
 
 In Icestudio, go to `Tools > Collections > Add` and select the downloaded .zip file. Place and wire up your components, run and test the result. There's a variety of ways to provide inputs and view outputs; but no need for actual parts, wires or power supply.
 

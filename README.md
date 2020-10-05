@@ -150,7 +150,7 @@ Are you planning to populate your components onto a custom PCB (Printed Circuit 
 
 You have a head start from simulating and testing your design, because now you know you have a digital circuit that meets all its specs.
 
-However, it's a different workflow area that you'll have to get into to create a PCB: A different type of visual editing ("schematic capture"); placing, routing and design of layout for manufacture; verification of design rules for manufacture - this time for geometric/electrical properties.
+However, it's a different workflow area that you'll have to get into to create a PCB: A different type of visual editing ("schematic capture"); placing, routing and design of layout for manufacture; verification of design rules for manufacture (this time for geometric/electrical properties).
 
 Note: Having said that, using 74xx standard parts will set you up well for using PCB software, since the parts are well-known and modelled for geometric/electrical properties.
 

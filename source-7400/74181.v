@@ -44,27 +44,88 @@ module ttl_74181 #(parameter WIDTH = 4, DELAY_RISE = 0, DELAY_FALL = 0)
 reg CP_computed;
 reg CG_computed;
 wire Equal_computed;
-reg C_in_bar;
-reg C_computed_bar;
 reg C_computed;
 reg [WIDTH-1:0] F_computed;
 wire [WIDTH-1:0] P_internal;
 wire [WIDTH-1:0] G_internal;
+wire [WIDTH-1:0] C_internal;
 wire [WIDTH-1:0] CG_internal;
+
+// structural declaration using gates and wires (see datasheet for the schematic):
 
 generate
   genvar i;
   for (i = 0; i < WIDTH; i = i + 1)
   begin: gen_internals
+    wire [WIDTH-1:0] C_and_P_term;
+    wire [WIDTH-1:0] P_and_G_term;
+    wire [WIDTH-1:0] G_term;
+
     // first layer: internal propagate and generate signals from each A, B bit pair
-    //              used for carry output C (in the logic section), and used for
-    //              carry lookahead outputs CP and CG
+    //              used for all further computations (function output F, carry output C,
+    //              carry lookahead outputs CP and CG)
     //
     assign P_internal[i] = ~(A_bar[i] & ~B_bar[i] & Select[2] | A_bar[i] & B_bar[i] & Select[3]);
     assign G_internal[i] = ~(A_bar[i] | B_bar[i] & Select[0] | ~B_bar[i] & Select[1]);
 
-    // second layer: internal carry generate signals from the propagate and generate signals,
-    //               used for carry lookahead output CG
+    // second layer: internal carry signals from the carry in and propagate and generate signals,
+    //               used for computation of F bits (these are for arithmetic functions only;
+    //               for logic functions the Mode signal inhibits all C_internal outputs)
+    //
+    // the generated code has this structure:
+    // C_internal[0] = ~(C_in);
+    // C_internal[1] = ~(C_in & P_internal[0] |
+    //                          G_internal[0]);
+    // C_internal[2] = ~(C_in & P_internal[0] & P_internal[1] |
+    //                                          P_internal[1] & G_internal[0] |
+    //                                                          G_internal[1]);
+    // C_internal[3] = ~(C_in & P_internal[0] & P_internal[1] & P_internal[2] |
+    //                                          P_internal[1] & P_internal[2] & G_internal[0] |
+    //                                                          P_internal[2] & G_internal[1] |
+    //                                                                          G_internal[2]);
+    //
+    if (i == 0)
+    begin
+      assign C_and_P_term[i] = C_in & !Mode;
+    end
+    else
+    begin
+      localparam i_minus_1 = i - 1;
+
+      assign C_and_P_term[i] = C_in & (&P_internal[i_minus_1:0]) & !Mode;
+
+      assign G_term[i] = G_internal[i_minus_1] & !Mode;
+
+      if (i > 1)
+      begin
+        genvar j;
+        for (j = 0; j < i_minus_1; j = j + 1)
+        begin: gen_P_and_G_term
+          localparam j_plus_one = j + 1;
+
+          // these terms will be joined by | below:
+          assign P_and_G_term[j] = (&P_internal[i_minus_1:j_plus_one]) & G_internal[j] & !Mode;
+        end
+      end
+    end
+
+    // internal carry signals aggregated from the above terms
+    if (i == 0)
+    begin
+      assign C_internal[i] = ~C_and_P_term[i];
+    end
+    else if (i == 1)
+    begin
+      assign C_internal[i] = ~(C_and_P_term[i] | G_term[i]);
+    end
+    else
+    begin
+      assign C_internal[i] = ~(C_and_P_term[i] | (|P_and_G_term[(i - 2):0]) | G_term[i]);
+    end
+
+    // second layer, separate section: internal carry generate signals from the
+    //                                 propagate and generate signals, used for computation of:
+    //                                 carry output C, carry lookahead output CG
     //
     // the generated code has this structure (terms are then joined by |):
     // CG_internal[0] = P_internal[1] & P_internal[2] & P_internal[3] & G_internal[0];
@@ -85,223 +146,15 @@ endgenerate
 
 always @(*)
 begin
-  if (!Mode)
-  begin
-    // arithmetic
-
-    C_in_bar = ~C_in;
-
-    // add (A PLUS B PLUS Carry)
-    if (Select == 4'b1001)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar} + {1'b0, B_bar} + C_in_bar;
-    end
-
-    // subtract (A MINUS B MINUS 1 PLUS Carry)
-    if (Select == 4'b0110)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar} - {1'b0, B_bar} + {WIDTH{1'b1}} + C_in_bar;
-    end
-
-    // other arithmetic incorporating logic
-
-    // A PLUS Carry
-    if (Select == 4'b0000)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar} + C_in_bar;
-    end
-
-    // A OR B PLUS Carry
-    if (Select == 4'b0001)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar | B_bar} + C_in_bar;
-    end
-
-    // A OR (NOT B) PLUS Carry
-    if (Select == 4'b0010)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar | ~B_bar} + C_in_bar;
-    end
-
-    // MINUS 1 PLUS Carry
-    if (Select == 4'b0011)
-    begin
-      {C_computed_bar, F_computed} = {WIDTH{1'b1}} + C_in_bar;
-    end
-
-    // A PLUS (A AND (NOT B)) PLUS Carry
-    if (Select == 4'b0100)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar} + {1'b0, A_bar & ~B_bar} + C_in_bar;
-    end
-
-    // (A OR B) PLUS (A AND (NOT B)) PLUS Carry
-    if (Select == 4'b0101)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar | B_bar} + {1'b0, A_bar & ~B_bar} + C_in_bar;
-    end
-
-    // (A AND (NOT B)) MINUS 1 PLUS Carry
-    if (Select == 4'b0111)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar & ~B_bar} + {WIDTH{1'b1}} + C_in_bar;
-    end
-
-    // A PLUS (A AND B) PLUS Carry
-    if (Select == 4'b1000)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar} + {1'b0, A_bar & B_bar} + C_in_bar;
-    end
-
-    // (A OR (NOT B)) PLUS (A AND B) PLUS Carry
-    if (Select == 4'b1010)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar | ~B_bar} + {1'b0, A_bar & B_bar} + C_in_bar;
-    end
-
-    // (A AND B) MINUS 1 PLUS Carry
-    if (Select == 4'b1011)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar & B_bar} + {WIDTH{1'b1}} + C_in_bar;
-    end
-
-    // A PLUS A (SHIFT LEFT) PLUS Carry
-    if (Select == 4'b1100)
-    begin: sum_block
-      reg [WIDTH:0] extra_width_sum;
-
-      extra_width_sum = A_bar << 1;
-
-      {C_computed_bar, F_computed} = extra_width_sum + C_in_bar;
-    end
-
-    // A PLUS (A OR B) PLUS Carry
-    if (Select == 4'b1101)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar} + {1'b0, A_bar | B_bar} + C_in_bar;
-    end
-
-    // A PLUS (A OR (NOT B)) PLUS Carry
-    if (Select == 4'b1110)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar} + {1'b0, A_bar | ~B_bar} + C_in_bar;
-    end
-
-    // A MINUS 1 PLUS Carry
-    if (Select == 4'b1111)
-    begin
-      {C_computed_bar, F_computed} = {1'b0, A_bar} + {WIDTH{1'b1}} + C_in_bar;
-    end
-
-    C_computed = ~C_computed_bar;
-  end
-  else
-  begin
-    // logic
-
-    // NOT A
-    if (Select == 4'b0000)
-    begin
-      F_computed = ~A_bar;
-    end
-
-    // NOT (A OR B)
-    if (Select == 4'b0001)
-    begin
-      F_computed = ~(A_bar | B_bar);
-    end
-
-    // (NOT A) AND B
-    if (Select == 4'b0010)
-    begin
-      F_computed = ~A_bar & B_bar;
-    end
-
-    // 0
-    if (Select == 4'b0011)
-    begin
-      F_computed = {WIDTH{1'b0}};
-    end
-
-    // NOT (A AND B)
-    if (Select == 4'b0100)
-    begin
-      F_computed = ~(A_bar & B_bar);
-    end
-
-    // NOT B
-    if (Select == 4'b0101)
-    begin
-      F_computed = ~B_bar;
-    end
-
-    // A XOR B
-    if (Select == 4'b0110)
-    begin
-      F_computed = A_bar ^ B_bar;
-    end
-
-    // A AND (NOT B)
-    if (Select == 4'b0111)
-    begin
-      F_computed = A_bar & ~B_bar;
-    end
-
-    // (NOT A) OR B
-    if (Select == 4'b1000)
-    begin
-      F_computed = ~A_bar | B_bar;
-    end
-
-    // NOT (A XOR B)
-    if (Select == 4'b1001)
-    begin
-      F_computed = ~(A_bar ^ B_bar);
-    end
-
-    // B
-    if (Select == 4'b1010)
-    begin
-      F_computed = B_bar;
-    end
-
-    // A AND B
-    if (Select == 4'b1011)
-    begin
-      F_computed = A_bar & B_bar;
-    end
-
-    // 1
-    if (Select == 4'b1100)
-    begin
-      F_computed = {WIDTH{1'b1}};
-    end
-
-    // A OR (NOT B)
-    if (Select == 4'b1101)
-    begin
-      F_computed = A_bar | ~B_bar;
-    end
-
-    // A OR B
-    if (Select == 4'b1110)
-    begin
-      F_computed = A_bar | B_bar;
-    end
-
-    // A
-    if (Select == 4'b1111)
-    begin
-      F_computed = A_bar;
-    end
-
-    // third layer: carry bit
-    C_computed = C_in & (&P_internal) | (|CG_internal);
-  end
-
   // third layer: carry lookahead bits aggregated from the above terms
   CP_computed = ~(&P_internal);
   CG_computed = ~(|CG_internal);
+
+  // third layer: carry bit
+  C_computed = C_in & (&P_internal) | (|CG_internal);
+
+  // third layer: F bits
+  F_computed = P_internal ^ G_internal ^ C_internal;
 end
 
 // output

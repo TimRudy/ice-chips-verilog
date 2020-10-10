@@ -34,6 +34,8 @@ Alternatively, you can download an individual device ([74xx.v file](source-7400/
 
 ## Icestudio Design Flow
 
+<img src="images/IcestudioSchematic.png" title="Icestudio circuit layout" width="65%">
+
 Welcome to virtual breadboarding.
 
 Icestudio provides circuit simulation (for digital circuits) that's arbitrarily scalable. Explore, build and create, but most importantly, get near-instant feedback in testing your real hardware design. Each time you add a new input or a gate, or an LED, hit "Build" and "Upload". In the parlance of a silicon fab, you've gone through a "spin". But you're actually programming a reusable and fairly inexpensive FPGA.
@@ -112,7 +114,7 @@ If you're interested in looking even closer, the above "vvp" run stores all sign
 
 With GTKWave installed, just click on the .vcd file to open.
 
-<img src="images/GTK.png" title="Simulation waveform" width="50%" height="50%">
+<img src="images/GTK.png" title="Simulation waveform" width="50%">
 
 </details>
 

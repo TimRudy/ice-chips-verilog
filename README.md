@@ -1,4 +1,4 @@
-<img src="images/proj_icon_triplet.svg" title="IceChips" align="right" width="13%">
+<img src="images/proj_icon_triplet.svg" title="IceChips" align="right" width="14.4%">
 <br />
 <br />
 

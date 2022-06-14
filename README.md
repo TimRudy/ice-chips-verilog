@@ -219,7 +219,7 @@ Marcus Lindholm · SVG graphic design help
 
 [ico-travisci]: images/passed.svg
 
-[link-travisci]: https://travis-ci.com/TimRudy/ice-chips-verilog "See the latest build and test report"
+[link-travisci]: https://app.travis-ci.com/github/TimRudy/ice-chips-verilog "See the latest build and test report"
 [link-icestudio]: https://icestudio.io
 [link-icestudiob]: https://github.com/FPGAwars/icestudio-blocks/wiki
 [link-openfpgat]: https://github.com/Obijuan/open-fpga-verilog-tutorial/wiki

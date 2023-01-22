@@ -1,6 +1,6 @@
 ## The Validation Contract
 
-Test benches are great for giving confidence in the code. However, this note explains the site infrastructure for providing structured code, running the tests on it, and doing so repeatably, to give an overall guarantee of everything published on the site.
+Test benches are great for giving confidence in the code. However, this note explains the site infrastructure for providing structured code, running the tests on it, and doing so repeatably, to give a guarantee of everything published on the site.
 
 A main question is how the .ice component that you download and use in Icestudio is tested (with a guarantee), when it is the .v file source code published here that is explicitly run through a test. You would say the .ice file is tested indirectly. So is there a role for human error in all this? Hint: Read on, Macduff.
 
@@ -103,13 +103,13 @@ You may want context for the two pieces of code, so here's a quick recap:
 
         > ttl_7485 #(.WIDTH_IN(WIDTH_IN), ...) dut(.A(A), .B(B), ...);
 
-        This is a "ttl_7485" module (the type). It's instantiated as "dut" (the name). And its I/Os "A", "B", and the rest are listed, connecting to sources/sinks in the test bench. Incidentally the instantiation line here counts as nesting the module, as the test bench - the file that it's in - is a module.
+        This is a "ttl_7485" module (the type). It's instantiated as "dut" (the name). And its I/Os "A", "B", and the rest are listed, connecting to sources/sinks in the test bench. Incidentally the instantiation line here counts as nesting a module inside another, because the test bench file is a module.
 
 - **The right-hand side** you will see by double-clicking the .ice component in Icestudio to open its code.
 
     This is Verilog without the module wrapper; all redundancy is removed for user convenience; but Icestudio wraps this code in a module internally.
 
-    On the right-hand side, a central concern is to group related pins of the component into vectors (see the assign lines). "A" and "B" are the vectors; the other variables are single pins/single bits.
+    On the right-hand side, a central concern is to group related pins of the component into vectors (see the assign lines). "A" and "B" are vectors; but the other variables are single pins/single bits.
 
 </details>
 <br />
@@ -168,7 +168,7 @@ A template or skeleton is created. I/O definitions make up a header, and wiring 
 
 - The non-identical segments are declarative code only, constituting wrappers;
 
-- The wrappers are basically wiring; for example, one wiring function is to collate scalar elements into vectors. On the LHS, vectors are part of the abstraction and are implicit. On the RHS, vectors are constructed: the abstract from the concrete;
+- The wrappers are basically wiring; for example, the collation of individual Input and Output pins into vectors: "assign A = {pin15_A3, pin13_A2, pin12_A1, pin10_A0}". On the RHS, vectors are constructed: the abstract from the concrete. On the LHS, vectors are implicit: they're part of the abstraction;
 
 - Abstractions are used in the logic code; they're what makes the code identical.
 

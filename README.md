@@ -215,7 +215,7 @@ Marcus Lindholm · SVG graphic design help
 
 ## <!-- -->
 
-© 2018-2022 Tim Rudy
+© 2018-2023 Tim Rudy
 
 [ico-travisci]: images/passed.svg
 

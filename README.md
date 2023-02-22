@@ -20,7 +20,9 @@ The easiest way to use these devices is [download the collection](../../releases
 
 In Icestudio, go to `Tools > Collections > Add` and select the downloaded .zip file. Place and wire up your components, run and test the result. There's a variety of ways to provide inputs and view outputs; but no need for actual parts, wires or power supply.
 
-Alternatively, you can download an individual device ([74xx.v file](source-7400/74153.v)) and use it in your own simulation in Verilog. This is the way to go if you wish to set the parameters for #bits, #inputs per gate, #blocks in a device. See the Index to browse devices.
+Alternatively, you can download an individual device ([74xx.v file](source-7400/74153.v)) and use it in your own simulation in Verilog. This is the way to go if you wish to set the parameters for # bits, # inputs per gate, # blocks in a device.
+
+See the Index to browse devices.
 
 ## Index
 
@@ -28,7 +30,7 @@ Alternatively, you can download an individual device ([74xx.v file](source-7400/
 
 > ##### What are the 7400-series TTL chips?
 >
-> They are digital logic: Gates, multiplexers, counters, registers, adders, multipliers and more. See [Wikipedia full list][link-wiki-7400].
+> They're digital logic: Gates, multiplexers, counters, registers, adders, multipliers and more. See [Wikipedia full list][link-wiki-7400].
 
 ## Icestudio Design Flow
 
@@ -72,9 +74,11 @@ IceChips tests must be:
 3. Annotated with descriptions
 4. Self-checking
 
-The test benches are for documentation and transparency and create a kind of audit trail - that's in addition to their role in correctness!
+The test benches are for documentation and transparency and create a kind of audit trail. That's in addition to their role in correctness!
 
 Self-checking: Each test gives a Pass/Fail result. It does this by using an "assert" statement, that logs a failure message if the stated condition (at the output) is not met. The tests are not just doing a demonstration run of the device by way of a waveform output - although they do that also.
+
+For open source purposes and community contribution: IceChips [guidelines around test benches](docs/validation-scheme.md#what-is-a-good-test-bench).
 
 </details>
 
@@ -88,8 +92,6 @@ Here's an overview, with a visual that shows the structure of the code files:
 
 &ensp;&ensp;Direct to [the contract](docs/validation-scheme.md#the-contract)
 
-Some nerdy stuff is included, such as [guidelines around test benches](docs/validation-scheme.md#what-is-a-good-test-bench) for open source purposes and community contribution.
-
 #### Running the tests on your machine
 
 <details>
@@ -99,18 +101,16 @@ Some nerdy stuff is included, such as [guidelines around test benches](docs/vali
 The test benches can be run using the open source simulator Icarus Verilog: [Installation][link-iverilogi], [Getting Started][link-iverilogs].
 
 With it installed, you can run a command like the following that specifies the required input files and one output file (.vvp):
-```
-> iverilog -g2012 -o7400-tb.vvp ../includes/helper.v ../includes/tbhelper.v 7400-tb.v 7400.v
-```
 
-It then requires a second step: Run the Icarus Verilog simulator/runtime to see the tests run, with results logged to the console:
-```
-> vvp 7400-tb.vvp
-```
+    > iverilog -g2012 -o7400-tb.vvp ../includes/helper.v ../includes/tbhelper.v 7400-tb.v 7400.v
 
-If you're interested in looking even closer, the above "vvp" run stores all signal and timing data - inputs, outputs, and the connection paths between them - in a .vcd file, so run GTKWave viewer to see the run as a waveform: [Installation][link-gtkwavei], [Getting Started][link-gtkwaves].
+It then requires a second step: Run the Icarus Verilog simulator/runtime to see the tests run. This will show the results logged to the console:
 
-With GTKWave installed, just click on the .vcd file to open.
+    > vvp 7400-tb.vvp
+
+If you're interested in looking closer, the "vvp" run stores all signal and timing data in a .vcd file, so you can see the run as a waveform using GTKWave viewer: [Installation][link-gtkwavei], [Getting Started][link-gtkwaves].
+
+With GTKWave installed, just click on the .vcd file.
 
 <img src="images/GTK.png" title="Simulation waveform" width="50%">
 
@@ -139,6 +139,7 @@ To brush up on digital logic design, or get started with an EDA flow to create, 
 - [FPGAs][link-web-fpgas] · Field-Programmable Gate Arrays
 
 </details>
+<br />
 
 Clarification about this design flow versus PCB (Printed Circuit Board) flow:
 
@@ -146,11 +147,11 @@ Clarification about this design flow versus PCB (Printed Circuit Board) flow:
 <summary>PCB design flow</summary>
 <br />
 
-Are you planning to populate your components onto a custom PCB (Printed Circuit Board)?
+Are you planning to populate your components onto a custom PCB?
 
-You have a head start from simulating and testing your design, because now you know you have a digital circuit that meets all its specs.
+You have a head start from simulating and testing your design, that's for sure. You know your digital circuit meets all its specs.
 
-However, it's a different workflow area that you'll have to get into to create a PCB: A different type of visual editing ("schematic capture"); placing, routing and design of layout for manufacture; verification of design rules for manufacture (this time for geometric/electrical properties).
+However, you'll have to get into a different workflow to create a PCB: A different type of visual editing ("schematic capture"); placing, routing and design of layout for manufacture; verification of design rules for manufacture (this time for geometric/electrical properties).
 
 Note: Having said that, using 74xx standard parts will set you up well for using PCB software, since the parts are well-known and modelled for geometric/electrical properties.
 
@@ -195,7 +196,7 @@ Marcus Lindholm · SVG graphic design help
 
 ["TTL_74xx_DIL.m4"](https://fossies.org/linux/pcb/lib/TTL_74xx_DIL.m4) Thomas Nau, "diplib" in PCB for Linux distribution · chip and pin info
 
-#### Learning resources:
+#### Learning resources
 
 [www.referencedesigner.com/tutorials](http://www.referencedesigner.com/tutorials/verilog/verilog_01.php) · practical intro to Verilog with examples, tutorials, quizzes
 
@@ -203,11 +204,11 @@ Marcus Lindholm · SVG graphic design help
 
 [www.verilogpro.com](https://www.verilogpro.com/verilog-generate-configurable-rtl) · intro to generate loops and elaboration
 
-#### The supporting open source technology:
+#### The supporting open source technology
 
-[Icestudio][link-icestudio] and Apio built on top of IceStorm, Yosys, Arachne-pnr
+[Icestudio][link-icestudio] and Apio built on top of IceStorm, Yosys, nextpnr
 
-[Yosys][link-yosys] synthesis by Clifford Wolf
+[Yosys][link-yosys] synthesis by Claire Wolf
 
 [Icarus Verilog][link-iverilog] simulator by Stephen Williams
 
@@ -221,7 +222,6 @@ Marcus Lindholm · SVG graphic design help
 
 [link-travisci]: https://app.travis-ci.com/github/TimRudy/ice-chips-verilog "See the latest build and test report"
 [link-icestudio]: https://icestudio.io
-[link-icestudiob]: https://github.com/FPGAwars/icestudio-blocks/wiki
 [link-openfpgat]: https://github.com/Obijuan/open-fpga-verilog-tutorial/wiki
 [link-fpgawars]: https://fpgawars.github.io
 [link-fpgawarsp]: https://fpgawars.github.io/#projects
@@ -239,13 +239,11 @@ Marcus Lindholm · SVG graphic design help
 [link-web-hdls]: https://www.google.com/search?q=Hardware+Description+Languages
 [link-web-eda]: https://www.google.com/search?q=Electronic+Design+Automation
 [link-web-fpgas]: https://www.google.com/search?q=Field-Programmable+Gate+Arrays
-[link-coinmining]: http://whattomine.com
-[link-homebrew]: https://www.homebrewcpuring.org/ringhome.html
+[link-homebrew]: https://www.homebrewcpuring.org
 [link-hackbrew]: https://hackaday.io/list/25846-homebrew-cpu
-[link-yosys]: http://www.clifford.at/yosys
+[link-yosys]: https://github.com/YosysHQ/yosys
 [link-iverilog]: http://iverilog.icarus.com
-[link-iverilogi]: https://iverilog.fandom.com/wiki/Installation_Guide
-[link-iverilogs]: https://iverilog.fandom.com/wiki/Getting_Started
-[link-iverilogu]: https://iverilog.fandom.com/wiki/User_Guide
+[link-iverilogi]: https://steveicarus.github.io/iverilog/usage/installation.html
+[link-iverilogs]: https://steveicarus.github.io/iverilog/usage/getting_started.html
 [link-gtkwavei]: http://gtkwave.sourceforge.net
-[link-gtkwaves]: https://iverilog.fandom.com/wiki/GTKWAVE
+[link-gtkwaves]: https://gtkwave.sourceforge.net/gtkwave.pdf

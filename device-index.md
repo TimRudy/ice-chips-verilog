@@ -1,6 +1,9 @@
 ## Buffers, Inverters
 [7404](source-7400/7404.v) Hex inverter<br />
 [7407](source-7400/7407.v) Hex buffer/driver (OC)<br />
+[74125](source-7400/74125.v) Quad bus buffer, negative enable<br />
+[74126](source-7400/74126.v) Quad bus buffer, positive enable<br />
+[74244](source-7400/74244.v) Octal buffer with 3-state output<br />
 
 ## Gates
 [7400](source-7400/7400.v) Quad 2-input NAND gate<br />

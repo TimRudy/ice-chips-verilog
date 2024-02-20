@@ -92,10 +92,8 @@ Here's an overview, with a visual that shows the structure of the code files:
 
 &ensp;&ensp;Direct to [the contract](docs/validation-scheme.md#the-contract)
 
-#### Running the tests on your machine
-
 <details>
-<summary>Details</summary>
+<summary>Running the tests on your machine</summary>
 <br />
 
 The test benches can be run using the open source simulator Icarus Verilog: [Installation][link-iverilogi], [Getting Started][link-iverilogs].
@@ -118,7 +116,7 @@ With GTKWave installed, just click on the .vcd file.
 
 ## Technical Notes
 
-&ensp;&ensp;[Implementation info, challenges in the technology, quirks, usage notes, and some bibliographic links, specialty interest links](docs/technical-notes.md)
+[Implementation info, challenges in the technology, quirks, usage notes, and some specialty interest links](docs/technical-notes.md)
 
 ## Other Resources for your Digital Project
 
@@ -166,6 +164,10 @@ The following keywords are related to PCBs and are **not** part of the present w
 
 </details>
 
+## Compatible UART chip
+
+[TimRudy/uart-verilog][link-uart-verilog]
+
 ## This project gains inspiration from
 
 [www.homebrewcpuring.org][link-homebrew] · Amazing Homebrew CPUs
@@ -184,11 +186,11 @@ Warren Toomey [@DoctorWkt] · for inspiration because he builds real CPUs, and f
 
 Eddie Hung [@FPGeh] · for Yosys advice and feedback
 
-[digitaljs.tilk.eu](http://digitaljs.tilk.eu) Marek Materzok [@tilk] · for helpful feedback and has an amazing convenient simulator "DigitalJS Online"
+[digitaljs.tilk.eu](https://digitaljs.tilk.eu) Marek Materzok [@tilk] · for helpful feedback and has an amazing convenient simulator "DigitalJS Online"
 
 [www.edaboard.com](https://www.edaboard.com/threads/two-dimensional-input-output-ports-in-verilog.208692) "mrflibble" · provided solution for 2-dimensional inputs to a module
 
-["Inside the vintage 74181 ALU chip"](http://www.righto.com/2017/03/inside-vintage-74181-alu-chip-how-it.html) Ken Shirriff · invaluable info on the 74181 and a fabulous simulator in the browser
+["Inside the vintage 74181 ALU chip"][link-blog-74181] Ken Shirriff · invaluable info on the 74181 and a fabulous simulator in the browser
 
 Marcus Lindholm · SVG graphic design help
 
@@ -216,11 +218,12 @@ Marcus Lindholm · SVG graphic design help
 
 ## <!-- -->
 
-© 2018-2023 Tim Rudy
+© 2018-2024 Tim Rudy
 
 [ico-travisci]: images/passed.svg
 
 [link-travisci]: https://app.travis-ci.com/github/TimRudy/ice-chips-verilog "See the latest build and test report"
+[link-uart-verilog]: https://github.com/TimRudy/uart-verilog
 [link-icestudio]: https://icestudio.io
 [link-openfpgat]: https://github.com/Obijuan/open-fpga-verilog-tutorial/wiki
 [link-fpgawars]: https://fpgawars.github.io
@@ -228,6 +231,7 @@ Marcus Lindholm · SVG graphic design help
 [link-oshwa]: https://certification.oshwa.org/directory.html
 [link-maker]: https://en.wikipedia.org/wiki/Maker_culture
 [link-makerf]: https://makerfaire.com
+[link-blog-74181]: https://www.righto.com/2017/03/inside-vintage-74181-alu-chip-how-it.html
 [link-wiki-7400]: https://en.wikipedia.org/wiki/List_of_7400_series_integrated_circuits
 [link-wiki-synth]: https://en.wikipedia.org/wiki/Logic_synthesis
 [link-web-comb-seq]: https://www.google.com/search?q=Combinational+versus+Sequential+Circuit

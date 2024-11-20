@@ -2,7 +2,7 @@
 
 Test benches are great for giving confidence in the code. However, this note explains the site infrastructure for providing structured code, running the tests on it, and doing so repeatably, to give a guarantee of everything published on the site.
 
-A main question is how the .ice component that you download and use in Icestudio is tested (with a guarantee), when it is the .v file source code published here that is explicitly run through a test. You would say the .ice file is tested indirectly. So is there a role for human error in all this? Hint: Read on, Macduff.
+A main question is how the .ice component that you download and use in Icestudio is tested (with a guarantee), when it is the .v file source code published here that is explicitly run through a test. The .ice file is tested indirectly, it seems. So is there a role for human error in all this? Read on for the answer.
 
 <details>
 <summary>Outline</summary>
@@ -81,7 +81,7 @@ Well, from the .ice file point of view, validation relies on three specifics:
 
 A site-level or "infrastructure" guarantee takes care of the two files sharing their code, and this is the Automation feature of IceChips. It generates and concatenates Verilog, including the "write-once" portion supplied by human input, and publishes the files. All three requirements are met by the code-generation script.
 
-The diff of the 7485 files represents a typical pair of files. The next section goes through details and explanation, with reference to Verilog. (You know or you're learning Verilog, right?) If you don't have time, skip ahead. In the following section, Proof, we'll come back to code-generation and tie it to the Validation Contract for this project.
+The diff of the 7485 files represents a typical pair of files. The next section goes through details and explanation, with reference to Verilog. If you don't have time, skip ahead. In the following section, Proof, we'll come back to code-generation and tie it to the Validation Contract for this project.
 
 ### Verilog Structure
 
@@ -218,7 +218,7 @@ There are some implicit aspects, some real-world assumptions, that require comme
 
 4. **Automation script exists.** The IceChips "generate" script needs to be published with the library for community review, as a pillar of the claims leading to the Validation Contract. True. We are working on this. (There was just a little issue: The code is ugly and needs to be cleaned up.)
 
-[Top](validation-scheme.md)
+[Top](#top)
 
 ## <!-- -->
 

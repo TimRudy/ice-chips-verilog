@@ -31,9 +31,11 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y iverilog
 
       - name: Install npm dependencies
+        working-directory: ./scripts
         run: npm ci
 
       - name: Run tests
+        working-directory: ./scripts
         run: npm test
 
   ci-close-pr:

@@ -79,7 +79,13 @@ Well, from the .ice file point of view, validation relies on three specifics:
 
 ### Solution
 
-A site-level or "infrastructure" guarantee takes care of the two files sharing their code, and this is the Automation feature of IceChips. It generates and concatenates Verilog, including the "write-once" portion supplied by human input, and publishes the files. All three requirements are met by the code-generation script.
+A site-level or "infrastructure" guarantee takes care of the two files sharing their code, and this is the Automation feature of IceChips. There is a code-generation script "`generate`" that:
+
+- Generates a Verilog code template per device; then
+
+- Copies/merges the Verilog code inserted there by human developer, from .v file to .ice file.
+
+That is the source of both files; thus all three requirements are met by the script. Further automation, which is to validate those files by running the Verilog, then publish them to the repo, is discussed [below](#coda The Contract -> Coda).
 
 The diff of the 7485 files represents a typical pair of files. The next section goes through details and explanation, with reference to Verilog. If you don't have time, skip ahead. In the following section, Proof, we'll come back to code-generation and tie it to the Validation Contract for this project.
 
@@ -208,13 +214,13 @@ This completes the "steps in the proof" that your .ice device has been validated
 
 There are some implicit aspects, some real-world assumptions, that require comment:
 
-1. **Validation step is performed.** Yes, the Verilog is run using ["iverilog"][link-iverilogu], getting a Pass or Fail from each test bench. This is a separate part of Automation. It's tied in with publishing to GitHub using Travis CI. Observe there is a [![Build Status][ico-travisci]][link-travisci] badge below the main title of the README; this links to Travis CI's results of the validation run.
+1. **Validation step is performed.** Yes, the Verilog is run using ["iverilog"][link-iverilogu], getting a Pass or Fail from each test bench. This is a separate part of Automation. It's tied in with publishing to GitHub (CI/CD GitHub Actions). Observe there is a [![Build/Test Status][ico-workflow-status]][link-workflow] badge below the main title of the README; this links to the validation run results.
 
-    For those interested in the technicals about this, look in the [scripts folder](/scripts/validate "scripts and validate folders"), and see [package.json](/scripts/package.json "package.json") which includes the entry point "npm test".
+    For those interested in the technicals about this, look in the [scripts folder](/scripts/validate "scripts and validate folders"), and see [package.json](/scripts/package.json "package.json") which includes the entry point "npm test". For GitHub Action on any code change, see [workflows folder .yml file](/.github/workflows/ci-validate.yml "CI/CD configuration: ci-validate.yml").
 
 2. **There is a test bench.** The extremely skeptical and the subversives need to know: the validation step when publishing to GitHub requires a test bench paired with each device file, by automated check, not just by policy; so there will never be a device published without its test bench being completed.
 
-3. **The test bench could be bogus?** This gets a bit personal; but you can refer to the community for community review of test benches, because they are all published. I provide [my perspective on tests below](#what-is-a-good-test-bench).
+3. **The test bench could be bogus?** Refer to myself or the community for community review of test benches, because they are all published. I provide [my perspective on tests below](#what-is-a-good-test-bench).
 
 4. **Automation script exists.** The IceChips "generate" script needs to be published with the library for community review, as a pillar of the claims leading to the Validation Contract. True. We are working on this. (There was just a little issue: The code is ugly and needs to be cleaned up.)
 
@@ -266,14 +272,15 @@ Two guidelines, from opposite poles:
 
 Working on a test suite late at night and it is boring...? Try to think of the long term, the big picture:
 
-    Functionality that is unassailable, works right the first time, and doesn't break at a later time? Priceless.
+<div style="font-family: monospace">
+&ensp;&ensp;Functionality that is unassailable, works right the first time, and doesn't break at a later time? Priceless.
+</div>
 
 If Intel had put a test suite in place under this policy and guidelines, they would have caught their [Pentium floating-point divide bug][link-hwbug] of 1993. Covering a nice range, running some number theory calculations, particularly using prime numbers, and checking the exact results in tables, would have forestalled cranking out $475 million in silicon paper weights.
 
-[ico-travisci]: /images/passed.svg
-
-[link-travisci]: https://travis-ci.com/TimRudy/ice-chips-verilog "See the latest build and test report"
-[link-iverilogu]: https://iverilog.fandom.com/wiki/User_Guide
+[ico-workflow-status]: https://github.com/TimRudy/ice-chips-verilog/actions/workflows/ci-validate.yml/badge.svg
+[link-workflow]: https://github.com/TimRudy/ice-chips-verilog/actions/workflows/ci-validate.yml "See the latest test report"
+[link-iverilogu]: https://steveicarus.github.io/iverilog/usage/index.html
 [link-pareto]: https://en.wikipedia.org/wiki/Pareto_principle
 [link-swbugs]: https://www.techrepublic.com/article/microsoft-fixes-windows-and-internet-explorer-zero-day-flaws-in-latest-patch-tuesday
 [link-hwbug]: https://en.wikipedia.org/wiki/Pentium_FDIV_bug

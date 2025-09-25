@@ -1,0 +1,48 @@
+name: Node.js CI Validate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  ci-validate:
+    # run on any change whatsoever, but don't run on a cancel PR
+    if: github.event_name != 'pull_request' || (
+        github.event.action == 'opened' ||
+        github.event.action == 'synchronize' ||
+        github.event.action == 'reopened' && github.event.before != github.event.after ||
+        github.event.action == 'closed' && github.event.pull_request.merged == true
+      )
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          cache: 'npm'
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y iverilog
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+  ci-close-pr:
+    # run on a cancel PR
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == false
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Just report closed PR with no merge
+        run: |
+          echo PR #${{ github.event.number }} has been closed, not merged

@@ -4,6 +4,7 @@
   "description": "Generates and Validates the IceChips source files",
   "repository": {
     "type": "git",
+    "branch": "main",
     "url": "https://github.com/TimRudy/ice-chips-verilog.git"
   },
   "keywords": [
@@ -17,17 +18,23 @@
     "IP Design", "Verification IP", "Test Bench", "Synthesis", "Yosys", "Verilator", "HDL", "VHDL",
     "Gateware", "OpenCores"
   ],
-  "author": "Tim Rudy",
+  "author": {
+    "name": "Tim Rudy",
+    "email": "",
+    "url": "https://github.com/TimRudy"
+  },
   "license": "GPL-3.0-or-later",
   "bugs": "https://github.com/TimRudy/ice-chips-verilog/issues",
   "private": true,
   "devDependencies": {
+    "editorconfig": "^2.0.0",
     "npm-run-all": "^4.1.5",
     "walk-sync": "^2.0.2"
   },
   "scripts": {
-    "test": "npm-run-all -p exec-verilog check-index",
-    "exec-verilog": "node validate/exec-verilog.js ..",
-    "check-index": "node validate/check-index-contents.js .."
+    "test": "npm-run-all -p exec-verilog check-index check-verilog-code",
+    "exec-verilog": "node validate/exec-verilog.js -s",
+    "check-index": "node validate/check-index-contents.js",
+    "check-verilog-code": "node validate/check-verilog-line-lengths.js"
   }
 }

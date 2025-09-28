@@ -5,20 +5,19 @@
 // - note: convention: a "path" is in absolute form unless otherwise indicated
 //
 // - functionality is:
-//   - build a full directory/file path from segments and normalize it
-//   - maintain a reference top level path (with respect to the filesystem) that
-//     is an effective root; supports relative paths
+//   - maintain a reference top level path that is an effective root in the filesystem;
+//     supports relative paths
+//   - create a full directory + file path from path segments
 //   - provide a full directory path in case a given path is relative
 //   - provide a relative path referenced from a level of a full directory path
 //
 // © 2019-2024 Tim Rudy
 
 import path from 'path';
-
-import { FsReadDirectoryHelper } from './fs-directory-helper.js';
+import url from 'url';
 
 export class FsPathHelper {
-	// create normalized path string from segments
+	// create normalized, absolute, path string from segments
 	//
 	static resolve(...directoriesAndOrFile) {
 		return path.resolve(...directoriesAndOrFile);
@@ -32,8 +31,17 @@ export class FsPathHelper {
 			);
 		}
 
-		this.referenceRootDirectory =
-			specifiedRootDirectory || FsReadDirectoryHelper.getNodeProjectDirectoryPath();
+		this.referenceRootDirectory = specifiedRootDirectory || getProjectRootDirectoryPath();
+
+		// get path string of the project root directory, as fixed reference for the running script
+		//
+		function getProjectRootDirectoryPath() {
+			const thisFilePath = url.fileURLToPath(import.meta.url),
+				thisDirectory = path.dirname(thisFilePath),
+				rootOffsetDirectory = '../../'; // from this Node.js file
+
+			return path.resolve(thisDirectory, rootOffsetDirectory);
+		}
 	}
 
 	getReferenceRootDirectory() {
@@ -41,7 +49,7 @@ export class FsPathHelper {
 	}
 
 	// accept an absolute or relative directory path, and if relative, attach it to
-	// this path resolver's root directory
+	// this path helper's root directory
 	//
 	toAbsolute(targetDirectory) {
 		if (typeof targetDirectory !== 'string') {
@@ -59,7 +67,7 @@ export class FsPathHelper {
 	}
 
 	// provide a shorter, relative-path version of a path + file name
-	// by removing the common path prefix of either this path resolver's root directory
+	// by removing the common path prefix of either this path helper's root directory
 	// (default) or the directory specified
 	//
 	toRelativeFromAbsolute({ specifiedRootDirectory, fullPath }) {

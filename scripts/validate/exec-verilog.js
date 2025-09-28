@@ -16,10 +16,9 @@ import { FsReadFileHelper } from '../common/fs-file-helper.js';
 import { FsPathHelper } from '../common/fs-path-helper.js';
 import { isRegExpMatchMinLength } from '../common/text-helper.js';
 
-const rootOffsetDirectory = '../',
-	sourceSubDirectory = 'source-7400/',
+const sourceSubDirectory = 'source-7400/',
 	includesSubDirectory = 'includes/',
-	workingSubDirectory = 'validate/',
+	workingSubDirectory = 'scripts/validate/',
 	outputSubDirectory = 'output/';
 
 class TestBenchService {
@@ -258,7 +257,7 @@ const testBenchService = new TestBenchService(
 // main
 
 const fsPath = new FsPathHelper(),
-	baseDirectory = fsPath.toAbsolute(rootOffsetDirectory),
+	baseDirectory = fsPath.getReferenceRootDirectory(),
 	workingDirectory = fsPath.toAbsolute(workingSubDirectory);
 
 const devicesDirectory = FsPathHelper.resolve(baseDirectory, sourceSubDirectory),

@@ -25,6 +25,7 @@
   "license": "GPL-3.0-or-later",
   "bugs": "https://github.com/TimRudy/ice-chips-verilog/issues",
   "private": true,
+  "type": "module",
   "devDependencies": {
     "editorconfig": "^2.0.0",
     "npm-run-all": "^4.1.5",

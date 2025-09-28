@@ -5,20 +5,8 @@
 // © 2019-2024 Tim Rudy
 
 import fs from 'fs';
-import path from 'path';
-import url from 'url';
 
 export class FsReadDirectoryHelper {
-	// get Node.js project directory path string, as fixed reference for the running script
-	//
-	static getNodeProjectDirectoryPath() {
-		const __filename = url.fileURLToPath(import.meta.url),
-			__dirname = path.dirname(__filename),
-			rootOffsetDirectory = '../';
-
-		return path.resolve(__dirname, rootOffsetDirectory);
-	}
-
 	// access directory on the filesystem
 	//
 	static confirmDirectoryExists(directory) {

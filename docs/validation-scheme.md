@@ -40,7 +40,7 @@ A main question is how the .ice component that you download and use in Icestudio
 
 ### Problem Statement
 
-Validation means running the code here on the GitHub site through the program "iverilog" to test it; this happens once, if and when the code changes.
+Validation means running the code here on the GitHub site through the program "iverilog" to test it; this happens once, if and when Verilog code ever changes (or is introduced in a new device in the project).
 
 The validation step runs the Device Under Test (DUT), the 74xx.v file, with its test bench the 74xx-tb.v file.
 
@@ -216,7 +216,7 @@ There are some implicit aspects, some real-world assumptions, that require comme
 
 1. **Validation step is performed.** Yes, the Verilog is run using ["iverilog"][link-iverilogu], getting a Pass or Fail from each test bench. This is a separate part of Automation. It's tied in with publishing to GitHub (CI/CD GitHub Actions). Observe there is a [![Build/Test Status][ico-workflow-status]][link-workflow] badge below the main title of the README; this links to the validation run results.
 
-    For those interested in the technicals about this, look in the [scripts folder](/scripts/validate "scripts and validate folders"), and see [package.json](/scripts/package.json "package.json") which includes the entry point "npm test". For GitHub Action on any code change, see [workflows folder .yml file](/.github/workflows/ci-validate.yml "CI/CD configuration: ci-validate.yml").
+    For those interested in the technicals about this, look in the [scripts folder](/scripts/validate "scripts and validate folders"), and see [package.json](/scripts/package.json "package.json") which includes the entry point "npm test". For GitHub Action on any commit change to the project, see [workflows folder .yml file](/.github/workflows/ci-validate.yml "CI/CD configuration: ci-validate.yml").
 
 2. **There is a test bench.** The extremely skeptical and the subversives need to know: the validation step when publishing to GitHub requires a test bench paired with each device file, by automated check, not just by policy; so there will never be a device published without its test bench being completed.
 

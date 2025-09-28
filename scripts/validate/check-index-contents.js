@@ -14,8 +14,7 @@ import { FsReadFileHelper } from '../common/fs-file-helper.js';
 import { FsPathHelper } from '../common/fs-path-helper.js';
 import { isRegExpMatchStrictMinLength } from '../common/text-helper.js';
 
-const rootOffsetDirectory = '../',
-	indexFileName = 'device-index.md';
+const indexFileName = 'device-index.md';
 
 class IndexFileDeviceFilesService {
 	checkIndexedDeviceFiles(indexFileText, deviceFilePathList) {
@@ -87,7 +86,7 @@ const indexFileService = new IndexFileDeviceFilesService();
 // main
 
 const fsPath = new FsPathHelper(),
-	baseDirectory = fsPath.toAbsolute(rootOffsetDirectory);
+	baseDirectory = fsPath.getReferenceRootDirectory();
 
 const deviceFilePathList = walkSync(baseDirectory, {
 	includeBasePath: false,

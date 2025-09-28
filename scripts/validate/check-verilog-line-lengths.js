@@ -13,18 +13,19 @@ import { FileLineLengthService } from './file-line-length-service.js';
 
 const maxLength = 100;
 
-const defaultSourceOffsetDirectory = '../source-7400/';
+const defaultSourceDirectory = 'source-7400/';
 
 // main
 
-const fsPath = new FsPathHelper(),
-	baseDirectory = fsPath.toAbsolute(
-		process.argv.length > 2 && process.argv[2] || defaultSourceOffsetDirectory
-	);
+// set a top level directory for FileLineLengthService to use, and the source code
+// directory relative to that
+const fsPath = new FsPathHelper(process.argv.length > 2 && process.argv[2]),
+	sourceDirectory =
+		process.argv.length > 2 && process.argv[2] || fsPath.toAbsolute(defaultSourceDirectory);
 
 const fileLineLengthService = new FileLineLengthService(fsPath);
 
-const filePathList = walkSync(baseDirectory, {
+const filePathList = walkSync(sourceDirectory, {
 	includeBasePath: true,
 	globs: [
 		'**/*.v'

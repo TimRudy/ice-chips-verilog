@@ -85,7 +85,7 @@ A site-level or "infrastructure" guarantee takes care of the two files sharing t
 
 - Copies/merges the Verilog code inserted there by human developer, from .v file to .ice file.
 
-That is the source of both files; thus all three requirements are met by the script. Further automation, which is to validate those files by running the Verilog, then publish them to the repo, is discussed [below](#coda The Contract -> Coda).
+That is the source of both files; thus all three requirements are met by the script. Further automation, which is to validate those files by running the Verilog, then publish them to the repo, is discussed [below](#coda "The Contract -> Coda").
 
 The diff of the 7485 files represents a typical pair of files. The next section goes through details and explanation, with reference to Verilog. If you don't have time, skip ahead. In the following section, Proof, we'll come back to code-generation and tie it to the Validation Contract for this project.
 

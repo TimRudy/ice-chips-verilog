@@ -24,7 +24,7 @@ jobs:
         run: |
           # Capture system-level default branch config
           SYS_INIT_KEY=$(git config --system init.defaultBranch 2>/dev/null || echo '<none>')
-          echo 'Temporary: System-level Git init.defaultBranch? ...$SYS_INIT_KEY'
+          echo 'Temporary: System-level Git init.defaultBranch? ...'"$SYS_INIT_KEY"
 
           # Inject our own branch config until the runner is improved
           if [ "$SYS_INIT_KEY" = "<none>" ]; then

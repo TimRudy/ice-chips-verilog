@@ -20,6 +20,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Temporary: Check if default branch configured in the runner, and suppress warning
+        run: |
+          # Capture system-level default branch
+          SYS_INIT_KEY=$(git config --system init.defaultBranch 2>/dev/null || echo '<none>')
+          echo 'Temporary: System-level Git init.defaultBranch? ...$SYS_INIT_KEY'
+
+          # Inject our own branch config until the runner is improved
+          if [ "$SYS_INIT_KEY" = "<none>" ]; then
+            git config --global init.defaultBranch main
+            echo 'Temporary: Git init.defaultBranch set to "main" to suppress `git init` warning'
+          fi
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4

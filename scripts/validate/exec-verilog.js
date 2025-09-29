@@ -113,7 +113,7 @@ class TestBenchService {
 		function analyzeTestsPassed(results, deviceNumber) {
 			const resultsSplitRegExp = new RegExp('[^' + EOL + ']+', 'g'),
 				resultLinePassedRegExp = new RegExp('Passed: (Test.*? (([0-9]+)-)?([0-9]+))[ ]*$', 'm'),
-				resultExtraStartRegExp = new RegExp('(.*opened for output\\.)|(.*dumping is suppressed\\.)' + EOL_MATCH_REG_EXP + '$'),
+				resultExtraStartRegExp = new RegExp('(.*opened for output\\.)|(.*dumping is suppressed\\.)$', 'm'),
 				resultExtraFinishRegExp = new RegExp('.+\\$finish called.+');
 
 			let subMatches;

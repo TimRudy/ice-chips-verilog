@@ -57,7 +57,7 @@ It's done with entirely open source tools (the IceStorm toolchain); and most of 
 
 ## Tests and Validation
 
-A test bench accompanies every device (74xx-tb.v file with 74xx.v file) and the tests are run automatically. You can click on the "tests" badge below the main title at top of page to see the logged results.
+A test bench accompanies every device (74xx-tb.v file with 74xx.v file) and the tests are run automatically. You can click on the "CI Validate" badge below the main title at top of page to see the log of the tests executed.
 
 Tests are a definitive feature of the library. Count on full test coverage as the library expands going forward.
 

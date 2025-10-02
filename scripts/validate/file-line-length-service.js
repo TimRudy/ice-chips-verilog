@@ -15,7 +15,7 @@ import { EOL } from '../common/constants.js';
 import { FsReadFileHelper } from '../common/fs-file-helper.js';
 
 export class FileLineLengthService {
-	constructor(fsPath) {
+	constructor(fsPath, fileTypeDisplayName) {
 		const tabsRegExp = new RegExp('\t', 'g');
 
 		let tabWidthCache = {};
@@ -46,8 +46,15 @@ export class FileLineLengthService {
 
 				return 'Failed at: ' + errorResult.errorFileName;
 			} else {
-				console.log('Passed: Line lengths ' + filePathList.length + ' files');
-				return 'Passed: Line lengths ' + filePathList.length + ' files';
+				const passResultMessage =
+					'Passed: Line lengths ' +
+					filePathList.length +
+					' ' +
+					fileTypeDisplayName +
+					' files';
+
+				console.log(passResultMessage);
+				return passResultMessage;
 			}
 		};
 

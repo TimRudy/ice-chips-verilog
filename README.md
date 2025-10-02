@@ -8,15 +8,11 @@
 
 The 74LS, 74HC, 74HCT family of chips in Verilog for Electronic Design Automation
 
-<div style="font-family: monospace">
-&ensp;&ensp;Fully validated by test bench · Parametrized code · DELAY parameters for timing simulation
-</div>
+&ensp;&ensp;`Fully validated by test bench · Parametrized code · DELAY parameters for timing simulation`
 
 IceChips is built to support the [Icestudio][link-icestudio] and [FPGAwars][link-fpgawars] manifesto:
 
-<div style="font-family: monospace">
-&ensp;&ensp;&lt;Open Hardware driven by Open Source&gt;
-</div>
+&ensp;&ensp;`<Open Hardware driven by Open Source>`
 
 ## Getting Started
 
@@ -44,14 +40,12 @@ Welcome to virtual breadboarding.
 
 Icestudio provides circuit simulation (for digital circuits) that's arbitrarily scalable. Explore, build and create, but most importantly, get near-instant feedback in testing your real hardware design. Each time you add a new input or a gate, or an LED, hit "Build" and "Upload". In the parlance of a silicon fab, you've gone through a "spin". But you're actually programming a reusable and fairly inexpensive FPGA.
 
-<div style="font-family: monospace">
-&ensp;&ensp;CAD-style layout using drag & drop<br />
-&ensp;&ensp;&ensp;&ensp;-> Full Verilog model<br />
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;-> Validation of design rules & connectivity<br />
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;-> Synthesis of circuit<br />
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;-> Bitstream to FPGA<br />
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;-> Live circuit to test or put in-situ
-</div>
+> **CAD-style layout using drag & drop**<br />
+> &ensp;&ensp;-> Full Verilog model<br />
+> &ensp;&ensp;&ensp;&ensp;-> Validation of design rules & connectivity<br />
+> &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;-> Synthesis of circuit<br />
+> &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;-> Bitstream to FPGA<br />
+> &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;-> Live circuit to test or put in-situ
 
 It's done with entirely open source tools (the IceStorm toolchain); and most of the magic is due to the representation in Hardware Description Language, i.e. Verilog:
 
@@ -106,15 +100,15 @@ The test benches can be run using the open source simulator Icarus Verilog: [Ins
 
 With it installed, you can run a command like the following that specifies the required input files and one output file (.vvp):
 
-<div style="font-family: monospace">
-<span style="color: #888;">&ensp;&ensp;&gt;</span> iverilog -g2012 -o7400-tb.vvp ../includes/helper.v ../includes/tbhelper.v 7400-tb.v 7400.v
-</div>
+```sh
+iverilog -g2012 -o7400-tb.vvp ../includes/helper.v ../includes/tbhelper.v 7400-tb.v 7400.v
+```
 
 It then requires a second step: Run the Icarus Verilog simulator/runtime to see the tests run. This will show the results logged to the console:
 
-<div style="font-family: monospace">
-<span style="color: #888;">&ensp;&ensp;&gt;</span> vvp 7400-tb.vvp
-</div>
+```sh
+vvp 7400-tb.vvp
+```
 
 If you're interested in looking closer, the "vvp" run stores all signal and timing data in a .vcd file, so you can see the run as a waveform using GTKWave viewer: [Installation][link-gtkwavei], [Getting Started][link-gtkwaves].
 
@@ -216,7 +210,7 @@ Marcus Lindholm · SVG graphic design help
 
 [www.verilogpro.com](https://www.verilogpro.com/verilog-generate-configurable-rtl) · intro to generate loops and elaboration
 
-#### The supporting open source technology
+#### The supporting technology
 
 [Icestudio][link-icestudio] and Apio built on top of IceStorm, Yosys, nextpnr
 
@@ -231,7 +225,7 @@ Marcus Lindholm · SVG graphic design help
 © 2018-2025 Tim Rudy
 
 [ico-workflow-status]: https://github.com/TimRudy/ice-chips-verilog/actions/workflows/ci-validate.yml/badge.svg
-[link-workflow]: https://github.com/TimRudy/ice-chips-verilog/actions/workflows/ci-validate.yml "See the latest test report"
+[link-workflow]: https://github.com/TimRudy/ice-chips-verilog/actions/workflows/ci-validate.yml "See the latest test runs"
 [link-uart-verilog]: https://github.com/TimRudy/uart-verilog
 [link-icestudio]: https://icestudio.io
 [link-openfpgat]: https://github.com/Obijuan/open-fpga-verilog-tutorial/wiki

@@ -28,7 +28,7 @@ A main question is how the .ice component that you download and use in Icestudio
 
 &ensp;&ensp;&ensp;&ensp;[Statement](#statement) · Validation applies equally to all published file versions
 
-&ensp;&ensp;&ensp;&ensp;[Coda](#coda) · list of 4 assumptions and questions, with affirmative answers
+&ensp;&ensp;&ensp;&ensp;[Coda](#coda) · list of 4 assumptions and answers to questions
 
 &ensp;&ensp;[Appendices](#appendices)
 
@@ -40,15 +40,16 @@ A main question is how the .ice component that you download and use in Icestudio
 
 ### Problem Statement
 
-Validation means running the code here on the GitHub site through the program "iverilog" to test it; this happens once, if and when Verilog code ever changes (or is introduced in a new device in the project).
+Validation means running the code here on the GitHub site through the program "iverilog" to test it; this happens once, if and when Verilog code ever changes (or when introduced in a new device in the project).
 
 The validation step runs the Device Under Test (DUT), the 74xx.v file, with its test bench the 74xx-tb.v file.
 
-The .ice file (component within the Icestudio collection) is seen on the right-hand side in this example comparison. Note its working code is shared in common with the .v file - which if there's one thing I'd like you to take away from this today, is the thing to remember. And note other parts of the code are not in common - which is a problem statement.
+The .ice file, a Device in Icestudio format: Here is a comparison of code from an example .ice file, on the right-hand side, to its corresponding .v code on the left. Note the executable, procedural code is shared in common - which if there's one thing I'd like you to take away from this today, is the thing to remember. But note other parts of the code are not in common - which is a problem statement.
 
 **7485.v file (left) compared to the Verilog code in 7485_Comparator.ice (right):**
 
 <img src="/images/7485_compare.png" title="Compare Verilog content" width="100%">
+<br />
 <br />
 
 I can guarantee you the .ice component is signed off, verified and validated.
@@ -59,7 +60,7 @@ How?
 
 Well, from the .ice file point of view, validation relies on three specifics:
 
-1. It relies on the fact that between the .v file and the .ice file, the Verilog working code is an identical copy.
+1. It relies on the fact that between the .v file and the .ice file, the Verilog "working" code (procedural code) is an identical copy.
 
     This you can see for yourself if you open and compare each .v and .ice file pair.
 
@@ -69,11 +70,11 @@ Well, from the .ice file point of view, validation relies on three specifics:
 
     - Are you looking at a good copy-pasting job if you open and compare the files to check them?
 
-    - Worse - Could the code in a file be tweaked? Could code that **was at one time** identical be, temporarily, not identical awaiting the next proper release?! ..."There was a slight issue and we are working on it."
+    - Worse - Could the code in a file be tweaked? Could code that **was at one time** identical be, temporarily, not identical awaiting the next proper release?! ..."*There was a slight issue and we are working on it.*"
 
     No. There won't be errors and shoddy handling. It's not going to happen.
 
-3. It relies on the same type of guarantee that no error can be introduced in the extra, non-shared code (i.e. header and footer), which is a mapping layer between the .v and .ice file pair.
+3. It relies on the same type of guarantee that no error can be introduced in the extra, non-shared code (i.e. header and footer). This is the non-procedural, aka declarative or scaffolding, part of the code - it's a mapping layer between the .v and .ice file pair (examined below in detail).
 
     Same comment: No. There won't be any errors.
 
@@ -85,13 +86,15 @@ A site-level or "infrastructure" guarantee takes care of the two files sharing t
 
 - Copies/merges the Verilog code inserted there by human developer, from .v file to .ice file.
 
-That is the source of both files; thus all three requirements are met by the script. Further automation, which is to validate those files by running the Verilog, then publish them to the repo, is discussed [below](#coda "The Contract -> Coda").
+The "generate" script is the source and the arbiter of both files; so all three requirements are met by the script.
+
+A "test" step performs the second, equally important function in Automation, running the actual Verilog of those files via the test benches - discussed [below](#coda "The Contract -> Coda").
 
 The diff of the 7485 files represents a typical pair of files. The next section goes through details and explanation, with reference to Verilog. If you don't have time, skip ahead. In the following section, Proof, we'll come back to code-generation and tie it to the Validation Contract for this project.
 
 ### Verilog Structure
 
-Here is a run-down of the relationship of the two sides; how the Verilog you see comprises four sections; and how the high-level structure of four sections is always the same, in fact, for any IceChips device.
+Here is a run-down of the relationship of the two sides; how the Verilog seen here comes in four sections; and how the high-level four section structure is always the same, in fact, for any IceChips device.
 
 <details>
 <summary>Side-by-side</summary>
@@ -170,7 +173,7 @@ A template or skeleton is created. I/O definitions make up a header, and wiring 
 
 #### File content and structure:
 
-- The .v and .ice files are intimately related by the fact they perform the same functionality, contain the same code, and are tied together by their I/O specs (I/O textual details differ);
+- The .v and .ice files are intimately related by the fact they perform the same functionality, contain the same code, and are tied together by their I/O specs (only textual details of the I/Os differ);
 
 - The non-identical segments are declarative code only, constituting wrappers;
 
@@ -198,9 +201,9 @@ Think of the simulated Integrated Circuit like an Integrated Circuit: The header
 
 The responsibility to physically handle and publish the files is built into IceChips Automation.
 
-- The Automation process creates the .v and the .ice files, inserts a common code block, and finally publishes them (with accompanying certification by running the tests);
+- The Automation process creates the .v and the .ice files; enforces there is a common code block contained in them; and finally publishes them, with an accompanying certification by running the tests;
 
-- The creation of those files is, in fact, one logical unit of work - there happen to be two artifacts coming out.
+- The creation of those files is, in fact, one logical unit of work - it just has two output artifacts.
 
 That's the basis for the contract: The Automation controls the essential commonality and the differences between .ice file and counterpart .v file, and thus lends repeatability and a closed-ended nature to the process of validation.
 
@@ -214,15 +217,15 @@ This completes the "steps in the proof" that your .ice device has been validated
 
 There are some implicit aspects, some real-world assumptions, that require comment:
 
-1. **Validation step is performed.** Yes, the Verilog is run using ["iverilog"][link-iverilogu], getting a Pass or Fail from each test bench. This is a separate part of Automation. It's tied in with publishing to GitHub (CI/CD GitHub Actions). Observe there is a [![Build/Test Status][ico-workflow-status]][link-workflow] badge below the main title of the README; this links to the validation run results.
+1. **Validation step is performed.** Yes, the Verilog is run using ["iverilog"][link-iverilogu], getting a Pass or Fail from each test bench. This is a step in Automation. It's tied in with publishing to GitHub, via CI/CD GitHub Actions. Observe there is a [![Build/Test Status][ico-workflow-status]][link-workflow] badge below the main title of the README; this links to the validation runs, and the log of results is found there ("exec-verilog").
 
-    For those interested in the technicals about this, look in the [scripts folder](/scripts/validate "scripts and validate folders"), and see [package.json](/scripts/package.json "package.json") which includes the entry point "npm test". For GitHub Action on any commit change to the project, see [workflows folder .yml file](/.github/workflows/ci-validate.yml "CI/CD configuration: ci-validate.yml").
+    For those interested in the technicals about this, look in the [scripts folder](/scripts/validate "scripts and validate folders"), and see [package.json](/scripts/package.json "package.json") which includes the entry point "npm test". For GitHub Action on any commit change to the project, see [workflows folder .yml file](/.github/workflows/ci-validate.yml "CI/CD configuration: ci-validate.yml"). Also for reference, "npm test" carries out other checks of quality in the library besides "exec-verilog".
 
-2. **There is a test bench.** The extremely skeptical and the subversives need to know: the validation step when publishing to GitHub requires a test bench paired with each device file, by automated check, not just by policy; so there will never be a device published without its test bench being completed.
+2. **There is a test bench.** The extremely skeptical and the subversives need to know: a test bench is required to be paired with each device file, by validation, not just by policy. This check happens in Automation during publish to GitHub, so there will never be a device published without its test bench being completed.
 
 3. **The test bench could be bogus?** Refer to myself or the community for community review of test benches, because they are all published. I provide [my perspective on tests below](#what-is-a-good-test-bench).
 
-4. **Automation script exists.** The IceChips "generate" script needs to be published with the library for community review, as a pillar of the claims leading to the Validation Contract. True. We are working on this. (There was just a little issue: The code is ugly and needs to be cleaned up.)
+4. **Automation script exists.** The IceChips "generate" script needs to be published with the library for community review, as a pillar of the claims leading to the Validation Contract. True. We are working on this. (There was just a slight issue: The code is ugly and needs to be cleaned up.)
 
 [Top](#top)
 
@@ -270,16 +273,14 @@ Two guidelines, from opposite poles:
     - Cover the domain;
     - And really: Review later, to check if you covered the domain. The domain here on this hardware (compared to most software) is not that huge.
 
-Working on a test suite late at night and it is boring...? Try to think of the long term, the big picture:
+Working on a test suite late at night and it is boring...? Try to think of the big picture:
 
-<div style="font-family: monospace">
-&ensp;&ensp;Functionality that is unassailable, works right the first time, and doesn't break at a later time? Priceless.
-</div>
+> Functionality that is unassailable, works right the first time, and doesn't break at a later time. Priceless.
 
 If Intel had put a test suite in place under this policy and guidelines, they would have caught their [Pentium floating-point divide bug][link-hwbug] of 1993. Covering a nice range, running some number theory calculations, particularly using prime numbers, and checking the exact results in tables, would have forestalled cranking out $475 million in silicon paper weights.
 
 [ico-workflow-status]: https://github.com/TimRudy/ice-chips-verilog/actions/workflows/ci-validate.yml/badge.svg
-[link-workflow]: https://github.com/TimRudy/ice-chips-verilog/actions/workflows/ci-validate.yml "See the latest test report"
+[link-workflow]: https://github.com/TimRudy/ice-chips-verilog/actions/workflows/ci-validate.yml "See the latest test runs"
 [link-iverilogu]: https://steveicarus.github.io/iverilog/usage/index.html
 [link-pareto]: https://en.wikipedia.org/wiki/Pareto_principle
 [link-swbugs]: https://www.techrepublic.com/article/microsoft-fixes-windows-and-internet-explorer-zero-day-flaws-in-latest-patch-tuesday

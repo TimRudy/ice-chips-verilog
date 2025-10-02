@@ -1,11 +1,18 @@
-name: Node.js CI Validate
+name: CI Validate
 
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - 'images/**'
+
   push:
     branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - 'images/**'
 
 jobs:
   ci-validate:
@@ -46,7 +53,7 @@ jobs:
         working-directory: ./scripts
         run: npm ci
 
-      - name: Run tests
+      - name: Test
         working-directory: ./scripts
         run: npm test
 

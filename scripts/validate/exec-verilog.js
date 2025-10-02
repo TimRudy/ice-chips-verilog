@@ -10,7 +10,7 @@
 import { execSync } from 'child_process';
 import walkSync from 'walk-sync';
 
-import { EOL, EOL_MATCH_REG_EXP } from '../common/constants.js';
+import { EOL } from '../common/constants.js';
 import { FsWriteDirectoryHelper } from '../common/fs-directory-helper.js';
 import { FsReadFileHelper } from '../common/fs-file-helper.js';
 import { FsPathHelper } from '../common/fs-path-helper.js';
@@ -77,10 +77,10 @@ class TestBenchService {
 
 				resultMessage =
 					'Passed: ' +
-					deviceTestCount +
-					' devices ' +
 					cumulativeTestCount +
-					' total tests';
+					' total test bench tests ' +
+					deviceTestCount +
+					' devices';
 			} catch (errorMessage) {
 				resultMessage = 'Failed at: ' + errorMessage;
 			} finally {

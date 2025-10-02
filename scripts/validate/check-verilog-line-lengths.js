@@ -23,7 +23,7 @@ const fsPath = new FsPathHelper(process.argv.length > 2 && process.argv[2]),
 	sourceDirectory =
 		process.argv.length > 2 && process.argv[2] || fsPath.toAbsolute(defaultSourceDirectory);
 
-const fileLineLengthService = new FileLineLengthService(fsPath);
+const fileLineLengthService = new FileLineLengthService(fsPath, '.v');
 
 const filePathList = walkSync(sourceDirectory, {
 	includeBasePath: true,

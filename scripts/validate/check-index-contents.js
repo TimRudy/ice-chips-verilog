@@ -76,8 +76,8 @@ class IndexFileDeviceFilesService {
 			}
 		}
 
-		console.log('Passed: Index contents');
-		return 'Passed: Index contents';
+		console.log('Passed: Index ' + indexFileName + ' contents');
+		return 'Passed: Index ' + indexFileName + ' contents';
 	}
 }
 

@@ -1,10 +1,10 @@
 // fs-directory-helper.js
 //
-// filesystem utility functions: access a given directory, read or write
+// filesystem utility functions: access a given directory, for read or write
 //
 // © 2019-2024 Tim Rudy
 
-import fs from 'fs';
+import fs from 'node:fs';
 
 export class FsReadDirectoryHelper {
 	// access directory on the filesystem

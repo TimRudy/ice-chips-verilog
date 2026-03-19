@@ -1,0 +1,9 @@
+version: 2
+updates:
+  # for auto PRs for version updates (not security updates)
+  - package-ecosystem: npm
+    directories:
+      - '/'
+      - '/scripts'
+    schedule:
+      interval: monthly

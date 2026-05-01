@@ -198,7 +198,7 @@ Eddie Hung [@FPGeh] · for Yosys advice and feedback
 
 Marcus Lindholm · SVG graphic design help
 
-[www.msarnoff.org/chipdb](http://www.msarnoff.org/chipdb/list) Matt Sarnoff · chip and pin info
+[www.msarnoff.org/chipdb](https://www.msarnoff.org/chipdb/list) Matt Sarnoff · chip and pin info
 
 ["TTL_74xx_DIL.m4"](https://fossies.org/linux/pcb/lib/TTL_74xx_DIL.m4) Thomas Nau, "diplib" in PCB for Linux distribution · chip and pin info
 
@@ -222,7 +222,7 @@ Marcus Lindholm · SVG graphic design help
 
 ## <!-- -->
 
-© 2018-2025 Tim Rudy
+© 2018-2026 Tim Rudy
 
 [ico-workflow-status]: https://github.com/TimRudy/ice-chips-verilog/actions/workflows/ci-validate.yml/badge.svg
 [link-workflow]: https://github.com/TimRudy/ice-chips-verilog/actions/workflows/ci-validate.yml "See the latest test runs"
@@ -249,8 +249,8 @@ Marcus Lindholm · SVG graphic design help
 [link-homebrew]: https://www.homebrewcpuring.org
 [link-hackbrew]: https://hackaday.io/list/25846-homebrew-cpu
 [link-yosys]: https://github.com/YosysHQ/yosys
-[link-iverilog]: http://iverilog.icarus.com
+[link-iverilog]: https://steveicarus.github.io/iverilog
 [link-iverilogi]: https://steveicarus.github.io/iverilog/usage/installation.html
 [link-iverilogs]: https://steveicarus.github.io/iverilog/usage/getting_started.html
-[link-gtkwavei]: http://gtkwave.sourceforge.net
+[link-gtkwavei]: https://gtkwave.sourceforge.net
 [link-gtkwaves]: https://gtkwave.sourceforge.net/gtkwave.pdf

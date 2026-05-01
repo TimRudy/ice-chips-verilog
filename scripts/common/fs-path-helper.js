@@ -13,13 +13,21 @@
 //
 // © 2019-2024 Tim Rudy
 
-import path from 'path';
-import url from 'url';
+import path from 'node:path';
+import url from 'node:url';
 
 export class FsPathHelper {
-	// create normalized, absolute, path string from segments
+	// create normalized path string from segments after an absolute path
 	//
 	static resolve(...directoriesAndOrFile) {
+		if (!path.isAbsolute(directoriesAndOrFile[0])) {
+			throw (
+				'Error: First segment must be absolute: ' +
+				directoriesAndOrFile[0] +
+				'...'
+			);
+		}
+
 		return path.resolve(...directoriesAndOrFile);
 	}
 

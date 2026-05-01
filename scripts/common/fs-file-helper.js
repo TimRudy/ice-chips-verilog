@@ -4,8 +4,8 @@
 //
 // © 2019-2024 Tim Rudy
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 class FsFileBaseClass {
 	static getFileExtension(directoryPathAndOrFileName) {

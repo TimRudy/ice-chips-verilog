@@ -27,12 +27,12 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "editorconfig": "^2.0.0",
-    "npm-run-all": "^4.1.5",
-    "walk-sync": "^2.0.2"
+    "editorconfig": "^3.0.2",
+    "npm-run-all2": "^8.0.4",
+    "walk-sync": "^4.0.1"
   },
   "scripts": {
-    "test": "npm-run-all -p exec-verilog check-index check-verilog-code",
+    "test": "npm-run-all2 -p exec-verilog check-index check-verilog-code",
     "exec-verilog": "node validate/exec-verilog.js -s",
     "check-index": "node validate/check-index-contents.js",
     "check-verilog-code": "node validate/check-verilog-line-lengths.js"
